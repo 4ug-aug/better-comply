@@ -1,0 +1,64 @@
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '@/context/AuthContext'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+
+const schema = z.object({
+  username: z.string().min(1, 'Username is required'),
+  password: z.string().min(1, 'Password is required'),
+})
+
+type FormValues = z.infer<typeof schema>
+
+const Login: React.FC = () => {
+  const { login } = useAuth()
+  const navigate = useNavigate()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<FormValues>({ resolver: zodResolver(schema) })
+
+  const onSubmit = async (values: FormValues) => {
+    await login(values.username, values.password)
+    navigate('/')
+  }
+
+  return (
+    <div className="flex min-h-svh items-center justify-center p-4">
+      <Card className="w-full max-w-sm">
+        <CardHeader>
+          <CardTitle>Sign in</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div className="space-y-1">
+              <Input placeholder="Username" autoComplete="username" {...register('username')} />
+              {errors.username && (
+                <p className="text-xs text-red-600">{errors.username.message}</p>
+              )}
+            </div>
+            <div className="space-y-1">
+              <Input type="password" placeholder="Password" autoComplete="current-password" {...register('password')} />
+              {errors.password && (
+                <p className="text-xs text-red-600">{errors.password.message}</p>
+              )}
+            </div>
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? 'Signing in…' : 'Sign in'}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
+export default Login
+
+

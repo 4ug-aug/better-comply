@@ -1,9 +1,15 @@
 fastapi
 uvicorn
 python-dotenv
-psycopg2-binary
 redis
 kafka-python
 celery
 sqlalchemy
+asyncpg
 minio
+alembic
+python-jose[cryptography] 
+argon2-cffi>=21.1.0
+pydantic[email]
+python-multipart
+pydantic-settings
