@@ -2,15 +2,12 @@ from __future__ import annotations
 
 from celery import shared_task
 from datetime import datetime, timezone
-import json
 import random
 import time
-from typing import List, Tuple
-
-from sqlalchemy import text
 
 from database.sync import SessionLocalSync
 from events.kafka_emitter import emit_event
+from scheduling.repositories.adapters.outbox import OutboxAdapter
 
 
 @shared_task(bind=True, autoretry_for=(Exception,), retry_backoff=True, max_retries=5)
@@ -26,47 +23,19 @@ def dispatch_outbox(self, batch_size: int = 200) -> int:
     published_count = 0
 
     with SessionLocalSync() as db:
-        # Lock a batch of pending events
-        picked: List[Tuple[int, str, str]] = db.execute(
-            text(
-                """
-                SELECT id, event_type, payload::text AS payload
-                FROM outbox
-                WHERE status = 'PENDING'
-                ORDER BY id
-                FOR UPDATE SKIP LOCKED
-                LIMIT :batch
-                """
-            ),
-            {"batch": batch_size},
-        ).fetchall()
+        outbox_repo = OutboxAdapter(db)
 
-        for oid, event_type, payload_text in picked:
-            payload = json.loads(payload_text) if isinstance(payload_text, str) else payload_text
+        picked = outbox_repo.fetch_pending_for_update(limit=batch_size)
+
+        for item in picked:
+            event_type = item.event_type
+            payload = item.payload
             ok = emit_event(event_type, payload)
             if ok:
-                db.execute(
-                    text(
-                        """
-                        UPDATE outbox
-                        SET status='published', published_at=:now
-                        WHERE id=:id
-                        """
-                    ),
-                    {"now": now, "id": oid},
-                )
+                outbox_repo.mark_published([item.id], now)
                 published_count += 1
             else:
-                db.execute(
-                    text(
-                        """
-                        UPDATE outbox
-                        SET attempts = attempts + 1
-                        WHERE id = :id
-                        """
-                    ),
-                    {"id": oid},
-                )
+                outbox_repo.increment_attempt(item.id)
 
         db.commit()
 
