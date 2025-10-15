@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, JSON, Enum
+from sqlalchemy import Column, Integer, DateTime, JSON, Enum
 from sqlalchemy.sql import func
 from database.connection import Base
 import enum
@@ -19,4 +19,4 @@ class ProvenanceEdge(Base):
     to_id = Column(Integer, nullable=False, index=True)    # Generic reference to any entity
     kind = Column(Enum(ProvenanceKind), nullable=False)
     at = Column(DateTime, server_default=func.now())
-    metadata = Column(JSON, nullable=True)  # W3C PROV-like metadata
+    prov_metadata = Column(JSON, nullable=True)  # W3C PROV-like metadata

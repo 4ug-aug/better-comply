@@ -64,6 +64,32 @@ services:
       - redis
       - kafka
 
+  celery-worker:
+    build: ./backend
+    command: celery -A celery_app:app worker -l INFO -Q control,celery -n worker@%h
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=testdb
+      - POSTGRES_USER=testuser
+      - POSTGRES_PASSWORD=testpassword
+    depends_on:
+      - postgres
+      - redis
+      - kafka
+
+  celery-beat:
+    build: ./backend
+    command: celery -A celery_app:app beat -l INFO
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=testdb
+      - POSTGRES_USER=testuser
+      - POSTGRES_PASSWORD=testpassword
+    depends_on:
+      - redis
+
   redis:
     image: redis:8-alpine
     ports:

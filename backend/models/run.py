@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Text, Enum
+from sqlalchemy import Column, Integer, DateTime, ForeignKey, Text, Enum
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from database.connection import Base
@@ -9,6 +9,7 @@ class RunKind(str, enum.Enum):
     CRAWL = "crawl"
     PARSE = "parse"
     NORMALIZE = "normalize"
+    SCHEDULE = "schedule"
 
 
 class RunStatus(str, enum.Enum):

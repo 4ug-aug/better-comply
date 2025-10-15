@@ -6,6 +6,8 @@ kafka-python
 celery
 sqlalchemy
 asyncpg
+psycopg2-binary
+croniter
 minio
 alembic
 python-jose[cryptography] 

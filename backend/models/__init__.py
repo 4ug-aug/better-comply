@@ -8,6 +8,7 @@ from .document_version import DocumentVersion
 from .provenance_edge import ProvenanceEdge
 from .delivery_event import DeliveryEvent
 from .audit_log import AuditLog
+from .outbox import Outbox
 
 __all__ = [
     "User",
@@ -19,5 +20,6 @@ __all__ = [
     "DocumentVersion",
     "ProvenanceEdge",
     "DeliveryEvent",
-    "AuditLog"
+    "AuditLog",
+    "Outbox"
 ]
