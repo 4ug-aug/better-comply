@@ -1,46 +1,34 @@
 import React from 'react'
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarHeader,
   SidebarInset,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
   SidebarProvider,
-  SidebarSeparator,
 } from '@/components/ui/sidebar'
 import Header from '@/components/layout/Header'
-import { Outlet, NavLink } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
+import { AppSidebar } from './sidebar'
 
 const AppLayout: React.FC = () => {
   return (
     <SidebarProvider>
-      <div className="flex min-h-svh">
-        <Sidebar>
-          <SidebarHeader className="font-semibold">Navigation</SidebarHeader>
-          <SidebarContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive>
-                  <NavLink to="/">Dashboard</NavLink>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-            <SidebarSeparator />
-          </SidebarContent>
-        </Sidebar>
+        <AppSidebar />
         <SidebarInset>
-          <Header />
-          <div className="p-4">
-            <Outlet />
-          </div>
+        <main className="flex-1">
+            <div className="flex h-screen">
+              {/* Main Content Area */}
+              <div className="flex-1 flex flex-col overflow-hidden mt-2">
+                {/* Page Content */}
+                <div className="flex-1 overflow-auto pl-6 pr-4 border rounded-tl-2xl bg-center-background">
+                  <Header />
+                  <div className="p-4">
+                    <Outlet />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </main>
         </SidebarInset>
-      </div>
     </SidebarProvider>
-  )
-}
+  );
+};
 
-export default AppLayout
-
-
+export default AppLayout;
