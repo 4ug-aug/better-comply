@@ -41,7 +41,7 @@ services:
 
   job-handler:
     build: ./backend
-    command: ["python", "-m", "jobs_engine.worker_main", "-l", "INFO"]
+    command: ["python", "-m", "jobs_engine.events_handler_worker"]
     volumes:
       - ./backend:/app
     environment:
@@ -54,8 +54,10 @@ services:
       - MINIO_PORT=9000
       - MINIO_ACCESS_KEY=minioadmin
       - MINIO_SECRET_KEY=minioadmin
-      - KAFKA_HOST=${KAFKA_HOST}
-      - KAFKA_PORT=${KAFKA_PORT}
+      - MINIO_ENDPOINT=minio:9000
+      - MINIO_SECURE=false
+      - KAFKA_HOST=kafka
+      - KAFKA_PORT=9093
       - KEK_CURRENT=${KEK_CURRENT}
       - KEK_v1=${KEK_v1}
     depends_on:

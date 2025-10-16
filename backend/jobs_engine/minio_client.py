@@ -26,12 +26,21 @@ class MinIOClient:
         )
         
         self.bucket_name = "osint-sink"
+        self.artifacts_bucket = "artifacts"
     
-    def ensure_bucket_exists(self) -> bool:
-        """Ensure the osint-sink bucket exists, create if it doesn't."""
+    def ensure_bucket_exists(self, bucket_name: str = None) -> bool:
+        """Ensure a bucket exists, create if it doesn't.
+        
+        Args:
+            bucket_name: Bucket name to check. If None, uses self.bucket_name.
+            
+        Returns:
+            True if bucket exists or was created successfully.
+        """
+        bucket = bucket_name or self.bucket_name
         try:
-            if not self.client.bucket_exists(self.bucket_name):
-                self.client.make_bucket(self.bucket_name)
+            if not self.client.bucket_exists(bucket):
+                self.client.make_bucket(bucket)
                 return True
             return True
         except S3Error as e:
@@ -82,6 +91,49 @@ class MinIOClient:
         except Exception as e:
             print(f"Unexpected error submitting job result: {e}")
             return None
+    
+    def upload_artifact(
+        self,
+        bucket_name: str,
+        object_key: str,
+        data: bytes,
+        content_type: str = "application/octet-stream"
+    ) -> bool:
+        """Upload an artifact to MinIO.
+        
+        Args:
+            bucket_name: Target bucket name
+            object_key: Object key/path in bucket
+            data: Raw bytes to upload
+            content_type: MIME type of the content
+            
+        Returns:
+            True if upload was successful, False otherwise
+        """
+        try:
+            # Ensure bucket exists
+            if not self.ensure_bucket_exists(bucket_name):
+                return False
+            
+            data_stream = BytesIO(data)
+            
+            self.client.put_object(
+                bucket_name=bucket_name,
+                object_name=object_key,
+                data=data_stream,
+                length=len(data),
+                content_type=content_type,
+            )
+            
+            print(f"Successfully uploaded artifact: s3://{bucket_name}/{object_key}")
+            return True
+            
+        except S3Error as e:
+            print(f"MinIO S3 error uploading artifact: {e}")
+            return False
+        except Exception as e:
+            print(f"Unexpected error uploading artifact: {e}")
+            return False
 
 
 # Global instance for easy access

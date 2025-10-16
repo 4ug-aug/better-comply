@@ -9,6 +9,7 @@ app = Celery(
         "tasks.scheduler",
         "tasks.compute_next_run",
         "tasks.outbox_dispatcher",
+        "jobs_engine.tasks.crawl_tasks",
     ],
 )
 
@@ -24,6 +25,11 @@ app.conf.update(
         "tasks.scheduler.tick": {"queue": "control"},
         "tasks.compute_next_run.compute_next_run": {"queue": "control"},
         "tasks.outbox_dispatcher.dispatch_outbox": {"queue": "control"},
+        "jobs_engine.tasks.crawl_tasks.handle_subscription_scheduled": {"queue": "jobs"},
+        "jobs_engine.tasks.crawl_tasks.crawl_url": {"queue": "jobs"},
+        "jobs_engine.tasks.crawl_tasks.parse_crawled_content": {"queue": "jobs"},
+        "jobs_engine.tasks.crawl_tasks.version_document": {"queue": "jobs"},
+        "jobs_engine.tasks.crawl_tasks.deliver_document": {"queue": "jobs"},
     },
     beat_schedule={
         "tick_due_subscriptions": {
