@@ -20,6 +20,7 @@ import {
   Home, 
   FileStack,
   Building2,
+  Clock,
 } from 'lucide-react';
 import { ModeToggle } from '@/components/mode-toggle';
 // import { SettingsButton } from '@/components/settings-button';
@@ -45,6 +46,12 @@ const navigationItems = [
     url: "/scenarios",
     icon: FileStack,
     description: "Generated scenarios"
+  },
+  {
+    title: "Scheduling",
+    url: "/scheduling",
+    icon: Clock,
+    description: "Subscriptions, Outbox, Runs"
   },
 ];
 

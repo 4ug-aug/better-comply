@@ -6,18 +6,18 @@ import enum
 
 
 class RunKind(str, enum.Enum):
-    CRAWL = "crawl"
-    PARSE = "parse"
-    NORMALIZE = "normalize"
-    SCHEDULE = "schedule"
+    CRAWL = "CRAWL"
+    PARSE = "PARSE"
+    NORMALIZE = "NORMALIZE"
+    SCHEDULE = "SCHEDULE"
 
 
 class RunStatus(str, enum.Enum):
-    PENDING = "pending"
-    RUNNING = "running"
-    COMPLETED = "completed"
-    FAILED = "failed"
-    CANCELLED = "cancelled"
+    PENDING = "PENDING"
+    RUNNING = "RUNNING"
+    COMPLETED = "COMPLETED"
+    FAILED = "FAILED"
+    CANCELLED = "CANCELLED"
 
 
 class Run(Base):

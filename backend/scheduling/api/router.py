@@ -11,6 +11,8 @@ from scheduling.api.schemas import (
     SubscriptionOut,
     RunOut,
     OutboxOut,
+    CreateSubscriptionRequest,
+    SubscriptionResponse,
 )
 from scheduling.services.scheduling_service import SchedulingService
 
@@ -70,5 +72,29 @@ def list_outbox(
 ) -> List[OutboxOut]:
     rows = svc.list_outbox(status=status, limit=limit, offset=offset)
     return [OutboxOut(**r) for r in rows]
+
+
+@router.post("/subscriptions", response_model=SubscriptionResponse)
+def create_subscription(data: CreateSubscriptionRequest, svc: SchedulingService = Depends(get_service)) -> SubscriptionResponse:
+    obj = svc.create_subscription(data)
+    return SubscriptionResponse(**obj)
+
+
+@router.post("/subscriptions/{sub_id}/enable", response_model=SubscriptionResponse)
+def enable_subscription(sub_id: int, svc: SchedulingService = Depends(get_service)) -> SubscriptionResponse:
+    obj = svc.set_subscription_status(sub_id, "ACTIVE")
+    return SubscriptionResponse(**obj)
+
+
+@router.post("/subscriptions/{sub_id}/disable", response_model=SubscriptionResponse)
+def disable_subscription(sub_id: int, svc: SchedulingService = Depends(get_service)) -> SubscriptionResponse:
+    obj = svc.set_subscription_status(sub_id, "DISABLED")
+    return SubscriptionResponse(**obj)
+
+
+@router.post("/subscriptions/{sub_id}/run", response_model=SubscriptionResponse)
+def run_subscription_now(sub_id: int, svc: SchedulingService = Depends(get_service)) -> SubscriptionResponse:
+    obj = svc.run_subscription_now(sub_id)
+    return SubscriptionResponse(**obj)
 
 

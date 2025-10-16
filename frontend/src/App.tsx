@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from '@/context/AuthContext'
 import AppLayout from '@/layouts/AppLayout'
 import Login from '@/pages/Login'
 import Dashboard from '@/pages/Dashboard'
+import Scheduling from '@/pages/Scheduling'
 
 
 const RequireAuth: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -29,6 +30,7 @@ function App() {
               }
             >
               <Route index element={<Dashboard />} />
+                <Route path="/scheduling" element={<Scheduling />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

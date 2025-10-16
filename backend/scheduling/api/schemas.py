@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Literal
 from pydantic import BaseModel, Field
 
 
@@ -45,5 +45,17 @@ class OutboxOut(BaseModel):
     status: str
     attempts: int
     published_at: Optional[str] = None
+
+
+class CreateSubscriptionRequest(BaseModel):
+    source_id: int
+    jurisdiction: str
+    selectors: Dict[str, Any]
+    schedule: str
+    status: Literal['ACTIVE', 'DISABLED'] = 'ACTIVE'
+
+
+class SubscriptionResponse(SubscriptionOut):
+    pass
 
 

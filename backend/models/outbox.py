@@ -5,9 +5,9 @@ from database.connection import Base
 import enum
 
 class OutboxStatus(str, enum.Enum):
-    PENDING = "pending"
-    PUBLISHED = "published"
-    FAILED = "failed"
+    PENDING = "PENDING"
+    PUBLISHED = "PUBLISHED"
+    FAILED = "FAILED"
 
 class Outbox(Base):
     __tablename__ = "outbox"

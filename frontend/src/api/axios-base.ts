@@ -1,4 +1,5 @@
 import axios from 'axios'
+import type { CreateClientConfig } from '@/queries/client.gen';
 
 const ACCESS_KEY = 'bc_access_token'
 const REFRESH_KEY = 'bc_refresh_token'
@@ -63,8 +64,9 @@ api.interceptors.response.use(
   }
 )
 
-// hook axios into the generated client
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const createClientConfig = (defaults: any) => ({ ...defaults, axios: api })
-
+export const createClientConfig: CreateClientConfig = (config) => ({
+  ...config,
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost/api',
+  axios: api,
+});
 

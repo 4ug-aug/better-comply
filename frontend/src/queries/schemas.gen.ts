@@ -83,6 +83,37 @@ export const ComputeNextResultSchema = {
     title: 'ComputeNextResult'
 } as const;
 
+export const CreateSubscriptionRequestSchema = {
+    properties: {
+        source_id: {
+            type: 'integer',
+            title: 'Source Id'
+        },
+        jurisdiction: {
+            type: 'string',
+            title: 'Jurisdiction'
+        },
+        selectors: {
+            additionalProperties: true,
+            type: 'object',
+            title: 'Selectors'
+        },
+        schedule: {
+            type: 'string',
+            title: 'Schedule'
+        },
+        status: {
+            type: 'string',
+            enum: ['ACTIVE', 'DISABLED'],
+            title: 'Status',
+            default: 'ACTIVE'
+        }
+    },
+    type: 'object',
+    required: ['source_id', 'jurisdiction', 'selectors', 'schedule'],
+    title: 'CreateSubscriptionRequest'
+} as const;
+
 export const CreateUserRequestSchema = {
     properties: {
         username: {
@@ -279,6 +310,48 @@ export const SubscriptionOutSchema = {
     type: 'object',
     required: ['id', 'schedule', 'status'],
     title: 'SubscriptionOut'
+} as const;
+
+export const SubscriptionResponseSchema = {
+    properties: {
+        id: {
+            type: 'integer',
+            title: 'Id'
+        },
+        schedule: {
+            type: 'string',
+            title: 'Schedule'
+        },
+        last_run_at: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Last Run At'
+        },
+        next_run_at: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Next Run At'
+        },
+        status: {
+            type: 'string',
+            title: 'Status'
+        }
+    },
+    type: 'object',
+    required: ['id', 'schedule', 'status'],
+    title: 'SubscriptionResponse'
 } as const;
 
 export const TickResultSchema = {

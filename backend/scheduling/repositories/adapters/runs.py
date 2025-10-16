@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from sqlalchemy import text
+from models.run import Run, RunKind, RunStatus
 
 
 class RunsAdapter:
@@ -9,16 +9,14 @@ class RunsAdapter:
         self.db = db
 
     def create_schedule_run(self, subscription_id: int, now: datetime) -> int:
-        row = self.db.execute(
-            text(
-                """
-                INSERT INTO runs(subscription_id, run_kind, started_at, status)
-                VALUES(:sid, 'SCHEDULE', :now, 'PENDING')
-                RETURNING id
-                """
-            ),
-            {"sid": subscription_id, "now": now},
-        ).fetchone()
-        return row[0]
+        run = Run(
+            subscription_id=subscription_id,
+            run_kind=RunKind.SCHEDULE,
+            started_at=now,
+            status=RunStatus.PENDING,
+        )
+        self.db.add(run)
+        self.db.flush()
+        return run.id
 
 

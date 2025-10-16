@@ -3,7 +3,9 @@ from __future__ import annotations
 from datetime import datetime
 from typing import List
 
-from sqlalchemy import text
+from sqlalchemy import select
+
+from models.subscription import Subscription, SubscriptionStatus
 
 
 class SubscriptionsAdapter:
@@ -11,52 +13,40 @@ class SubscriptionsAdapter:
         self.db = db
 
     def pick_and_mark_due(self, now: datetime, limit: int) -> List[int]:
-        rows = self.db.execute(
-            text(
-                """
-                WITH due AS (
-                  SELECT id
-                  FROM subscriptions
-                  WHERE status = 'ACTIVE'
-                    AND (next_run_at IS NULL OR next_run_at <= :now)
-                  ORDER BY next_run_at NULLS FIRST
-                  FOR UPDATE SKIP LOCKED
-                  LIMIT :limit
-                )
-                UPDATE subscriptions s
-                SET last_run_at = :now,
-                    next_run_at = NULL
-                FROM due
-                WHERE s.id = due.id
-                RETURNING s.id
-                """
-            ),
-            {"now": now, "limit": limit},
-        ).fetchall()
-        return [r[0] for r in rows]
+        q = (
+            select(Subscription)
+            .where(
+                Subscription.status == SubscriptionStatus.ACTIVE,
+                ((Subscription.next_run_at.is_(None)) | (Subscription.next_run_at <= now)),
+            )
+            .order_by(Subscription.next_run_at.asc().nullsfirst())
+            .limit(limit)
+            .with_for_update(skip_locked=True)
+        )
+        subs = self.db.execute(q).scalars().all()
+        ids: List[int] = []
+        for s in subs:
+            s.last_run_at = now
+            s.next_run_at = None
+            ids.append(s.id)
+        return ids
 
     def fill_next_run(self, now: datetime, limit: int) -> int:
         from croniter import croniter
 
-        mappings = self.db.execute(
-            text(
-                """
-                SELECT id, schedule, COALESCE(last_run_at, created_at, :now) AS base
-                FROM subscriptions
-                WHERE next_run_at IS NULL AND status = 'ACTIVE'
-                LIMIT :limit
-                """
-            ),
-            {"now": now, "limit": limit},
-        ).mappings().all()
+        q = (
+            select(Subscription)
+            .where(Subscription.next_run_at.is_(None), Subscription.status == SubscriptionStatus.ACTIVE)
+            .order_by(Subscription.id.desc())
+            .limit(limit)
+        )
+        subs = self.db.execute(q).scalars().all()
 
         changed = 0
-        for r in mappings:
-            nxt = croniter(r["schedule"], r["base"]).get_next(datetime)
-            self.db.execute(
-                text("UPDATE subscriptions SET next_run_at = :nxt WHERE id = :id"),
-                {"nxt": nxt, "id": r["id"]},
-            )
+        for s in subs:
+            base = s.last_run_at or s.created_at or now
+            nxt = croniter(s.schedule, base).get_next(datetime)
+            s.next_run_at = nxt
             changed += 1
         return changed
 
