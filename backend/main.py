@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request
 import os
 import logging
 from auth.routes import router as auth_router
+from scheduling.api.router import router as scheduling_router
 from auth.middleware import AuthMiddleware
 from models.user import User
 
@@ -20,6 +21,7 @@ app = FastAPI(title="Better Comply API", version="1.0.0")
 app.add_middleware(AuthMiddleware)
 
 app.include_router(auth_router, prefix="/auth", tags=["auth"])
+app.include_router(scheduling_router)
 
 @app.get("/")
 async def root():

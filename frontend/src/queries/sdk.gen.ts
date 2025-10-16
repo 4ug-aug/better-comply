@@ -2,7 +2,7 @@
 
 import { type Client, type Options as Options2, type TDataShape, urlSearchParamsBodySerializer } from './client';
 import { client } from './client.gen';
-import type { AdminEndpointAdminGetData, AdminEndpointAdminGetResponses, LoginForAccessTokenAuthTokenPostData, LoginForAccessTokenAuthTokenPostErrors, LoginForAccessTokenAuthTokenPostResponses, ProtectedEndpointProtectedGetData, ProtectedEndpointProtectedGetResponses, ReadUsersMeAuthMeGetData, ReadUsersMeAuthMeGetResponses, RefreshAccessTokenAuthRefreshPostData, RefreshAccessTokenAuthRefreshPostErrors, RefreshAccessTokenAuthRefreshPostResponses, RegisterUserAuthRegisterPostData, RegisterUserAuthRegisterPostErrors, RegisterUserAuthRegisterPostResponses, RootGetData, RootGetResponses, VerifyEmailAuthVerifyEmailGetData, VerifyEmailAuthVerifyEmailGetErrors, VerifyEmailAuthVerifyEmailGetResponses } from './types.gen';
+import type { AdminEndpointAdminGetData, AdminEndpointAdminGetResponses, ComputeNextSchedulingComputeNextPostData, ComputeNextSchedulingComputeNextPostErrors, ComputeNextSchedulingComputeNextPostResponses, DispatchOutboxSchedulingOutboxDispatchPostData, DispatchOutboxSchedulingOutboxDispatchPostErrors, DispatchOutboxSchedulingOutboxDispatchPostResponses, ListOutboxSchedulingOutboxGetData, ListOutboxSchedulingOutboxGetErrors, ListOutboxSchedulingOutboxGetResponses, ListRunsSchedulingRunsGetData, ListRunsSchedulingRunsGetErrors, ListRunsSchedulingRunsGetResponses, ListSubscriptionsSchedulingSubscriptionsGetData, ListSubscriptionsSchedulingSubscriptionsGetErrors, ListSubscriptionsSchedulingSubscriptionsGetResponses, LoginForAccessTokenAuthTokenPostData, LoginForAccessTokenAuthTokenPostErrors, LoginForAccessTokenAuthTokenPostResponses, ProtectedEndpointProtectedGetData, ProtectedEndpointProtectedGetResponses, ReadUsersMeAuthMeGetData, ReadUsersMeAuthMeGetResponses, RefreshAccessTokenAuthRefreshPostData, RefreshAccessTokenAuthRefreshPostErrors, RefreshAccessTokenAuthRefreshPostResponses, RegisterUserAuthRegisterPostData, RegisterUserAuthRegisterPostErrors, RegisterUserAuthRegisterPostResponses, RootGetData, RootGetResponses, TickSchedulingTickPostData, TickSchedulingTickPostErrors, TickSchedulingTickPostResponses, VerifyEmailAuthVerifyEmailGetData, VerifyEmailAuthVerifyEmailGetErrors, VerifyEmailAuthVerifyEmailGetResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -81,13 +81,85 @@ export const verifyEmailAuthVerifyEmailGet = <ThrowOnError extends boolean = fal
 export const readUsersMeAuthMeGet = <ThrowOnError extends boolean = false>(options?: Options<ReadUsersMeAuthMeGetData, ThrowOnError>) => {
     return (options?.client ?? client).get<ReadUsersMeAuthMeGetResponses, unknown, ThrowOnError>({
         responseType: 'json',
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            }
-        ],
         url: '/auth/me',
+        ...options
+    });
+};
+
+/**
+ * Tick
+ */
+export const tickSchedulingTickPost = <ThrowOnError extends boolean = false>(options: Options<TickSchedulingTickPostData, ThrowOnError>) => {
+    return (options.client ?? client).post<TickSchedulingTickPostResponses, TickSchedulingTickPostErrors, ThrowOnError>({
+        responseType: 'json',
+        url: '/scheduling/tick',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+/**
+ * Compute Next
+ */
+export const computeNextSchedulingComputeNextPost = <ThrowOnError extends boolean = false>(options: Options<ComputeNextSchedulingComputeNextPostData, ThrowOnError>) => {
+    return (options.client ?? client).post<ComputeNextSchedulingComputeNextPostResponses, ComputeNextSchedulingComputeNextPostErrors, ThrowOnError>({
+        responseType: 'json',
+        url: '/scheduling/compute-next',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+/**
+ * Dispatch Outbox
+ */
+export const dispatchOutboxSchedulingOutboxDispatchPost = <ThrowOnError extends boolean = false>(options: Options<DispatchOutboxSchedulingOutboxDispatchPostData, ThrowOnError>) => {
+    return (options.client ?? client).post<DispatchOutboxSchedulingOutboxDispatchPostResponses, DispatchOutboxSchedulingOutboxDispatchPostErrors, ThrowOnError>({
+        responseType: 'json',
+        url: '/scheduling/outbox/dispatch',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+/**
+ * List Subscriptions
+ */
+export const listSubscriptionsSchedulingSubscriptionsGet = <ThrowOnError extends boolean = false>(options?: Options<ListSubscriptionsSchedulingSubscriptionsGetData, ThrowOnError>) => {
+    return (options?.client ?? client).get<ListSubscriptionsSchedulingSubscriptionsGetResponses, ListSubscriptionsSchedulingSubscriptionsGetErrors, ThrowOnError>({
+        responseType: 'json',
+        url: '/scheduling/subscriptions',
+        ...options
+    });
+};
+
+/**
+ * List Runs
+ */
+export const listRunsSchedulingRunsGet = <ThrowOnError extends boolean = false>(options?: Options<ListRunsSchedulingRunsGetData, ThrowOnError>) => {
+    return (options?.client ?? client).get<ListRunsSchedulingRunsGetResponses, ListRunsSchedulingRunsGetErrors, ThrowOnError>({
+        responseType: 'json',
+        url: '/scheduling/runs',
+        ...options
+    });
+};
+
+/**
+ * List Outbox
+ */
+export const listOutboxSchedulingOutboxGet = <ThrowOnError extends boolean = false>(options?: Options<ListOutboxSchedulingOutboxGetData, ThrowOnError>) => {
+    return (options?.client ?? client).get<ListOutboxSchedulingOutboxGetResponses, ListOutboxSchedulingOutboxGetErrors, ThrowOnError>({
+        responseType: 'json',
+        url: '/scheduling/outbox',
         ...options
     });
 };

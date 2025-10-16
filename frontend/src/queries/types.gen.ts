@@ -5,6 +5,16 @@ export type ClientOptions = {
 };
 
 /**
+ * BatchRequest
+ */
+export type BatchRequest = {
+    /**
+     * Batch Size
+     */
+    batch_size?: number;
+};
+
+/**
  * Body_login_for_access_token_auth_token_post
  */
 export type BodyLoginForAccessTokenAuthTokenPost = {
@@ -35,6 +45,16 @@ export type BodyLoginForAccessTokenAuthTokenPost = {
 };
 
 /**
+ * ComputeNextResult
+ */
+export type ComputeNextResult = {
+    /**
+     * Updated
+     */
+    updated: number;
+};
+
+/**
  * CreateUserRequest
  */
 export type CreateUserRequest = {
@@ -53,6 +73,16 @@ export type CreateUserRequest = {
 };
 
 /**
+ * DispatchResult
+ */
+export type DispatchResult = {
+    /**
+     * Published
+     */
+    published: number;
+};
+
+/**
  * HTTPValidationError
  */
 export type HttpValidationError = {
@@ -63,6 +93,42 @@ export type HttpValidationError = {
 };
 
 /**
+ * OutboxOut
+ */
+export type OutboxOut = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Created At
+     */
+    created_at?: string | null;
+    /**
+     * Event Type
+     */
+    event_type: string;
+    /**
+     * Payload
+     */
+    payload: {
+        [key: string]: unknown;
+    };
+    /**
+     * Status
+     */
+    status: string;
+    /**
+     * Attempts
+     */
+    attempts: number;
+    /**
+     * Published At
+     */
+    published_at?: string | null;
+};
+
+/**
  * RefreshTokenRequest
  */
 export type RefreshTokenRequest = {
@@ -70,6 +136,72 @@ export type RefreshTokenRequest = {
      * Refresh Token
      */
     refresh_token: string;
+};
+
+/**
+ * RunOut
+ */
+export type RunOut = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Subscription Id
+     */
+    subscription_id: number;
+    /**
+     * Run Kind
+     */
+    run_kind: string;
+    /**
+     * Started At
+     */
+    started_at?: string | null;
+    /**
+     * Ended At
+     */
+    ended_at?: string | null;
+    /**
+     * Status
+     */
+    status: string;
+};
+
+/**
+ * SubscriptionOut
+ */
+export type SubscriptionOut = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Schedule
+     */
+    schedule: string;
+    /**
+     * Last Run At
+     */
+    last_run_at?: string | null;
+    /**
+     * Next Run At
+     */
+    next_run_at?: string | null;
+    /**
+     * Status
+     */
+    status: string;
+};
+
+/**
+ * TickResult
+ */
+export type TickResult = {
+    /**
+     * Processed
+     */
+    processed: number;
 };
 
 /**
@@ -224,6 +356,197 @@ export type ReadUsersMeAuthMeGetResponses = {
      */
     200: unknown;
 };
+
+export type TickSchedulingTickPostData = {
+    body: BatchRequest;
+    path?: never;
+    query?: never;
+    url: '/scheduling/tick';
+};
+
+export type TickSchedulingTickPostErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type TickSchedulingTickPostError = TickSchedulingTickPostErrors[keyof TickSchedulingTickPostErrors];
+
+export type TickSchedulingTickPostResponses = {
+    /**
+     * Successful Response
+     */
+    200: TickResult;
+};
+
+export type TickSchedulingTickPostResponse = TickSchedulingTickPostResponses[keyof TickSchedulingTickPostResponses];
+
+export type ComputeNextSchedulingComputeNextPostData = {
+    body: BatchRequest;
+    path?: never;
+    query?: never;
+    url: '/scheduling/compute-next';
+};
+
+export type ComputeNextSchedulingComputeNextPostErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ComputeNextSchedulingComputeNextPostError = ComputeNextSchedulingComputeNextPostErrors[keyof ComputeNextSchedulingComputeNextPostErrors];
+
+export type ComputeNextSchedulingComputeNextPostResponses = {
+    /**
+     * Successful Response
+     */
+    200: ComputeNextResult;
+};
+
+export type ComputeNextSchedulingComputeNextPostResponse = ComputeNextSchedulingComputeNextPostResponses[keyof ComputeNextSchedulingComputeNextPostResponses];
+
+export type DispatchOutboxSchedulingOutboxDispatchPostData = {
+    body: BatchRequest;
+    path?: never;
+    query?: never;
+    url: '/scheduling/outbox/dispatch';
+};
+
+export type DispatchOutboxSchedulingOutboxDispatchPostErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type DispatchOutboxSchedulingOutboxDispatchPostError = DispatchOutboxSchedulingOutboxDispatchPostErrors[keyof DispatchOutboxSchedulingOutboxDispatchPostErrors];
+
+export type DispatchOutboxSchedulingOutboxDispatchPostResponses = {
+    /**
+     * Successful Response
+     */
+    200: DispatchResult;
+};
+
+export type DispatchOutboxSchedulingOutboxDispatchPostResponse = DispatchOutboxSchedulingOutboxDispatchPostResponses[keyof DispatchOutboxSchedulingOutboxDispatchPostResponses];
+
+export type ListSubscriptionsSchedulingSubscriptionsGetData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Status
+         */
+        status?: string | null;
+        /**
+         * Limit
+         */
+        limit?: number;
+        /**
+         * Offset
+         */
+        offset?: number;
+    };
+    url: '/scheduling/subscriptions';
+};
+
+export type ListSubscriptionsSchedulingSubscriptionsGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ListSubscriptionsSchedulingSubscriptionsGetError = ListSubscriptionsSchedulingSubscriptionsGetErrors[keyof ListSubscriptionsSchedulingSubscriptionsGetErrors];
+
+export type ListSubscriptionsSchedulingSubscriptionsGetResponses = {
+    /**
+     * Response List Subscriptions Scheduling Subscriptions Get
+     *
+     * Successful Response
+     */
+    200: Array<SubscriptionOut>;
+};
+
+export type ListSubscriptionsSchedulingSubscriptionsGetResponse = ListSubscriptionsSchedulingSubscriptionsGetResponses[keyof ListSubscriptionsSchedulingSubscriptionsGetResponses];
+
+export type ListRunsSchedulingRunsGetData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Limit
+         */
+        limit?: number;
+        /**
+         * Offset
+         */
+        offset?: number;
+    };
+    url: '/scheduling/runs';
+};
+
+export type ListRunsSchedulingRunsGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ListRunsSchedulingRunsGetError = ListRunsSchedulingRunsGetErrors[keyof ListRunsSchedulingRunsGetErrors];
+
+export type ListRunsSchedulingRunsGetResponses = {
+    /**
+     * Response List Runs Scheduling Runs Get
+     *
+     * Successful Response
+     */
+    200: Array<RunOut>;
+};
+
+export type ListRunsSchedulingRunsGetResponse = ListRunsSchedulingRunsGetResponses[keyof ListRunsSchedulingRunsGetResponses];
+
+export type ListOutboxSchedulingOutboxGetData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Status
+         */
+        status?: string | null;
+        /**
+         * Limit
+         */
+        limit?: number;
+        /**
+         * Offset
+         */
+        offset?: number;
+    };
+    url: '/scheduling/outbox';
+};
+
+export type ListOutboxSchedulingOutboxGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ListOutboxSchedulingOutboxGetError = ListOutboxSchedulingOutboxGetErrors[keyof ListOutboxSchedulingOutboxGetErrors];
+
+export type ListOutboxSchedulingOutboxGetResponses = {
+    /**
+     * Response List Outbox Scheduling Outbox Get
+     *
+     * Successful Response
+     */
+    200: Array<OutboxOut>;
+};
+
+export type ListOutboxSchedulingOutboxGetResponse = ListOutboxSchedulingOutboxGetResponses[keyof ListOutboxSchedulingOutboxGetResponses];
 
 export type RootGetData = {
     body?: never;
