@@ -5,7 +5,13 @@ import { AuthProvider, useAuth } from '@/context/AuthContext'
 import AppLayout from '@/layouts/AppLayout'
 import Login from '@/pages/Login'
 import Dashboard from '@/pages/Dashboard'
-import Scheduling from '@/pages/Scheduling'
+// Scheduling page kept as redirect route only; not imported to avoid unused warnings
+import SubscriptionsPage from '@/features/Subscriptions/pages/SubscriptionsPage'
+import SubscriptionDetailPage from '@/features/Subscriptions/pages/SubscriptionDetailPage'
+import CreateSubscriptionPage from '@/features/Subscriptions/pages/CreateSubscriptionPage'
+import SourcesPage from '@/features/Sources/pages/SourcesPage'
+import CreateSourcePage from '@/features/Sources/pages/CreateSourcePage'
+import SourceDetailPage from '@/features/Sources/pages/SourceDetailPage'
 
 
 const RequireAuth: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -30,7 +36,13 @@ function App() {
               }
             >
               <Route index element={<Dashboard />} />
-                <Route path="/scheduling" element={<Scheduling />} />
+              <Route path="/subscriptions" element={<SubscriptionsPage />} />
+              <Route path="/subscriptions/new" element={<CreateSubscriptionPage />} />
+              <Route path="/subscriptions/:id" element={<SubscriptionDetailPage />} />
+              <Route path="/sources" element={<SourcesPage />} />
+              <Route path="/sources/new" element={<CreateSourcePage />} />
+              <Route path="/sources/:id" element={<SourceDetailPage />} />
+              <Route path="/scheduling" element={<Navigate to="/subscriptions" replace />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

@@ -83,6 +83,60 @@ export const ComputeNextResultSchema = {
     title: 'ComputeNextResult'
 } as const;
 
+export const CreateSourceRequestSchema = {
+    properties: {
+        name: {
+            type: 'string',
+            maxLength: 255,
+            minLength: 1,
+            title: 'Name'
+        },
+        kind: {
+            type: 'string',
+            enum: ['html', 'api', 'pdf'],
+            title: 'Kind'
+        },
+        base_url: {
+            type: 'string',
+            minLength: 1,
+            title: 'Base Url'
+        },
+        auth_ref: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 255
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Auth Ref'
+        },
+        robots_mode: {
+            type: 'string',
+            enum: ['allow', 'disallow', 'custom'],
+            title: 'Robots Mode',
+            default: 'allow'
+        },
+        rate_limit: {
+            type: 'integer',
+            maximum: 3600,
+            minimum: 1,
+            title: 'Rate Limit',
+            default: 60
+        },
+        enabled: {
+            type: 'boolean',
+            title: 'Enabled',
+            default: true
+        }
+    },
+    type: 'object',
+    required: ['name', 'kind', 'base_url'],
+    title: 'CreateSourceRequest'
+} as const;
+
 export const CreateSubscriptionRequestSchema = {
     properties: {
         source_id: {
@@ -270,6 +324,305 @@ export const RunOutSchema = {
     title: 'RunOut'
 } as const;
 
+export const SourceDetailOutSchema = {
+    properties: {
+        id: {
+            type: 'integer',
+            title: 'Id'
+        },
+        name: {
+            type: 'string',
+            title: 'Name'
+        },
+        kind: {
+            type: 'string',
+            enum: ['html', 'api', 'pdf'],
+            title: 'Kind'
+        },
+        base_url: {
+            type: 'string',
+            title: 'Base Url'
+        },
+        auth_ref: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Auth Ref'
+        },
+        robots_mode: {
+            type: 'string',
+            enum: ['allow', 'disallow', 'custom'],
+            title: 'Robots Mode',
+            default: 'allow'
+        },
+        rate_limit: {
+            type: 'integer',
+            title: 'Rate Limit',
+            default: 60
+        },
+        enabled: {
+            type: 'boolean',
+            title: 'Enabled',
+            default: true
+        },
+        created_at: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Created At'
+        },
+        updated_at: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Updated At'
+        }
+    },
+    type: 'object',
+    required: ['id', 'name', 'kind', 'base_url'],
+    title: 'SourceDetailOut'
+} as const;
+
+export const SourceOutSchema = {
+    properties: {
+        id: {
+            type: 'integer',
+            title: 'Id'
+        },
+        name: {
+            type: 'string',
+            title: 'Name'
+        },
+        kind: {
+            type: 'string',
+            enum: ['html', 'api', 'pdf'],
+            title: 'Kind'
+        },
+        base_url: {
+            type: 'string',
+            title: 'Base Url'
+        },
+        auth_ref: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Auth Ref'
+        },
+        robots_mode: {
+            type: 'string',
+            enum: ['allow', 'disallow', 'custom'],
+            title: 'Robots Mode',
+            default: 'allow'
+        },
+        rate_limit: {
+            type: 'integer',
+            title: 'Rate Limit',
+            default: 60
+        },
+        enabled: {
+            type: 'boolean',
+            title: 'Enabled',
+            default: true
+        },
+        created_at: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Created At'
+        },
+        updated_at: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Updated At'
+        }
+    },
+    type: 'object',
+    required: ['id', 'name', 'kind', 'base_url'],
+    title: 'SourceOut'
+} as const;
+
+export const SourceResponseSchema = {
+    properties: {
+        id: {
+            type: 'integer',
+            title: 'Id'
+        },
+        name: {
+            type: 'string',
+            title: 'Name'
+        },
+        kind: {
+            type: 'string',
+            enum: ['html', 'api', 'pdf'],
+            title: 'Kind'
+        },
+        base_url: {
+            type: 'string',
+            title: 'Base Url'
+        },
+        auth_ref: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Auth Ref'
+        },
+        robots_mode: {
+            type: 'string',
+            enum: ['allow', 'disallow', 'custom'],
+            title: 'Robots Mode',
+            default: 'allow'
+        },
+        rate_limit: {
+            type: 'integer',
+            title: 'Rate Limit',
+            default: 60
+        },
+        enabled: {
+            type: 'boolean',
+            title: 'Enabled',
+            default: true
+        },
+        created_at: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Created At'
+        },
+        updated_at: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Updated At'
+        }
+    },
+    type: 'object',
+    required: ['id', 'name', 'kind', 'base_url'],
+    title: 'SourceResponse'
+} as const;
+
+export const SubscriptionDetailOutSchema = {
+    properties: {
+        id: {
+            type: 'integer',
+            title: 'Id'
+        },
+        source_id: {
+            type: 'integer',
+            title: 'Source Id'
+        },
+        jurisdiction: {
+            type: 'string',
+            title: 'Jurisdiction'
+        },
+        selectors: {
+            additionalProperties: true,
+            type: 'object',
+            title: 'Selectors'
+        },
+        schedule: {
+            type: 'string',
+            title: 'Schedule'
+        },
+        last_run_at: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Last Run At'
+        },
+        next_run_at: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Next Run At'
+        },
+        status: {
+            type: 'string',
+            title: 'Status'
+        },
+        created_at: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Created At'
+        },
+        updated_at: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Updated At'
+        }
+    },
+    type: 'object',
+    required: ['id', 'source_id', 'jurisdiction', 'selectors', 'schedule', 'status'],
+    title: 'SubscriptionDetailOut'
+} as const;
+
 export const SubscriptionOutSchema = {
     properties: {
         id: {
@@ -384,6 +737,98 @@ export const TokenSchema = {
     type: 'object',
     required: ['access_token', 'refresh_token', 'token_type'],
     title: 'Token'
+} as const;
+
+export const UpdateSourceRequestSchema = {
+    properties: {
+        name: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 255,
+                    minLength: 1
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Name'
+        },
+        kind: {
+            anyOf: [
+                {
+                    type: 'string',
+                    enum: ['html', 'api', 'pdf']
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Kind'
+        },
+        base_url: {
+            anyOf: [
+                {
+                    type: 'string',
+                    minLength: 1
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Base Url'
+        },
+        auth_ref: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 255
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Auth Ref'
+        },
+        robots_mode: {
+            anyOf: [
+                {
+                    type: 'string',
+                    enum: ['allow', 'disallow', 'custom']
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Robots Mode'
+        },
+        rate_limit: {
+            anyOf: [
+                {
+                    type: 'integer',
+                    maximum: 3600,
+                    minimum: 1
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Rate Limit'
+        },
+        enabled: {
+            anyOf: [
+                {
+                    type: 'boolean'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Enabled'
+        }
+    },
+    type: 'object',
+    title: 'UpdateSourceRequest'
 } as const;
 
 export const ValidationErrorSchema = {

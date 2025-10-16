@@ -55,6 +55,40 @@ export type ComputeNextResult = {
 };
 
 /**
+ * CreateSourceRequest
+ */
+export type CreateSourceRequest = {
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Kind
+     */
+    kind: 'html' | 'api' | 'pdf';
+    /**
+     * Base Url
+     */
+    base_url: string;
+    /**
+     * Auth Ref
+     */
+    auth_ref?: string | null;
+    /**
+     * Robots Mode
+     */
+    robots_mode?: 'allow' | 'disallow' | 'custom';
+    /**
+     * Rate Limit
+     */
+    rate_limit?: number;
+    /**
+     * Enabled
+     */
+    enabled?: boolean;
+};
+
+/**
  * CreateSubscriptionRequest
  */
 export type CreateSubscriptionRequest = {
@@ -197,6 +231,192 @@ export type RunOut = {
 };
 
 /**
+ * SourceDetailOut
+ */
+export type SourceDetailOut = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Kind
+     */
+    kind: 'html' | 'api' | 'pdf';
+    /**
+     * Base Url
+     */
+    base_url: string;
+    /**
+     * Auth Ref
+     */
+    auth_ref?: string | null;
+    /**
+     * Robots Mode
+     */
+    robots_mode?: 'allow' | 'disallow' | 'custom';
+    /**
+     * Rate Limit
+     */
+    rate_limit?: number;
+    /**
+     * Enabled
+     */
+    enabled?: boolean;
+    /**
+     * Created At
+     */
+    created_at?: string | null;
+    /**
+     * Updated At
+     */
+    updated_at?: string | null;
+};
+
+/**
+ * SourceOut
+ */
+export type SourceOut = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Kind
+     */
+    kind: 'html' | 'api' | 'pdf';
+    /**
+     * Base Url
+     */
+    base_url: string;
+    /**
+     * Auth Ref
+     */
+    auth_ref?: string | null;
+    /**
+     * Robots Mode
+     */
+    robots_mode?: 'allow' | 'disallow' | 'custom';
+    /**
+     * Rate Limit
+     */
+    rate_limit?: number;
+    /**
+     * Enabled
+     */
+    enabled?: boolean;
+    /**
+     * Created At
+     */
+    created_at?: string | null;
+    /**
+     * Updated At
+     */
+    updated_at?: string | null;
+};
+
+/**
+ * SourceResponse
+ */
+export type SourceResponse = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Kind
+     */
+    kind: 'html' | 'api' | 'pdf';
+    /**
+     * Base Url
+     */
+    base_url: string;
+    /**
+     * Auth Ref
+     */
+    auth_ref?: string | null;
+    /**
+     * Robots Mode
+     */
+    robots_mode?: 'allow' | 'disallow' | 'custom';
+    /**
+     * Rate Limit
+     */
+    rate_limit?: number;
+    /**
+     * Enabled
+     */
+    enabled?: boolean;
+    /**
+     * Created At
+     */
+    created_at?: string | null;
+    /**
+     * Updated At
+     */
+    updated_at?: string | null;
+};
+
+/**
+ * SubscriptionDetailOut
+ */
+export type SubscriptionDetailOut = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Source Id
+     */
+    source_id: number;
+    /**
+     * Jurisdiction
+     */
+    jurisdiction: string;
+    /**
+     * Selectors
+     */
+    selectors: {
+        [key: string]: unknown;
+    };
+    /**
+     * Schedule
+     */
+    schedule: string;
+    /**
+     * Last Run At
+     */
+    last_run_at?: string | null;
+    /**
+     * Next Run At
+     */
+    next_run_at?: string | null;
+    /**
+     * Status
+     */
+    status: string;
+    /**
+     * Created At
+     */
+    created_at?: string | null;
+    /**
+     * Updated At
+     */
+    updated_at?: string | null;
+};
+
+/**
  * SubscriptionOut
  */
 export type SubscriptionOut = {
@@ -274,6 +494,40 @@ export type Token = {
      * Token Type
      */
     token_type: string;
+};
+
+/**
+ * UpdateSourceRequest
+ */
+export type UpdateSourceRequest = {
+    /**
+     * Name
+     */
+    name?: string | null;
+    /**
+     * Kind
+     */
+    kind?: 'html' | 'api' | 'pdf' | null;
+    /**
+     * Base Url
+     */
+    base_url?: string | null;
+    /**
+     * Auth Ref
+     */
+    auth_ref?: string | null;
+    /**
+     * Robots Mode
+     */
+    robots_mode?: 'allow' | 'disallow' | 'custom' | null;
+    /**
+     * Rate Limit
+     */
+    rate_limit?: number | null;
+    /**
+     * Enabled
+     */
+    enabled?: boolean | null;
 };
 
 /**
@@ -627,6 +881,36 @@ export type ListOutboxSchedulingOutboxGetResponses = {
 
 export type ListOutboxSchedulingOutboxGetResponse = ListOutboxSchedulingOutboxGetResponses[keyof ListOutboxSchedulingOutboxGetResponses];
 
+export type ReadSubscriptionSchedulingSubscriptionsSubIdGetData = {
+    body?: never;
+    path: {
+        /**
+         * Sub Id
+         */
+        sub_id: number;
+    };
+    query?: never;
+    url: '/scheduling/subscriptions/{sub_id}';
+};
+
+export type ReadSubscriptionSchedulingSubscriptionsSubIdGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ReadSubscriptionSchedulingSubscriptionsSubIdGetError = ReadSubscriptionSchedulingSubscriptionsSubIdGetErrors[keyof ReadSubscriptionSchedulingSubscriptionsSubIdGetErrors];
+
+export type ReadSubscriptionSchedulingSubscriptionsSubIdGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: SubscriptionDetailOut;
+};
+
+export type ReadSubscriptionSchedulingSubscriptionsSubIdGetResponse = ReadSubscriptionSchedulingSubscriptionsSubIdGetResponses[keyof ReadSubscriptionSchedulingSubscriptionsSubIdGetResponses];
+
 export type EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostData = {
     body?: never;
     path: {
@@ -716,6 +1000,157 @@ export type RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostResponses = {
 };
 
 export type RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostResponse = RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostResponses[keyof RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostResponses];
+
+export type ListSourcesSourcesGetData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Limit
+         */
+        limit?: number;
+        /**
+         * Offset
+         */
+        offset?: number;
+    };
+    url: '/sources/';
+};
+
+export type ListSourcesSourcesGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ListSourcesSourcesGetError = ListSourcesSourcesGetErrors[keyof ListSourcesSourcesGetErrors];
+
+export type ListSourcesSourcesGetResponses = {
+    /**
+     * Response List Sources Sources  Get
+     *
+     * Successful Response
+     */
+    200: Array<SourceOut>;
+};
+
+export type ListSourcesSourcesGetResponse = ListSourcesSourcesGetResponses[keyof ListSourcesSourcesGetResponses];
+
+export type CreateSourceSourcesPostData = {
+    body: CreateSourceRequest;
+    path?: never;
+    query?: never;
+    url: '/sources/';
+};
+
+export type CreateSourceSourcesPostErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type CreateSourceSourcesPostError = CreateSourceSourcesPostErrors[keyof CreateSourceSourcesPostErrors];
+
+export type CreateSourceSourcesPostResponses = {
+    /**
+     * Successful Response
+     */
+    201: SourceResponse;
+};
+
+export type CreateSourceSourcesPostResponse = CreateSourceSourcesPostResponses[keyof CreateSourceSourcesPostResponses];
+
+export type DeleteSourceSourcesSourceIdDeleteData = {
+    body?: never;
+    path: {
+        /**
+         * Source Id
+         */
+        source_id: number;
+    };
+    query?: never;
+    url: '/sources/{source_id}';
+};
+
+export type DeleteSourceSourcesSourceIdDeleteErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type DeleteSourceSourcesSourceIdDeleteError = DeleteSourceSourcesSourceIdDeleteErrors[keyof DeleteSourceSourcesSourceIdDeleteErrors];
+
+export type DeleteSourceSourcesSourceIdDeleteResponses = {
+    /**
+     * Successful Response
+     */
+    204: void;
+};
+
+export type DeleteSourceSourcesSourceIdDeleteResponse = DeleteSourceSourcesSourceIdDeleteResponses[keyof DeleteSourceSourcesSourceIdDeleteResponses];
+
+export type GetSourceSourcesSourceIdGetData = {
+    body?: never;
+    path: {
+        /**
+         * Source Id
+         */
+        source_id: number;
+    };
+    query?: never;
+    url: '/sources/{source_id}';
+};
+
+export type GetSourceSourcesSourceIdGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetSourceSourcesSourceIdGetError = GetSourceSourcesSourceIdGetErrors[keyof GetSourceSourcesSourceIdGetErrors];
+
+export type GetSourceSourcesSourceIdGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: SourceDetailOut;
+};
+
+export type GetSourceSourcesSourceIdGetResponse = GetSourceSourcesSourceIdGetResponses[keyof GetSourceSourcesSourceIdGetResponses];
+
+export type UpdateSourceSourcesSourceIdPutData = {
+    body: UpdateSourceRequest;
+    path: {
+        /**
+         * Source Id
+         */
+        source_id: number;
+    };
+    query?: never;
+    url: '/sources/{source_id}';
+};
+
+export type UpdateSourceSourcesSourceIdPutErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type UpdateSourceSourcesSourceIdPutError = UpdateSourceSourcesSourceIdPutErrors[keyof UpdateSourceSourcesSourceIdPutErrors];
+
+export type UpdateSourceSourcesSourceIdPutResponses = {
+    /**
+     * Successful Response
+     */
+    200: SourceResponse;
+};
+
+export type UpdateSourceSourcesSourceIdPutResponse = UpdateSourceSourcesSourceIdPutResponses[keyof UpdateSourceSourcesSourceIdPutResponses];
 
 export type RootGetData = {
     body?: never;

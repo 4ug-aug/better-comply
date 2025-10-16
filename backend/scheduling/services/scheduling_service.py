@@ -73,6 +73,24 @@ class SchedulingService:
             q = QueriesAdapter(db)
             return q.list_outbox(status=status, limit=limit, offset=offset)
 
+    def get_subscription(self, sub_id: int) -> Dict[str, Any]:
+        with SessionLocalSync() as db:
+            sub = db.get(Subscription, sub_id)
+            if not sub:
+                return {}
+            return {
+                "id": sub.id,
+                "source_id": sub.source_id,
+                "jurisdiction": sub.jurisdiction,
+                "selectors": sub.selectors,
+                "schedule": sub.schedule,
+                "last_run_at": sub.last_run_at.isoformat() if sub.last_run_at else None,
+                "next_run_at": sub.next_run_at.isoformat() if sub.next_run_at else None,
+                "status": sub.status.name if hasattr(sub.status, "name") else sub.status,
+                "created_at": sub.created_at.isoformat() if sub.created_at else None,
+                "updated_at": sub.updated_at.isoformat() if sub.updated_at else None,
+            }
+
     # Actions (ORM-only)
     def create_subscription(self, req: CreateSubscriptionRequest) -> Dict[str, Any]:
         from croniter import croniter
@@ -97,8 +115,8 @@ class SchedulingService:
             return {
                 "id": sub.id,
                 "schedule": sub.schedule,
-                "last_run_at": sub.last_run_at,
-                "next_run_at": sub.next_run_at,
+                "last_run_at": sub.last_run_at.isoformat() if sub.last_run_at else None,
+                "next_run_at": sub.next_run_at.isoformat() if sub.next_run_at else None,
                 "status": sub.status.name,
             }
 
@@ -112,8 +130,8 @@ class SchedulingService:
             return {
                 "id": sub.id,
                 "schedule": sub.schedule,
-                "last_run_at": sub.last_run_at,
-                "next_run_at": sub.next_run_at,
+                "last_run_at": sub.last_run_at.isoformat() if sub.last_run_at else None,
+                "next_run_at": sub.next_run_at.isoformat() if sub.next_run_at else None,
                 "status": sub.status.name,
             }
 
@@ -136,8 +154,8 @@ class SchedulingService:
             return {
                 "id": sub.id,
                 "schedule": sub.schedule,
-                "last_run_at": sub.last_run_at,
-                "next_run_at": sub.next_run_at,
+                "last_run_at": sub.last_run_at.isoformat() if sub.last_run_at else None,
+                "next_run_at": sub.next_run_at.isoformat() if sub.next_run_at else None,
                 "status": sub.status.name,
             }
 

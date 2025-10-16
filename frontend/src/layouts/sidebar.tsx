@@ -17,12 +17,13 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { 
-  Home, 
-  FileStack,
-  Building2,
-  Clock,
+  ListChecks,
+  Globe,
+  LogOutIcon,
 } from 'lucide-react';
 import { ModeToggle } from '@/components/mode-toggle';
+import { useAuth } from '@/context/AuthContext';
+import { Button } from '@/components/ui/button';
 // import { SettingsButton } from '@/components/settings-button';
 
 /**
@@ -30,28 +31,16 @@ import { ModeToggle } from '@/components/mode-toggle';
  */
 const navigationItems = [
   {
-    title: "Targets",
-    url: "/",
-    icon: Home,
-    description: "Overview and targets"
+    title: "Subscriptions",
+    url: "/subscriptions",
+    icon: ListChecks,
+    description: "Manage subscriptions"
   },
   {
-    title: "Org Units",
-    url: "/org-units",
-    icon: Building2,
-    description: "Manage organization units"
-  },
-  {
-    title: "Scenarios",
-    url: "/scenarios",
-    icon: FileStack,
-    description: "Generated scenarios"
-  },
-  {
-    title: "Scheduling",
-    url: "/scheduling",
-    icon: Clock,
-    description: "Subscriptions, Outbox, Runs"
+    title: "Sources",
+    url: "/sources",
+    icon: Globe,
+    description: "Manage content sources"
   },
 ];
 
@@ -61,6 +50,7 @@ const navigationItems = [
  */
 export function AppSidebar() {
   const location = useLocation();
+  const { user, logout } = useAuth()
 
   /**
    * Check if a menu item is active
@@ -88,7 +78,7 @@ export function AppSidebar() {
       <SidebarContent>
         {/* Main Navigation */}
         <SidebarGroup>
-          <SidebarGroupLabel>Targets</SidebarGroupLabel>
+          <SidebarGroupLabel>Sources</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {navigationItems.map((item) => (
@@ -114,13 +104,15 @@ export function AppSidebar() {
 
       <SidebarFooter>
         <div className="p-2 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <div className="h-2 w-2 rounded-full bg-green-500" />
-            <span>System Online</span>
+          <div className="flex items-center gap-2">
+            <span className="text-sm opacity-70">{user?.username}</span>
           </div>
           <div className="flex items-center gap-2 justify-between">
             {/* <SettingsButton isActive={isActive("/settings")} /> */}
             <ModeToggle />
+            <Button variant="ghost" size="icon" onClick={logout}>
+              <LogOutIcon className="w-4 h-4" />
+            </Button>
           </div>
         </div>
       </SidebarFooter>

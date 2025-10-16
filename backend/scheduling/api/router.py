@@ -9,6 +9,7 @@ from scheduling.api.schemas import (
     ComputeNextResult,
     DispatchResult,
     SubscriptionOut,
+    SubscriptionDetailOut,
     RunOut,
     OutboxOut,
     CreateSubscriptionRequest,
@@ -80,6 +81,12 @@ def create_subscription(data: CreateSubscriptionRequest, svc: SchedulingService 
     return SubscriptionResponse(**obj)
 
 
+@router.get("/subscriptions/{sub_id}", response_model=SubscriptionDetailOut)
+def read_subscription(sub_id: int, svc: SchedulingService = Depends(get_service)) -> SubscriptionDetailOut:
+    obj = svc.get_subscription(sub_id)
+    return SubscriptionDetailOut(**obj)
+
+
 @router.post("/subscriptions/{sub_id}/enable", response_model=SubscriptionResponse)
 def enable_subscription(sub_id: int, svc: SchedulingService = Depends(get_service)) -> SubscriptionResponse:
     obj = svc.set_subscription_status(sub_id, "ACTIVE")
@@ -96,5 +103,4 @@ def disable_subscription(sub_id: int, svc: SchedulingService = Depends(get_servi
 def run_subscription_now(sub_id: int, svc: SchedulingService = Depends(get_service)) -> SubscriptionResponse:
     obj = svc.run_subscription_now(sub_id)
     return SubscriptionResponse(**obj)
-
 

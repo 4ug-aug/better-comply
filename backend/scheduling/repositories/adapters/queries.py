@@ -20,8 +20,8 @@ class QueriesAdapter:
             {
                 "id": s.id,
                 "schedule": s.schedule,
-                "last_run_at": s.last_run_at,
-                "next_run_at": s.next_run_at,
+                "last_run_at": s.last_run_at.isoformat() if s.last_run_at else None,
+                "next_run_at": s.next_run_at.isoformat() if s.next_run_at else None,
                 "status": s.status.name if hasattr(s.status, "name") else s.status,
             }
             for s in subs
@@ -35,8 +35,8 @@ class QueriesAdapter:
                 "id": r.id,
                 "subscription_id": r.subscription_id,
                 "run_kind": r.run_kind.name if hasattr(r.run_kind, "name") else r.run_kind,
-                "started_at": r.started_at,
-                "ended_at": r.ended_at,
+                "started_at": r.started_at.isoformat() if r.started_at else None,
+                "ended_at": r.ended_at.isoformat() if r.ended_at else None,
                 "status": r.status.name if hasattr(r.status, "name") else r.status,
             }
             for r in runs
@@ -50,12 +50,12 @@ class QueriesAdapter:
         return [
             {
                 "id": o.id,
-                "created_at": o.created_at,
+                "created_at": o.created_at.isoformat() if o.created_at else None,
                 "event_type": o.event_type,
                 "payload": o.payload,
                 "status": o.status.name if hasattr(o.status, "name") else o.status,
                 "attempts": o.attempts,
-                "published_at": o.published_at,
+                "published_at": o.published_at.isoformat() if o.published_at else None,
             }
             for o in rows
         ]

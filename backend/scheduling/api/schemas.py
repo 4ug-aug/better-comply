@@ -59,3 +59,16 @@ class SubscriptionResponse(SubscriptionOut):
     pass
 
 
+
+class SubscriptionDetailOut(BaseModel):
+    id: int
+    source_id: int
+    jurisdiction: str
+    selectors: Dict[str, Any]
+    schedule: str
+    last_run_at: Optional[str] = None
+    next_run_at: Optional[str] = None
+    status: str
+    created_at: Optional[str] = None
+    updated_at: Optional[str] = None
+

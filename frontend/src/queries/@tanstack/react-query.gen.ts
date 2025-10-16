@@ -4,8 +4,8 @@ import { type InfiniteData, infiniteQueryOptions, queryOptions, type UseMutation
 import type { AxiosError } from 'axios';
 
 import { client } from '../client.gen';
-import { adminEndpointAdminGet, computeNextSchedulingComputeNextPost, createSubscriptionSchedulingSubscriptionsPost, disableSubscriptionSchedulingSubscriptionsSubIdDisablePost, dispatchOutboxSchedulingOutboxDispatchPost, enableSubscriptionSchedulingSubscriptionsSubIdEnablePost, listOutboxSchedulingOutboxGet, listRunsSchedulingRunsGet, listSubscriptionsSchedulingSubscriptionsGet, loginForAccessTokenAuthTokenPost, type Options, protectedEndpointProtectedGet, readUsersMeAuthMeGet, refreshAccessTokenAuthRefreshPost, registerUserAuthRegisterPost, rootGet, runSubscriptionNowSchedulingSubscriptionsSubIdRunPost, tickSchedulingTickPost, verifyEmailAuthVerifyEmailGet } from '../sdk.gen';
-import type { AdminEndpointAdminGetData, ComputeNextSchedulingComputeNextPostData, ComputeNextSchedulingComputeNextPostError, ComputeNextSchedulingComputeNextPostResponse, CreateSubscriptionSchedulingSubscriptionsPostData, CreateSubscriptionSchedulingSubscriptionsPostError, CreateSubscriptionSchedulingSubscriptionsPostResponse, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostData, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostError, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostResponse, DispatchOutboxSchedulingOutboxDispatchPostData, DispatchOutboxSchedulingOutboxDispatchPostError, DispatchOutboxSchedulingOutboxDispatchPostResponse, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostData, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostError, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostResponse, ListOutboxSchedulingOutboxGetData, ListOutboxSchedulingOutboxGetError, ListOutboxSchedulingOutboxGetResponse, ListRunsSchedulingRunsGetData, ListRunsSchedulingRunsGetError, ListRunsSchedulingRunsGetResponse, ListSubscriptionsSchedulingSubscriptionsGetData, ListSubscriptionsSchedulingSubscriptionsGetError, ListSubscriptionsSchedulingSubscriptionsGetResponse, LoginForAccessTokenAuthTokenPostData, LoginForAccessTokenAuthTokenPostError, LoginForAccessTokenAuthTokenPostResponse, ProtectedEndpointProtectedGetData, ReadUsersMeAuthMeGetData, RefreshAccessTokenAuthRefreshPostData, RefreshAccessTokenAuthRefreshPostError, RefreshAccessTokenAuthRefreshPostResponse, RegisterUserAuthRegisterPostData, RegisterUserAuthRegisterPostError, RootGetData, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostData, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostError, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostResponse, TickSchedulingTickPostData, TickSchedulingTickPostError, TickSchedulingTickPostResponse, VerifyEmailAuthVerifyEmailGetData } from '../types.gen';
+import { adminEndpointAdminGet, computeNextSchedulingComputeNextPost, createSourceSourcesPost, createSubscriptionSchedulingSubscriptionsPost, deleteSourceSourcesSourceIdDelete, disableSubscriptionSchedulingSubscriptionsSubIdDisablePost, dispatchOutboxSchedulingOutboxDispatchPost, enableSubscriptionSchedulingSubscriptionsSubIdEnablePost, getSourceSourcesSourceIdGet, listOutboxSchedulingOutboxGet, listRunsSchedulingRunsGet, listSourcesSourcesGet, listSubscriptionsSchedulingSubscriptionsGet, loginForAccessTokenAuthTokenPost, type Options, protectedEndpointProtectedGet, readSubscriptionSchedulingSubscriptionsSubIdGet, readUsersMeAuthMeGet, refreshAccessTokenAuthRefreshPost, registerUserAuthRegisterPost, rootGet, runSubscriptionNowSchedulingSubscriptionsSubIdRunPost, tickSchedulingTickPost, updateSourceSourcesSourceIdPut, verifyEmailAuthVerifyEmailGet } from '../sdk.gen';
+import type { AdminEndpointAdminGetData, ComputeNextSchedulingComputeNextPostData, ComputeNextSchedulingComputeNextPostError, ComputeNextSchedulingComputeNextPostResponse, CreateSourceSourcesPostData, CreateSourceSourcesPostError, CreateSourceSourcesPostResponse, CreateSubscriptionSchedulingSubscriptionsPostData, CreateSubscriptionSchedulingSubscriptionsPostError, CreateSubscriptionSchedulingSubscriptionsPostResponse, DeleteSourceSourcesSourceIdDeleteData, DeleteSourceSourcesSourceIdDeleteError, DeleteSourceSourcesSourceIdDeleteResponse, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostData, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostError, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostResponse, DispatchOutboxSchedulingOutboxDispatchPostData, DispatchOutboxSchedulingOutboxDispatchPostError, DispatchOutboxSchedulingOutboxDispatchPostResponse, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostData, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostError, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostResponse, GetSourceSourcesSourceIdGetData, ListOutboxSchedulingOutboxGetData, ListOutboxSchedulingOutboxGetError, ListOutboxSchedulingOutboxGetResponse, ListRunsSchedulingRunsGetData, ListRunsSchedulingRunsGetError, ListRunsSchedulingRunsGetResponse, ListSourcesSourcesGetData, ListSourcesSourcesGetError, ListSourcesSourcesGetResponse, ListSubscriptionsSchedulingSubscriptionsGetData, ListSubscriptionsSchedulingSubscriptionsGetError, ListSubscriptionsSchedulingSubscriptionsGetResponse, LoginForAccessTokenAuthTokenPostData, LoginForAccessTokenAuthTokenPostError, LoginForAccessTokenAuthTokenPostResponse, ProtectedEndpointProtectedGetData, ReadSubscriptionSchedulingSubscriptionsSubIdGetData, ReadUsersMeAuthMeGetData, RefreshAccessTokenAuthRefreshPostData, RefreshAccessTokenAuthRefreshPostError, RefreshAccessTokenAuthRefreshPostResponse, RegisterUserAuthRegisterPostData, RegisterUserAuthRegisterPostError, RootGetData, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostData, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostError, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostResponse, TickSchedulingTickPostData, TickSchedulingTickPostError, TickSchedulingTickPostResponse, UpdateSourceSourcesSourceIdPutData, UpdateSourceSourcesSourceIdPutError, UpdateSourceSourcesSourceIdPutResponse, VerifyEmailAuthVerifyEmailGetData } from '../types.gen';
 
 /**
  * Register User
@@ -379,6 +379,26 @@ export const listOutboxSchedulingOutboxGetInfiniteOptions = (options?: Options<L
     });
 };
 
+export const readSubscriptionSchedulingSubscriptionsSubIdGetQueryKey = (options: Options<ReadSubscriptionSchedulingSubscriptionsSubIdGetData>) => createQueryKey('readSubscriptionSchedulingSubscriptionsSubIdGet', options);
+
+/**
+ * Read Subscription
+ */
+export const readSubscriptionSchedulingSubscriptionsSubIdGetOptions = (options: Options<ReadSubscriptionSchedulingSubscriptionsSubIdGetData>) => {
+    return queryOptions({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await readSubscriptionSchedulingSubscriptionsSubIdGet({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: readSubscriptionSchedulingSubscriptionsSubIdGetQueryKey(options)
+    });
+};
+
 /**
  * Enable Subscription
  */
@@ -420,6 +440,138 @@ export const runSubscriptionNowSchedulingSubscriptionsSubIdRunPostMutation = (op
     const mutationOptions: UseMutationOptions<RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostResponse, AxiosError<RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostError>, Options<RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await runSubscriptionNowSchedulingSubscriptionsSubIdRunPost({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listSourcesSourcesGetQueryKey = (options?: Options<ListSourcesSourcesGetData>) => createQueryKey('listSourcesSourcesGet', options);
+
+/**
+ * List Sources
+ *
+ * List all sources with pagination.
+ */
+export const listSourcesSourcesGetOptions = (options?: Options<ListSourcesSourcesGetData>) => {
+    return queryOptions({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await listSourcesSourcesGet({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listSourcesSourcesGetQueryKey(options)
+    });
+};
+
+export const listSourcesSourcesGetInfiniteQueryKey = (options?: Options<ListSourcesSourcesGetData>): QueryKey<Options<ListSourcesSourcesGetData>> => createQueryKey('listSourcesSourcesGet', options, true);
+
+/**
+ * List Sources
+ *
+ * List all sources with pagination.
+ */
+export const listSourcesSourcesGetInfiniteOptions = (options?: Options<ListSourcesSourcesGetData>) => {
+    return infiniteQueryOptions<ListSourcesSourcesGetResponse, AxiosError<ListSourcesSourcesGetError>, InfiniteData<ListSourcesSourcesGetResponse>, QueryKey<Options<ListSourcesSourcesGetData>>, number | Pick<QueryKey<Options<ListSourcesSourcesGetData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<ListSourcesSourcesGetData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    offset: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await listSourcesSourcesGet({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listSourcesSourcesGetInfiniteQueryKey(options)
+    });
+};
+
+/**
+ * Create Source
+ *
+ * Create a new source.
+ */
+export const createSourceSourcesPostMutation = (options?: Partial<Options<CreateSourceSourcesPostData>>): UseMutationOptions<CreateSourceSourcesPostResponse, AxiosError<CreateSourceSourcesPostError>, Options<CreateSourceSourcesPostData>> => {
+    const mutationOptions: UseMutationOptions<CreateSourceSourcesPostResponse, AxiosError<CreateSourceSourcesPostError>, Options<CreateSourceSourcesPostData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await createSourceSourcesPost({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Delete Source
+ *
+ * Delete a source.
+ */
+export const deleteSourceSourcesSourceIdDeleteMutation = (options?: Partial<Options<DeleteSourceSourcesSourceIdDeleteData>>): UseMutationOptions<DeleteSourceSourcesSourceIdDeleteResponse, AxiosError<DeleteSourceSourcesSourceIdDeleteError>, Options<DeleteSourceSourcesSourceIdDeleteData>> => {
+    const mutationOptions: UseMutationOptions<DeleteSourceSourcesSourceIdDeleteResponse, AxiosError<DeleteSourceSourcesSourceIdDeleteError>, Options<DeleteSourceSourcesSourceIdDeleteData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await deleteSourceSourcesSourceIdDelete({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const getSourceSourcesSourceIdGetQueryKey = (options: Options<GetSourceSourcesSourceIdGetData>) => createQueryKey('getSourceSourcesSourceIdGet', options);
+
+/**
+ * Get Source
+ *
+ * Get a specific source by ID.
+ */
+export const getSourceSourcesSourceIdGetOptions = (options: Options<GetSourceSourcesSourceIdGetData>) => {
+    return queryOptions({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await getSourceSourcesSourceIdGet({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: getSourceSourcesSourceIdGetQueryKey(options)
+    });
+};
+
+/**
+ * Update Source
+ *
+ * Update an existing source.
+ */
+export const updateSourceSourcesSourceIdPutMutation = (options?: Partial<Options<UpdateSourceSourcesSourceIdPutData>>): UseMutationOptions<UpdateSourceSourcesSourceIdPutResponse, AxiosError<UpdateSourceSourcesSourceIdPutError>, Options<UpdateSourceSourcesSourceIdPutData>> => {
+    const mutationOptions: UseMutationOptions<UpdateSourceSourcesSourceIdPutResponse, AxiosError<UpdateSourceSourcesSourceIdPutError>, Options<UpdateSourceSourcesSourceIdPutData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await updateSourceSourcesSourceIdPut({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
