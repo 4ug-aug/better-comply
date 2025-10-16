@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { Boxes } from '@/components/ui/background-boxes'
 
 const schema = z.object({
   username: z.string().min(1, 'Username is required'),
@@ -30,10 +31,12 @@ const Login: React.FC = () => {
   }
 
   return (
-    <div className="flex min-h-svh items-center justify-center p-4">
-      <Card className="w-full max-w-sm">
+    <div className="relative flex min-h-svh items-center justify-center p-4 overflow-hidden">
+      <Boxes className="z-0" />
+      <Card className="relative z-10 w-full max-w-sm bg-background/80 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle>Sign in</CardTitle>
+          <CardTitle>Welcome to Better Comply.</CardTitle>
+          <CardDescription>Please enter your credentials to continue.</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
