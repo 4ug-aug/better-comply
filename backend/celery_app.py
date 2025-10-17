@@ -10,6 +10,7 @@ app = Celery(
         "tasks.compute_next_run",
         "tasks.outbox_dispatcher",
         "jobs_engine.tasks.crawl_tasks",
+        "jobs_engine.tasks.run_status_tasks",
     ],
 )
 

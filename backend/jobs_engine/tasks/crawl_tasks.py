@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import logging
+import traceback
 from datetime import datetime
 from typing import Any, Dict
 from uuid import uuid4
@@ -17,6 +18,11 @@ from models.subscription import Subscription
 from models.source import Source
 from models.run import Run
 from events.kafka_emitter import emit_event
+from events.run_status_emitter import (
+    emit_run_started,
+    emit_run_completed,
+    emit_run_failed,
+)
 from database.sync import SessionLocalSync
 
 logger = logging.getLogger(__name__)
@@ -40,6 +46,9 @@ def handle_subscription_scheduled(
     2. Generates a crawl request ID
     3. Emits a crawl.request event for the source base URL
     
+    This is the first stage of the pipeline. The run stays RUNNING
+    until the final delivery stage completes.
+    
     Args:
         subscription_id: The subscription ID that is due to run
         run_id: The run ID created for this execution
@@ -56,6 +65,9 @@ def handle_subscription_scheduled(
         f"Handling subscription scheduled: sub_id={subscription_id}, "
         f"run_id={run_id}, trace_id={trace_id}"
     )
+    
+    # Emit run.started event - begins the pipeline
+    emit_run_started(run_id, trace_id)
     
     try:
         with SessionLocalSync() as db:
@@ -101,6 +113,8 @@ def handle_subscription_scheduled(
     
     except Exception as e:
         logger.exception(f"Error handling subscription scheduled: {e}")
+        # Emit run.failed event - halts the pipeline
+        emit_run_failed(run_id, trace_id, str(e), traceback.format_exc())
         raise
 
 
@@ -119,6 +133,9 @@ def crawl_url(
 ) -> Dict[str, Any]:
     """Crawl a URL and store the raw content in MinIO.
     
+    This is an intermediate stage of the pipeline. The run stays RUNNING
+    until the final delivery stage completes.
+    
     Args:
         url: The URL to crawl
         source_id: The source ID
@@ -131,6 +148,10 @@ def crawl_url(
         Dictionary with crawl result details including artifact_id and blob_uri
     """
     logger.info(f"Crawling URL: {url} (crawl_request_id={crawl_request_id})")
+    
+    # Emit run.started event if not already marked as running
+    # (First time we execute for this run)
+    emit_run_started(run_id, trace_id)
     
     try:
         with SessionLocalSync() as db:
@@ -187,7 +208,7 @@ def crawl_url(
             artifact_id = artifact.id
             db.commit()
             
-            # Emit crawl.result event
+            # Emit crawl.result event - triggers next pipeline stage
             result_payload = {
                 "artifact_id": artifact_id,
                 "blob_uri": blob_uri,
@@ -210,6 +231,9 @@ def crawl_url(
     
     except Exception as e:
         logger.exception(f"Error crawling URL {url}: {e}")
+        # Emit run.failed event - halts the pipeline
+        # Don't emit crawl.result on failure - pipeline stops
+        emit_run_failed(run_id, trace_id, str(e), traceback.format_exc())
         raise
 
 
@@ -247,9 +271,15 @@ def parse_crawled_content(
         f"parse_crawled_content called: artifact_id={artifact_id}, "
         f"blob_uri={blob_uri}"
     )
-    raise NotImplementedError(
-        "Parse phase not yet implemented. Listening to parse.request events."
-    )
+    try:
+        raise NotImplementedError(
+            "Parse phase not yet implemented. Listening to parse.request events."
+        )
+    except Exception as e:
+        logger.exception(f"Error parsing crawled content: {e}")
+        # Emit run.failed event - halts the pipeline
+        emit_run_failed(run_id, trace_id, str(e), traceback.format_exc())
+        raise
 
 
 @simple_task(
@@ -301,10 +331,10 @@ def deliver_document(
 ) -> Dict[str, Any]:
     """Deliver a versioned document. Placeholder for future implementation.
     
-    This task will be triggered by delivery.request events and will:
-    - Prepare delivery payloads
+    This is the FINAL stage of the pipeline. This task should:
     - Send to downstream systems
-    - Emit delivery events
+    - Emit delivery notifications
+    - Emit run.completed event (mark run as COMPLETED since this is the final stage)
     
     Args:
         version_id: ID of the version to deliver
@@ -319,5 +349,7 @@ def deliver_document(
         f"deliver_document called: version_id={version_id}"
     )
     raise NotImplementedError(
-        "Delivery phase not yet implemented. Listening to delivery.request events."
+        "Delivery phase not yet implemented. Listening to delivery.request events. "
+        "When implemented, remember to emit run.completed(run_id, trace_id) "
+        "since this is the final pipeline stage."
     )

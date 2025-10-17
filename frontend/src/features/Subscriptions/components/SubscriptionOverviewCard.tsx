@@ -16,8 +16,8 @@ export function SubscriptionOverviewCard({
       <div className="text-sm font-medium mb-2">Overview</div>
       <div className="text-sm">Status: <span className="font-mono text-xs">{status}</span></div>
       <div className="text-sm">Schedule: <span className="font-mono text-xs">{schedule}</span></div>
-      <div className="text-xs text-muted-foreground mt-1">Last: {lastRunAt ?? '-'}</div>
-      <div className="text-xs text-muted-foreground">Next: {nextRunAt ?? '-'}</div>
+      <div className="text-xs text-muted-foreground mt-1">Last: {lastRunAt ? new Date(lastRunAt).toLocaleString() : '-'}</div>
+      <div className="text-xs text-muted-foreground">Next: {nextRunAt ? new Date(nextRunAt).toLocaleString() : '-'}</div>
     </div>
   )
 }

@@ -12,6 +12,7 @@ import CreateSubscriptionPage from '@/features/Subscriptions/pages/CreateSubscri
 import SourcesPage from '@/features/Sources/pages/SourcesPage'
 import CreateSourcePage from '@/features/Sources/pages/CreateSourcePage'
 import SourceDetailPage from '@/features/Sources/pages/SourceDetailPage'
+import ObservabilityPage from '@/features/Observability/pages/ObservabilityPage'
 
 
 const RequireAuth: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -42,6 +43,7 @@ function App() {
               <Route path="/sources" element={<SourcesPage />} />
               <Route path="/sources/new" element={<CreateSourcePage />} />
               <Route path="/sources/:id" element={<SourceDetailPage />} />
+              <Route path="/observability" element={<ObservabilityPage />} />
               <Route path="/scheduling" element={<Navigate to="/subscriptions" replace />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />

@@ -16,8 +16,8 @@ export function SubscriptionCard({ sub }: { sub: SubscriptionSummary }) {
         <span className="text-xs px-2 py-0.5 rounded border">{sub.status}</span>
       </div>
       <div className="text-sm">Schedule: <span className="font-mono">{sub.schedule}</span></div>
-      <div className="text-xs text-muted-foreground mt-1">Last: {sub.last_run_at ?? '-'}</div>
-      <div className="text-xs text-muted-foreground">Next: {sub.next_run_at ?? '-'}</div>
+      <div className="text-xs text-muted-foreground mt-1">Last: {new Date(sub.last_run_at ?? '').toLocaleString()}</div>
+      <div className="text-xs text-muted-foreground">Next: {new Date(sub.next_run_at ?? '').toLocaleString()}</div>
     </Link>
   )
 }

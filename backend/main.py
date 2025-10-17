@@ -4,6 +4,7 @@ import logging
 from auth.routes import router as auth_router
 from scheduling.api.router import router as scheduling_router
 from source.api.router import router as source_router
+from observability.api.router import router as observability_router
 from auth.middleware import AuthMiddleware
 from models.user import User
 
@@ -19,11 +20,26 @@ logger.info("Logging initialized with level %s", log_level)
 app = FastAPI(title="Better Comply API", version="1.0.0")
 
 # Add authentication middleware to protect all endpoints by default
-app.add_middleware(AuthMiddleware)
+# Exclude observability stream from auth middleware since it authenticates via query param
+app.add_middleware(
+    AuthMiddleware,
+    excluded_paths=[
+        "/",
+        "/docs",
+        "/redoc",
+        "/openapi.json",
+        "/auth/register",
+        "/auth/token",
+        "/auth/refresh",
+        "/auth/verify-email",
+        "/observability/stream",
+    ]
+)
 
 app.include_router(auth_router, prefix="/auth", tags=["auth"])
 app.include_router(scheduling_router)
 app.include_router(source_router)
+app.include_router(observability_router)
 
 @app.get("/")
 async def root():

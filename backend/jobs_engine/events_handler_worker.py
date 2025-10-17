@@ -24,11 +24,13 @@ logging.basicConfig(
 
 from jobs_engine.celery_app import app  # noqa: E402
 import jobs_engine.tasks.crawl_tasks  # noqa: E402, F401
+import jobs_engine.tasks.run_status_tasks  # noqa: E402, F401
 from jobs_engine.consumers.subscription_scheduled import (  # noqa: E402
     run_subscription_scheduled_consumer,
 )
 from jobs_engine.consumers.crawl_request import run_crawl_request_consumer  # noqa: E402
 from jobs_engine.consumers.crawl_result import run_crawl_result_consumer  # noqa: E402
+from jobs_engine.consumers.run_status import run_run_status_consumer  # noqa: E402
 
 logger = logging.getLogger(__name__)
 
@@ -84,6 +86,15 @@ def main() -> int:
         )
         crawl_result_consumer_thread.start()
         logger.info("Started CrawlResultConsumer thread")
+
+        # Start run status consumer thread
+        run_status_consumer_thread = threading.Thread(
+            target=run_run_status_consumer,
+            name="RunStatusConsumer",
+            daemon=True,
+        )
+        run_status_consumer_thread.start()
+        logger.info("Started RunStatusConsumer thread")
 
         # Run Celery worker in main thread (blocks)
         run_celery_worker()

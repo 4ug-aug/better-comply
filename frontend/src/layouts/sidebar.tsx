@@ -20,6 +20,7 @@ import {
   ListChecks,
   Globe,
   LogOutIcon,
+  Activity,
 } from 'lucide-react';
 import { ModeToggle } from '@/components/mode-toggle';
 import { useAuth } from '@/context/AuthContext';
@@ -41,6 +42,12 @@ const navigationItems = [
     url: "/sources",
     icon: Globe,
     description: "Manage content sources"
+  },
+  {
+    title: "Observability",
+    url: "/observability",
+    icon: Activity,
+    description: "Live dashboard"
   },
 ];
 
@@ -78,7 +85,7 @@ export function AppSidebar() {
       <SidebarContent>
         {/* Main Navigation */}
         <SidebarGroup>
-          <SidebarGroupLabel>Sources</SidebarGroupLabel>
+          <SidebarGroupLabel>Scheduling</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {navigationItems.map((item) => (
