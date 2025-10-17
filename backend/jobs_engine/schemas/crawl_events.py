@@ -54,8 +54,29 @@ class VersioningRequestPayload(BaseModel):
     trace_id: str
 
 
-class DeliveryRequestPayload(BaseModel):
-    """Placeholder for delivery.request events."""
+class VersioningResultPayload(BaseModel):
+    """Payload for versioning.result events."""
+    doc_id: int
     version_id: int
+    diff_uri: Optional[str]  # NULL for first version
+    run_id: int
+    trace_id: str
+
+
+class DeliveryRequestPayload(BaseModel):
+    """Payload for delivery.request events."""
+    doc_id: int
+    version_id: int
+    parsed_document: Dict[str, Any]  # Full parsed document JSON
+    run_id: int
+    trace_id: str
+
+
+class DeliveryResultPayload(BaseModel):
+    """Payload for delivery.result events."""
+    doc_id: int
+    version_id: int
+    status: str  # "COMPLETED" or "FAILED"
+    result: Optional[Dict[str, Any]] = None  # Delivery metadata/result
     run_id: int
     trace_id: str
