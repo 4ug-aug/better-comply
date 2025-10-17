@@ -83,12 +83,11 @@ export function SubscriptionForm({
               <Select 
                 onValueChange={(value) => field.onChange(Number(value))} 
                 value={field.value?.toString()} 
-                defaultValue={field.value?.toString()}
                 disabled={isEditing}
               >
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder={sourcesLoading ? "Loading sources..." : "Select a source"} />
+                    <SelectValue placeholder="Select a source" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>

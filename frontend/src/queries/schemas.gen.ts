@@ -217,6 +217,206 @@ export const DispatchResultSchema = {
     title: 'DispatchResult'
 } as const;
 
+export const DocumentDetailListResponseSchema = {
+    properties: {
+        items: {
+            items: {
+                '$ref': '#/components/schemas/DocumentDetailOut'
+            },
+            type: 'array',
+            title: 'Items'
+        },
+        total: {
+            type: 'integer',
+            title: 'Total'
+        },
+        skip: {
+            type: 'integer',
+            title: 'Skip'
+        },
+        limit: {
+            type: 'integer',
+            title: 'Limit'
+        }
+    },
+    type: 'object',
+    required: ['items', 'total', 'skip', 'limit'],
+    title: 'DocumentDetailListResponse',
+    description: 'Paginated documents with versions list response.'
+} as const;
+
+export const DocumentDetailOutSchema = {
+    properties: {
+        id: {
+            type: 'integer',
+            title: 'Id'
+        },
+        source_id: {
+            type: 'integer',
+            title: 'Source Id'
+        },
+        source_url: {
+            type: 'string',
+            title: 'Source Url'
+        },
+        published_date: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Published Date'
+        },
+        language: {
+            type: 'string',
+            title: 'Language'
+        },
+        created_at: {
+            type: 'string',
+            format: 'date-time',
+            title: 'Created At'
+        },
+        updated_at: {
+            type: 'string',
+            format: 'date-time',
+            title: 'Updated At'
+        },
+        versions: {
+            items: {
+                '$ref': '#/components/schemas/DocumentVersionOut'
+            },
+            type: 'array',
+            title: 'Versions'
+        },
+        version_count: {
+            type: 'integer',
+            title: 'Version Count'
+        }
+    },
+    type: 'object',
+    required: ['id', 'source_id', 'source_url', 'published_date', 'language', 'created_at', 'updated_at', 'versions', 'version_count'],
+    title: 'DocumentDetailOut',
+    description: 'Document with nested versions response model.'
+} as const;
+
+export const DocumentListResponseSchema = {
+    properties: {
+        items: {
+            items: {
+                '$ref': '#/components/schemas/DocumentOut'
+            },
+            type: 'array',
+            title: 'Items'
+        },
+        total: {
+            type: 'integer',
+            title: 'Total'
+        },
+        skip: {
+            type: 'integer',
+            title: 'Skip'
+        },
+        limit: {
+            type: 'integer',
+            title: 'Limit'
+        }
+    },
+    type: 'object',
+    required: ['items', 'total', 'skip', 'limit'],
+    title: 'DocumentListResponse',
+    description: 'Paginated documents list response.'
+} as const;
+
+export const DocumentOutSchema = {
+    properties: {
+        id: {
+            type: 'integer',
+            title: 'Id'
+        },
+        source_id: {
+            type: 'integer',
+            title: 'Source Id'
+        },
+        source_url: {
+            type: 'string',
+            title: 'Source Url'
+        },
+        published_date: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Published Date'
+        },
+        language: {
+            type: 'string',
+            title: 'Language'
+        },
+        created_at: {
+            type: 'string',
+            format: 'date-time',
+            title: 'Created At'
+        },
+        updated_at: {
+            type: 'string',
+            format: 'date-time',
+            title: 'Updated At'
+        }
+    },
+    type: 'object',
+    required: ['id', 'source_id', 'source_url', 'published_date', 'language', 'created_at', 'updated_at'],
+    title: 'DocumentOut',
+    description: 'Document response model.'
+} as const;
+
+export const DocumentVersionOutSchema = {
+    properties: {
+        id: {
+            type: 'integer',
+            title: 'Id'
+        },
+        document_id: {
+            type: 'integer',
+            title: 'Document Id'
+        },
+        parsed_uri: {
+            type: 'string',
+            title: 'Parsed Uri'
+        },
+        diff_uri: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Diff Uri'
+        },
+        content_hash: {
+            type: 'string',
+            title: 'Content Hash'
+        },
+        created_at: {
+            type: 'string',
+            format: 'date-time',
+            title: 'Created At'
+        }
+    },
+    type: 'object',
+    required: ['id', 'document_id', 'parsed_uri', 'diff_uri', 'content_hash', 'created_at'],
+    title: 'DocumentVersionOut',
+    description: 'Document version response model.'
+} as const;
+
 export const HTTPValidationErrorSchema = {
     properties: {
         detail: {
@@ -280,6 +480,48 @@ export const OutboxOutSchema = {
     type: 'object',
     required: ['id', 'event_type', 'payload', 'status', 'attempts'],
     title: 'OutboxOut'
+} as const;
+
+export const ParsedDocumentOutSchema = {
+    properties: {
+        source_url: {
+            type: 'string',
+            title: 'Source Url'
+        },
+        published_date: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Published Date'
+        },
+        language: {
+            type: 'string',
+            title: 'Language'
+        },
+        fetch_timestamp: {
+            type: 'string',
+            title: 'Fetch Timestamp'
+        },
+        sections: {
+            items: {
+                additionalProperties: true,
+                type: 'object'
+            },
+            type: 'array',
+            title: 'Sections'
+        }
+    },
+    type: 'object',
+    required: ['source_url', 'published_date', 'language', 'fetch_timestamp', 'sections'],
+    title: 'ParsedDocumentOut',
+    description: `Parsed document content response model.
+
+Contains the full parsed HTML content with sections and metadata.`
 } as const;
 
 export const RefreshTokenRequestSchema = {

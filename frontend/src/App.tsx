@@ -13,6 +13,8 @@ import SourcesPage from '@/features/Sources/pages/SourcesPage'
 import CreateSourcePage from '@/features/Sources/pages/CreateSourcePage'
 import SourceDetailPage from '@/features/Sources/pages/SourceDetailPage'
 import ObservabilityPage from '@/features/Observability/pages/ObservabilityPage'
+import { DocumentsPage } from './features/Documents/pages/DocumentsPage'
+import { DocumentDetailPage } from './features/Documents/pages/DocumentDetailPage'
 
 
 const RequireAuth: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -37,6 +39,8 @@ function App() {
               }
             >
               <Route index element={<Dashboard />} />
+              <Route path="/documents" element={<DocumentsPage />} />
+              <Route path="/documents/:id" element={<DocumentDetailPage />} />
               <Route path="/subscriptions" element={<SubscriptionsPage />} />
               <Route path="/subscriptions/new" element={<CreateSubscriptionPage />} />
               <Route path="/subscriptions/:id" element={<SubscriptionDetailPage />} />

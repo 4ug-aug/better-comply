@@ -2,7 +2,8 @@
 
 import { type Client, type Options as Options2, type TDataShape, urlSearchParamsBodySerializer } from './client';
 import { client } from './client.gen';
-import type { AdminEndpointAdminGetData, AdminEndpointAdminGetResponses, ComputeNextSchedulingComputeNextPostData, ComputeNextSchedulingComputeNextPostErrors, ComputeNextSchedulingComputeNextPostResponses, CreateSourceSourcesPostData, CreateSourceSourcesPostErrors, CreateSourceSourcesPostResponses, CreateSubscriptionSchedulingSubscriptionsPostData, CreateSubscriptionSchedulingSubscriptionsPostErrors, CreateSubscriptionSchedulingSubscriptionsPostResponses, DeleteSourceSourcesSourceIdDeleteData, DeleteSourceSourcesSourceIdDeleteErrors, DeleteSourceSourcesSourceIdDeleteResponses, DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteData, DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteErrors, DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteResponses, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostData, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostErrors, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostResponses, DispatchOutboxSchedulingOutboxDispatchPostData, DispatchOutboxSchedulingOutboxDispatchPostErrors, DispatchOutboxSchedulingOutboxDispatchPostResponses, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostData, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostErrors, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostResponses, GetSourceSourcesSourceIdGetData, GetSourceSourcesSourceIdGetErrors, GetSourceSourcesSourceIdGetResponses, ListOutboxSchedulingOutboxGetData, ListOutboxSchedulingOutboxGetErrors, ListOutboxSchedulingOutboxGetResponses, ListRunsSchedulingRunsGetData, ListRunsSchedulingRunsGetErrors, ListRunsSchedulingRunsGetResponses, ListSourcesSourcesGetData, ListSourcesSourcesGetErrors, ListSourcesSourcesGetResponses, ListSubscriptionsSchedulingSubscriptionsGetData, ListSubscriptionsSchedulingSubscriptionsGetErrors, ListSubscriptionsSchedulingSubscriptionsGetResponses, LoginForAccessTokenAuthTokenPostData, LoginForAccessTokenAuthTokenPostErrors, LoginForAccessTokenAuthTokenPostResponses, ProtectedEndpointProtectedGetData, ProtectedEndpointProtectedGetResponses, ReadSubscriptionSchedulingSubscriptionsSubIdGetData, ReadSubscriptionSchedulingSubscriptionsSubIdGetErrors, ReadSubscriptionSchedulingSubscriptionsSubIdGetResponses, ReadUsersMeAuthMeGetData, ReadUsersMeAuthMeGetResponses, RefreshAccessTokenAuthRefreshPostData, RefreshAccessTokenAuthRefreshPostErrors, RefreshAccessTokenAuthRefreshPostResponses, RegisterUserAuthRegisterPostData, RegisterUserAuthRegisterPostErrors, RegisterUserAuthRegisterPostResponses, RootGetData, RootGetResponses, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostData, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostErrors, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostResponses, TickSchedulingTickPostData, TickSchedulingTickPostErrors, TickSchedulingTickPostResponses, UpdateSourceSourcesSourceIdPutData, UpdateSourceSourcesSourceIdPutErrors, UpdateSourceSourcesSourceIdPutResponses, UpdateSubscriptionSchedulingSubscriptionsSubIdPutData, UpdateSubscriptionSchedulingSubscriptionsSubIdPutErrors, UpdateSubscriptionSchedulingSubscriptionsSubIdPutResponses, VerifyEmailAuthVerifyEmailGetData, VerifyEmailAuthVerifyEmailGetErrors, VerifyEmailAuthVerifyEmailGetResponses } from './types.gen';
+import { getDocumentByUrlDocumentsByUrlSourceUrlGetResponseTransformer, getDocumentDocumentsDocIdGetResponseTransformer, getDocumentWithVersionsDocumentsDocIdVersionsGetResponseTransformer, listDocumentsDocumentsGetResponseTransformer, listDocumentsWithVersionsDocumentsWithVersionsGetResponseTransformer } from './transformers.gen';
+import type { AdminEndpointAdminGetData, AdminEndpointAdminGetResponses, ComputeNextSchedulingComputeNextPostData, ComputeNextSchedulingComputeNextPostErrors, ComputeNextSchedulingComputeNextPostResponses, CreateSourceSourcesPostData, CreateSourceSourcesPostErrors, CreateSourceSourcesPostResponses, CreateSubscriptionSchedulingSubscriptionsPostData, CreateSubscriptionSchedulingSubscriptionsPostErrors, CreateSubscriptionSchedulingSubscriptionsPostResponses, DeleteSourceSourcesSourceIdDeleteData, DeleteSourceSourcesSourceIdDeleteErrors, DeleteSourceSourcesSourceIdDeleteResponses, DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteData, DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteErrors, DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteResponses, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostData, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostErrors, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostResponses, DispatchOutboxSchedulingOutboxDispatchPostData, DispatchOutboxSchedulingOutboxDispatchPostErrors, DispatchOutboxSchedulingOutboxDispatchPostResponses, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostData, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostErrors, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostResponses, GetDocumentByUrlDocumentsByUrlSourceUrlGetData, GetDocumentByUrlDocumentsByUrlSourceUrlGetErrors, GetDocumentByUrlDocumentsByUrlSourceUrlGetResponses, GetDocumentDocumentsDocIdGetData, GetDocumentDocumentsDocIdGetErrors, GetDocumentDocumentsDocIdGetResponses, GetDocumentWithVersionsDocumentsDocIdVersionsGetData, GetDocumentWithVersionsDocumentsDocIdVersionsGetErrors, GetDocumentWithVersionsDocumentsDocIdVersionsGetResponses, GetParsedDocumentDocumentsDocIdVersionsVersionIdParsedGetData, GetParsedDocumentDocumentsDocIdVersionsVersionIdParsedGetErrors, GetParsedDocumentDocumentsDocIdVersionsVersionIdParsedGetResponses, GetSourceSourcesSourceIdGetData, GetSourceSourcesSourceIdGetErrors, GetSourceSourcesSourceIdGetResponses, ListDocumentsDocumentsGetData, ListDocumentsDocumentsGetErrors, ListDocumentsDocumentsGetResponses, ListDocumentsWithVersionsDocumentsWithVersionsGetData, ListDocumentsWithVersionsDocumentsWithVersionsGetErrors, ListDocumentsWithVersionsDocumentsWithVersionsGetResponses, ListOutboxSchedulingOutboxGetData, ListOutboxSchedulingOutboxGetErrors, ListOutboxSchedulingOutboxGetResponses, ListRunsSchedulingRunsGetData, ListRunsSchedulingRunsGetErrors, ListRunsSchedulingRunsGetResponses, ListSourcesSourcesGetData, ListSourcesSourcesGetErrors, ListSourcesSourcesGetResponses, ListSubscriptionsSchedulingSubscriptionsGetData, ListSubscriptionsSchedulingSubscriptionsGetErrors, ListSubscriptionsSchedulingSubscriptionsGetResponses, LoginForAccessTokenAuthTokenPostData, LoginForAccessTokenAuthTokenPostErrors, LoginForAccessTokenAuthTokenPostResponses, ProtectedEndpointProtectedGetData, ProtectedEndpointProtectedGetResponses, ReadSubscriptionSchedulingSubscriptionsSubIdGetData, ReadSubscriptionSchedulingSubscriptionsSubIdGetErrors, ReadSubscriptionSchedulingSubscriptionsSubIdGetResponses, ReadUsersMeAuthMeGetData, ReadUsersMeAuthMeGetResponses, RefreshAccessTokenAuthRefreshPostData, RefreshAccessTokenAuthRefreshPostErrors, RefreshAccessTokenAuthRefreshPostResponses, RegisterUserAuthRegisterPostData, RegisterUserAuthRegisterPostErrors, RegisterUserAuthRegisterPostResponses, RootGetData, RootGetResponses, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostData, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostErrors, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostResponses, StreamObservabilityObservabilityStreamGetData, StreamObservabilityObservabilityStreamGetErrors, StreamObservabilityObservabilityStreamGetResponses, TickSchedulingTickPostData, TickSchedulingTickPostErrors, TickSchedulingTickPostResponses, UpdateSourceSourcesSourceIdPutData, UpdateSourceSourcesSourceIdPutErrors, UpdateSourceSourcesSourceIdPutResponses, UpdateSubscriptionSchedulingSubscriptionsSubIdPutData, UpdateSubscriptionSchedulingSubscriptionsSubIdPutErrors, UpdateSubscriptionSchedulingSubscriptionsSubIdPutResponses, VerifyEmailAuthVerifyEmailGetData, VerifyEmailAuthVerifyEmailGetErrors, VerifyEmailAuthVerifyEmailGetResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -318,6 +319,159 @@ export const updateSourceSourcesSourceIdPut = <ThrowOnError extends boolean = fa
             'Content-Type': 'application/json',
             ...options.headers
         }
+    });
+};
+
+/**
+ * List Documents
+ *
+ * List all documents with optional filtering.
+ *
+ * Args:
+ * skip: Number of documents to skip
+ * limit: Maximum documents to return
+ * source_id: Filter by source ID
+ * language: Filter by language code
+ *
+ * Returns:
+ * DocumentListResponse with paginated documents
+ */
+export const listDocumentsDocumentsGet = <ThrowOnError extends boolean = false>(options?: Options<ListDocumentsDocumentsGetData, ThrowOnError>) => {
+    return (options?.client ?? client).get<ListDocumentsDocumentsGetResponses, ListDocumentsDocumentsGetErrors, ThrowOnError>({
+        responseTransformer: listDocumentsDocumentsGetResponseTransformer,
+        responseType: 'json',
+        url: '/documents',
+        ...options
+    });
+};
+
+/**
+ * List Documents With Versions
+ *
+ * List all documents with their versions.
+ *
+ * Args:
+ * skip: Number of documents to skip
+ * limit: Maximum documents to return
+ *
+ * Returns:
+ * DocumentDetailListResponse with paginated documents and versions
+ */
+export const listDocumentsWithVersionsDocumentsWithVersionsGet = <ThrowOnError extends boolean = false>(options?: Options<ListDocumentsWithVersionsDocumentsWithVersionsGetData, ThrowOnError>) => {
+    return (options?.client ?? client).get<ListDocumentsWithVersionsDocumentsWithVersionsGetResponses, ListDocumentsWithVersionsDocumentsWithVersionsGetErrors, ThrowOnError>({
+        responseTransformer: listDocumentsWithVersionsDocumentsWithVersionsGetResponseTransformer,
+        responseType: 'json',
+        url: '/documents/with-versions',
+        ...options
+    });
+};
+
+/**
+ * Get Document
+ *
+ * Get a single document by ID.
+ *
+ * Args:
+ * doc_id: Document ID
+ *
+ * Returns:
+ * DocumentOut response
+ *
+ * Raises:
+ * HTTPException: 404 if document not found
+ */
+export const getDocumentDocumentsDocIdGet = <ThrowOnError extends boolean = false>(options: Options<GetDocumentDocumentsDocIdGetData, ThrowOnError>) => {
+    return (options.client ?? client).get<GetDocumentDocumentsDocIdGetResponses, GetDocumentDocumentsDocIdGetErrors, ThrowOnError>({
+        responseTransformer: getDocumentDocumentsDocIdGetResponseTransformer,
+        responseType: 'json',
+        url: '/documents/{doc_id}',
+        ...options
+    });
+};
+
+/**
+ * Get Document With Versions
+ *
+ * Get a document with all its versions.
+ *
+ * Args:
+ * doc_id: Document ID
+ *
+ * Returns:
+ * DocumentDetailOut response with all versions
+ *
+ * Raises:
+ * HTTPException: 404 if document not found
+ */
+export const getDocumentWithVersionsDocumentsDocIdVersionsGet = <ThrowOnError extends boolean = false>(options: Options<GetDocumentWithVersionsDocumentsDocIdVersionsGetData, ThrowOnError>) => {
+    return (options.client ?? client).get<GetDocumentWithVersionsDocumentsDocIdVersionsGetResponses, GetDocumentWithVersionsDocumentsDocIdVersionsGetErrors, ThrowOnError>({
+        responseTransformer: getDocumentWithVersionsDocumentsDocIdVersionsGetResponseTransformer,
+        responseType: 'json',
+        url: '/documents/{doc_id}/versions',
+        ...options
+    });
+};
+
+/**
+ * Get Document By Url
+ *
+ * Get a document by source URL.
+ *
+ * Args:
+ * source_url: Source URL to search
+ *
+ * Returns:
+ * DocumentOut response
+ *
+ * Raises:
+ * HTTPException: 404 if document not found
+ */
+export const getDocumentByUrlDocumentsByUrlSourceUrlGet = <ThrowOnError extends boolean = false>(options: Options<GetDocumentByUrlDocumentsByUrlSourceUrlGetData, ThrowOnError>) => {
+    return (options.client ?? client).get<GetDocumentByUrlDocumentsByUrlSourceUrlGetResponses, GetDocumentByUrlDocumentsByUrlSourceUrlGetErrors, ThrowOnError>({
+        responseTransformer: getDocumentByUrlDocumentsByUrlSourceUrlGetResponseTransformer,
+        responseType: 'json',
+        url: '/documents/by-url/{source_url}',
+        ...options
+    });
+};
+
+/**
+ * Get Parsed Document
+ *
+ * Get parsed document content from MinIO by version ID.
+ *
+ * Args:
+ * doc_id: Document ID (for route validation)
+ * version_id: Document version ID
+ *
+ * Returns:
+ * ParsedDocumentOut with full parsed content
+ *
+ * Raises:
+ * HTTPException: 404 if document version not found
+ * HTTPException: 500 if MinIO fetch fails
+ */
+export const getParsedDocumentDocumentsDocIdVersionsVersionIdParsedGet = <ThrowOnError extends boolean = false>(options: Options<GetParsedDocumentDocumentsDocIdVersionsVersionIdParsedGetData, ThrowOnError>) => {
+    return (options.client ?? client).get<GetParsedDocumentDocumentsDocIdVersionsVersionIdParsedGetResponses, GetParsedDocumentDocumentsDocIdVersionsVersionIdParsedGetErrors, ThrowOnError>({
+        responseType: 'json',
+        url: '/documents/{doc_id}/versions/{version_id}/parsed',
+        ...options
+    });
+};
+
+/**
+ * Stream Observability
+ *
+ * Stream observability data (outbox and runs) via Server-Sent Events.
+ *
+ * Sends initial snapshot, then periodic updates every 3 seconds.
+ * Requires authentication token as query parameter since EventSource doesn't support custom headers.
+ */
+export const streamObservabilityObservabilityStreamGet = <ThrowOnError extends boolean = false>(options: Options<StreamObservabilityObservabilityStreamGetData, ThrowOnError>) => {
+    return (options.client ?? client).get<StreamObservabilityObservabilityStreamGetResponses, StreamObservabilityObservabilityStreamGetErrors, ThrowOnError>({
+        responseType: 'json',
+        url: '/observability/stream',
+        ...options
     });
 };
 

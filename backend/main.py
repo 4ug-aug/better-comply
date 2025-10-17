@@ -4,6 +4,7 @@ import logging
 from auth.routes import router as auth_router
 from scheduling.api.router import router as scheduling_router
 from source.api.router import router as source_router
+from documents.api.router import router as documents_router
 from observability.api.router import router as observability_router
 from auth.middleware import AuthMiddleware
 from models.user import User
@@ -39,6 +40,7 @@ app.add_middleware(
 app.include_router(auth_router, prefix="/auth", tags=["auth"])
 app.include_router(scheduling_router)
 app.include_router(source_router)
+app.include_router(documents_router)
 app.include_router(observability_router)
 
 @app.get("/")

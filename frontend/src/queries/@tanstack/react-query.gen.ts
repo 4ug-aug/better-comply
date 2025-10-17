@@ -4,8 +4,8 @@ import { type InfiniteData, infiniteQueryOptions, queryOptions, type UseMutation
 import type { AxiosError } from 'axios';
 
 import { client } from '../client.gen';
-import { adminEndpointAdminGet, computeNextSchedulingComputeNextPost, createSourceSourcesPost, createSubscriptionSchedulingSubscriptionsPost, deleteSourceSourcesSourceIdDelete, deleteSubscriptionSchedulingSubscriptionsSubIdDelete, disableSubscriptionSchedulingSubscriptionsSubIdDisablePost, dispatchOutboxSchedulingOutboxDispatchPost, enableSubscriptionSchedulingSubscriptionsSubIdEnablePost, getSourceSourcesSourceIdGet, listOutboxSchedulingOutboxGet, listRunsSchedulingRunsGet, listSourcesSourcesGet, listSubscriptionsSchedulingSubscriptionsGet, loginForAccessTokenAuthTokenPost, type Options, protectedEndpointProtectedGet, readSubscriptionSchedulingSubscriptionsSubIdGet, readUsersMeAuthMeGet, refreshAccessTokenAuthRefreshPost, registerUserAuthRegisterPost, rootGet, runSubscriptionNowSchedulingSubscriptionsSubIdRunPost, tickSchedulingTickPost, updateSourceSourcesSourceIdPut, updateSubscriptionSchedulingSubscriptionsSubIdPut, verifyEmailAuthVerifyEmailGet } from '../sdk.gen';
-import type { AdminEndpointAdminGetData, ComputeNextSchedulingComputeNextPostData, ComputeNextSchedulingComputeNextPostError, ComputeNextSchedulingComputeNextPostResponse, CreateSourceSourcesPostData, CreateSourceSourcesPostError, CreateSourceSourcesPostResponse, CreateSubscriptionSchedulingSubscriptionsPostData, CreateSubscriptionSchedulingSubscriptionsPostError, CreateSubscriptionSchedulingSubscriptionsPostResponse, DeleteSourceSourcesSourceIdDeleteData, DeleteSourceSourcesSourceIdDeleteError, DeleteSourceSourcesSourceIdDeleteResponse, DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteData, DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteError, DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteResponse, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostData, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostError, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostResponse, DispatchOutboxSchedulingOutboxDispatchPostData, DispatchOutboxSchedulingOutboxDispatchPostError, DispatchOutboxSchedulingOutboxDispatchPostResponse, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostData, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostError, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostResponse, GetSourceSourcesSourceIdGetData, ListOutboxSchedulingOutboxGetData, ListOutboxSchedulingOutboxGetError, ListOutboxSchedulingOutboxGetResponse, ListRunsSchedulingRunsGetData, ListRunsSchedulingRunsGetError, ListRunsSchedulingRunsGetResponse, ListSourcesSourcesGetData, ListSourcesSourcesGetError, ListSourcesSourcesGetResponse, ListSubscriptionsSchedulingSubscriptionsGetData, ListSubscriptionsSchedulingSubscriptionsGetError, ListSubscriptionsSchedulingSubscriptionsGetResponse, LoginForAccessTokenAuthTokenPostData, LoginForAccessTokenAuthTokenPostError, LoginForAccessTokenAuthTokenPostResponse, ProtectedEndpointProtectedGetData, ReadSubscriptionSchedulingSubscriptionsSubIdGetData, ReadUsersMeAuthMeGetData, RefreshAccessTokenAuthRefreshPostData, RefreshAccessTokenAuthRefreshPostError, RefreshAccessTokenAuthRefreshPostResponse, RegisterUserAuthRegisterPostData, RegisterUserAuthRegisterPostError, RootGetData, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostData, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostError, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostResponse, TickSchedulingTickPostData, TickSchedulingTickPostError, TickSchedulingTickPostResponse, UpdateSourceSourcesSourceIdPutData, UpdateSourceSourcesSourceIdPutError, UpdateSourceSourcesSourceIdPutResponse, UpdateSubscriptionSchedulingSubscriptionsSubIdPutData, UpdateSubscriptionSchedulingSubscriptionsSubIdPutError, UpdateSubscriptionSchedulingSubscriptionsSubIdPutResponse, VerifyEmailAuthVerifyEmailGetData } from '../types.gen';
+import { adminEndpointAdminGet, computeNextSchedulingComputeNextPost, createSourceSourcesPost, createSubscriptionSchedulingSubscriptionsPost, deleteSourceSourcesSourceIdDelete, deleteSubscriptionSchedulingSubscriptionsSubIdDelete, disableSubscriptionSchedulingSubscriptionsSubIdDisablePost, dispatchOutboxSchedulingOutboxDispatchPost, enableSubscriptionSchedulingSubscriptionsSubIdEnablePost, getDocumentByUrlDocumentsByUrlSourceUrlGet, getDocumentDocumentsDocIdGet, getDocumentWithVersionsDocumentsDocIdVersionsGet, getParsedDocumentDocumentsDocIdVersionsVersionIdParsedGet, getSourceSourcesSourceIdGet, listDocumentsDocumentsGet, listDocumentsWithVersionsDocumentsWithVersionsGet, listOutboxSchedulingOutboxGet, listRunsSchedulingRunsGet, listSourcesSourcesGet, listSubscriptionsSchedulingSubscriptionsGet, loginForAccessTokenAuthTokenPost, type Options, protectedEndpointProtectedGet, readSubscriptionSchedulingSubscriptionsSubIdGet, readUsersMeAuthMeGet, refreshAccessTokenAuthRefreshPost, registerUserAuthRegisterPost, rootGet, runSubscriptionNowSchedulingSubscriptionsSubIdRunPost, streamObservabilityObservabilityStreamGet, tickSchedulingTickPost, updateSourceSourcesSourceIdPut, updateSubscriptionSchedulingSubscriptionsSubIdPut, verifyEmailAuthVerifyEmailGet } from '../sdk.gen';
+import type { AdminEndpointAdminGetData, ComputeNextSchedulingComputeNextPostData, ComputeNextSchedulingComputeNextPostError, ComputeNextSchedulingComputeNextPostResponse, CreateSourceSourcesPostData, CreateSourceSourcesPostError, CreateSourceSourcesPostResponse, CreateSubscriptionSchedulingSubscriptionsPostData, CreateSubscriptionSchedulingSubscriptionsPostError, CreateSubscriptionSchedulingSubscriptionsPostResponse, DeleteSourceSourcesSourceIdDeleteData, DeleteSourceSourcesSourceIdDeleteError, DeleteSourceSourcesSourceIdDeleteResponse, DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteData, DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteError, DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteResponse, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostData, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostError, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostResponse, DispatchOutboxSchedulingOutboxDispatchPostData, DispatchOutboxSchedulingOutboxDispatchPostError, DispatchOutboxSchedulingOutboxDispatchPostResponse, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostData, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostError, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostResponse, GetDocumentByUrlDocumentsByUrlSourceUrlGetData, GetDocumentDocumentsDocIdGetData, GetDocumentWithVersionsDocumentsDocIdVersionsGetData, GetParsedDocumentDocumentsDocIdVersionsVersionIdParsedGetData, GetSourceSourcesSourceIdGetData, ListDocumentsDocumentsGetData, ListDocumentsWithVersionsDocumentsWithVersionsGetData, ListOutboxSchedulingOutboxGetData, ListOutboxSchedulingOutboxGetError, ListOutboxSchedulingOutboxGetResponse, ListRunsSchedulingRunsGetData, ListRunsSchedulingRunsGetError, ListRunsSchedulingRunsGetResponse, ListSourcesSourcesGetData, ListSourcesSourcesGetError, ListSourcesSourcesGetResponse, ListSubscriptionsSchedulingSubscriptionsGetData, ListSubscriptionsSchedulingSubscriptionsGetError, ListSubscriptionsSchedulingSubscriptionsGetResponse, LoginForAccessTokenAuthTokenPostData, LoginForAccessTokenAuthTokenPostError, LoginForAccessTokenAuthTokenPostResponse, ProtectedEndpointProtectedGetData, ReadSubscriptionSchedulingSubscriptionsSubIdGetData, ReadUsersMeAuthMeGetData, RefreshAccessTokenAuthRefreshPostData, RefreshAccessTokenAuthRefreshPostError, RefreshAccessTokenAuthRefreshPostResponse, RegisterUserAuthRegisterPostData, RegisterUserAuthRegisterPostError, RootGetData, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostData, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostError, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostResponse, StreamObservabilityObservabilityStreamGetData, TickSchedulingTickPostData, TickSchedulingTickPostError, TickSchedulingTickPostResponse, UpdateSourceSourcesSourceIdPutData, UpdateSourceSourcesSourceIdPutError, UpdateSourceSourcesSourceIdPutResponse, UpdateSubscriptionSchedulingSubscriptionsSubIdPutData, UpdateSubscriptionSchedulingSubscriptionsSubIdPutError, UpdateSubscriptionSchedulingSubscriptionsSubIdPutResponse, VerifyEmailAuthVerifyEmailGetData } from '../types.gen';
 
 /**
  * Register User
@@ -614,6 +614,217 @@ export const updateSourceSourcesSourceIdPutMutation = (options?: Partial<Options
         }
     };
     return mutationOptions;
+};
+
+export const listDocumentsDocumentsGetQueryKey = (options?: Options<ListDocumentsDocumentsGetData>) => createQueryKey('listDocumentsDocumentsGet', options);
+
+/**
+ * List Documents
+ *
+ * List all documents with optional filtering.
+ *
+ * Args:
+ * skip: Number of documents to skip
+ * limit: Maximum documents to return
+ * source_id: Filter by source ID
+ * language: Filter by language code
+ *
+ * Returns:
+ * DocumentListResponse with paginated documents
+ */
+export const listDocumentsDocumentsGetOptions = (options?: Options<ListDocumentsDocumentsGetData>) => {
+    return queryOptions({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await listDocumentsDocumentsGet({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listDocumentsDocumentsGetQueryKey(options)
+    });
+};
+
+export const listDocumentsWithVersionsDocumentsWithVersionsGetQueryKey = (options?: Options<ListDocumentsWithVersionsDocumentsWithVersionsGetData>) => createQueryKey('listDocumentsWithVersionsDocumentsWithVersionsGet', options);
+
+/**
+ * List Documents With Versions
+ *
+ * List all documents with their versions.
+ *
+ * Args:
+ * skip: Number of documents to skip
+ * limit: Maximum documents to return
+ *
+ * Returns:
+ * DocumentDetailListResponse with paginated documents and versions
+ */
+export const listDocumentsWithVersionsDocumentsWithVersionsGetOptions = (options?: Options<ListDocumentsWithVersionsDocumentsWithVersionsGetData>) => {
+    return queryOptions({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await listDocumentsWithVersionsDocumentsWithVersionsGet({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listDocumentsWithVersionsDocumentsWithVersionsGetQueryKey(options)
+    });
+};
+
+export const getDocumentDocumentsDocIdGetQueryKey = (options: Options<GetDocumentDocumentsDocIdGetData>) => createQueryKey('getDocumentDocumentsDocIdGet', options);
+
+/**
+ * Get Document
+ *
+ * Get a single document by ID.
+ *
+ * Args:
+ * doc_id: Document ID
+ *
+ * Returns:
+ * DocumentOut response
+ *
+ * Raises:
+ * HTTPException: 404 if document not found
+ */
+export const getDocumentDocumentsDocIdGetOptions = (options: Options<GetDocumentDocumentsDocIdGetData>) => {
+    return queryOptions({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await getDocumentDocumentsDocIdGet({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: getDocumentDocumentsDocIdGetQueryKey(options)
+    });
+};
+
+export const getDocumentWithVersionsDocumentsDocIdVersionsGetQueryKey = (options: Options<GetDocumentWithVersionsDocumentsDocIdVersionsGetData>) => createQueryKey('getDocumentWithVersionsDocumentsDocIdVersionsGet', options);
+
+/**
+ * Get Document With Versions
+ *
+ * Get a document with all its versions.
+ *
+ * Args:
+ * doc_id: Document ID
+ *
+ * Returns:
+ * DocumentDetailOut response with all versions
+ *
+ * Raises:
+ * HTTPException: 404 if document not found
+ */
+export const getDocumentWithVersionsDocumentsDocIdVersionsGetOptions = (options: Options<GetDocumentWithVersionsDocumentsDocIdVersionsGetData>) => {
+    return queryOptions({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await getDocumentWithVersionsDocumentsDocIdVersionsGet({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: getDocumentWithVersionsDocumentsDocIdVersionsGetQueryKey(options)
+    });
+};
+
+export const getDocumentByUrlDocumentsByUrlSourceUrlGetQueryKey = (options: Options<GetDocumentByUrlDocumentsByUrlSourceUrlGetData>) => createQueryKey('getDocumentByUrlDocumentsByUrlSourceUrlGet', options);
+
+/**
+ * Get Document By Url
+ *
+ * Get a document by source URL.
+ *
+ * Args:
+ * source_url: Source URL to search
+ *
+ * Returns:
+ * DocumentOut response
+ *
+ * Raises:
+ * HTTPException: 404 if document not found
+ */
+export const getDocumentByUrlDocumentsByUrlSourceUrlGetOptions = (options: Options<GetDocumentByUrlDocumentsByUrlSourceUrlGetData>) => {
+    return queryOptions({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await getDocumentByUrlDocumentsByUrlSourceUrlGet({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: getDocumentByUrlDocumentsByUrlSourceUrlGetQueryKey(options)
+    });
+};
+
+export const getParsedDocumentDocumentsDocIdVersionsVersionIdParsedGetQueryKey = (options: Options<GetParsedDocumentDocumentsDocIdVersionsVersionIdParsedGetData>) => createQueryKey('getParsedDocumentDocumentsDocIdVersionsVersionIdParsedGet', options);
+
+/**
+ * Get Parsed Document
+ *
+ * Get parsed document content from MinIO by version ID.
+ *
+ * Args:
+ * doc_id: Document ID (for route validation)
+ * version_id: Document version ID
+ *
+ * Returns:
+ * ParsedDocumentOut with full parsed content
+ *
+ * Raises:
+ * HTTPException: 404 if document version not found
+ * HTTPException: 500 if MinIO fetch fails
+ */
+export const getParsedDocumentDocumentsDocIdVersionsVersionIdParsedGetOptions = (options: Options<GetParsedDocumentDocumentsDocIdVersionsVersionIdParsedGetData>) => {
+    return queryOptions({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await getParsedDocumentDocumentsDocIdVersionsVersionIdParsedGet({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: getParsedDocumentDocumentsDocIdVersionsVersionIdParsedGetQueryKey(options)
+    });
+};
+
+export const streamObservabilityObservabilityStreamGetQueryKey = (options: Options<StreamObservabilityObservabilityStreamGetData>) => createQueryKey('streamObservabilityObservabilityStreamGet', options);
+
+/**
+ * Stream Observability
+ *
+ * Stream observability data (outbox and runs) via Server-Sent Events.
+ *
+ * Sends initial snapshot, then periodic updates every 3 seconds.
+ * Requires authentication token as query parameter since EventSource doesn't support custom headers.
+ */
+export const streamObservabilityObservabilityStreamGetOptions = (options: Options<StreamObservabilityObservabilityStreamGetData>) => {
+    return queryOptions({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await streamObservabilityObservabilityStreamGet({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: streamObservabilityObservabilityStreamGetQueryKey(options)
+    });
 };
 
 export const rootGetQueryKey = (options?: Options<RootGetData>) => createQueryKey('rootGet', options);

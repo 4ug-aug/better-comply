@@ -21,6 +21,7 @@ import {
   Globe,
   LogOutIcon,
   Activity,
+  FileText,
 } from 'lucide-react';
 import { ModeToggle } from '@/components/mode-toggle';
 import { useAuth } from '@/context/AuthContext';
@@ -30,7 +31,7 @@ import { Button } from '@/components/ui/button';
 /**
  * Navigation items for the sidebar
  */
-const navigationItems = [
+const schedulingNavigationItems = [
   {
     title: "Subscriptions",
     url: "/subscriptions",
@@ -51,6 +52,14 @@ const navigationItems = [
   },
 ];
 
+const documentsNavigationItems = [
+  {
+    title: "Documents",
+    url: "/documents",
+    icon: FileText,
+    description: "Manage documents"
+  },
+];
 /**
  * AppSidebar Component
  * @returns {JSX.Element} Sidebar component
@@ -83,12 +92,34 @@ export function AppSidebar() {
       </SidebarHeader>
 
       <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>Documents</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {documentsNavigationItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton 
+                    asChild 
+                    isActive={isActive(item.url)}
+                    tooltip={item.description}
+                    className="text-sm"
+                  >
+                    <Link to={item.url}>
+                      <item.icon className="h-4 w-4" />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
         {/* Main Navigation */}
         <SidebarGroup>
           <SidebarGroupLabel>Scheduling</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navigationItems.map((item) => (
+              {schedulingNavigationItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton 
                     asChild 

@@ -159,6 +159,166 @@ export type DispatchResult = {
 };
 
 /**
+ * DocumentDetailListResponse
+ *
+ * Paginated documents with versions list response.
+ */
+export type DocumentDetailListResponse = {
+    /**
+     * Items
+     */
+    items: Array<DocumentDetailOut>;
+    /**
+     * Total
+     */
+    total: number;
+    /**
+     * Skip
+     */
+    skip: number;
+    /**
+     * Limit
+     */
+    limit: number;
+};
+
+/**
+ * DocumentDetailOut
+ *
+ * Document with nested versions response model.
+ */
+export type DocumentDetailOut = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Source Id
+     */
+    source_id: number;
+    /**
+     * Source Url
+     */
+    source_url: string;
+    /**
+     * Published Date
+     */
+    published_date: string | null;
+    /**
+     * Language
+     */
+    language: string;
+    /**
+     * Created At
+     */
+    created_at: Date;
+    /**
+     * Updated At
+     */
+    updated_at: Date;
+    /**
+     * Versions
+     */
+    versions: Array<DocumentVersionOut>;
+    /**
+     * Version Count
+     */
+    version_count: number;
+};
+
+/**
+ * DocumentListResponse
+ *
+ * Paginated documents list response.
+ */
+export type DocumentListResponse = {
+    /**
+     * Items
+     */
+    items: Array<DocumentOut>;
+    /**
+     * Total
+     */
+    total: number;
+    /**
+     * Skip
+     */
+    skip: number;
+    /**
+     * Limit
+     */
+    limit: number;
+};
+
+/**
+ * DocumentOut
+ *
+ * Document response model.
+ */
+export type DocumentOut = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Source Id
+     */
+    source_id: number;
+    /**
+     * Source Url
+     */
+    source_url: string;
+    /**
+     * Published Date
+     */
+    published_date: string | null;
+    /**
+     * Language
+     */
+    language: string;
+    /**
+     * Created At
+     */
+    created_at: Date;
+    /**
+     * Updated At
+     */
+    updated_at: Date;
+};
+
+/**
+ * DocumentVersionOut
+ *
+ * Document version response model.
+ */
+export type DocumentVersionOut = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Document Id
+     */
+    document_id: number;
+    /**
+     * Parsed Uri
+     */
+    parsed_uri: string;
+    /**
+     * Diff Uri
+     */
+    diff_uri: string | null;
+    /**
+     * Content Hash
+     */
+    content_hash: string;
+    /**
+     * Created At
+     */
+    created_at: Date;
+};
+
+/**
  * HTTPValidationError
  */
 export type HttpValidationError = {
@@ -202,6 +362,38 @@ export type OutboxOut = {
      * Published At
      */
     published_at?: string | null;
+};
+
+/**
+ * ParsedDocumentOut
+ *
+ * Parsed document content response model.
+ *
+ * Contains the full parsed HTML content with sections and metadata.
+ */
+export type ParsedDocumentOut = {
+    /**
+     * Source Url
+     */
+    source_url: string;
+    /**
+     * Published Date
+     */
+    published_date: string | null;
+    /**
+     * Language
+     */
+    language: string;
+    /**
+     * Fetch Timestamp
+     */
+    fetch_timestamp: string;
+    /**
+     * Sections
+     */
+    sections: Array<{
+        [key: string]: unknown;
+    }>;
 };
 
 /**
@@ -1249,6 +1441,236 @@ export type UpdateSourceSourcesSourceIdPutResponses = {
 };
 
 export type UpdateSourceSourcesSourceIdPutResponse = UpdateSourceSourcesSourceIdPutResponses[keyof UpdateSourceSourcesSourceIdPutResponses];
+
+export type ListDocumentsDocumentsGetData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Skip
+         */
+        skip?: number;
+        /**
+         * Limit
+         */
+        limit?: number;
+        /**
+         * Source Id
+         */
+        source_id?: number | null;
+        /**
+         * Language
+         */
+        language?: string | null;
+    };
+    url: '/documents';
+};
+
+export type ListDocumentsDocumentsGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ListDocumentsDocumentsGetError = ListDocumentsDocumentsGetErrors[keyof ListDocumentsDocumentsGetErrors];
+
+export type ListDocumentsDocumentsGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: DocumentListResponse;
+};
+
+export type ListDocumentsDocumentsGetResponse = ListDocumentsDocumentsGetResponses[keyof ListDocumentsDocumentsGetResponses];
+
+export type ListDocumentsWithVersionsDocumentsWithVersionsGetData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Skip
+         */
+        skip?: number;
+        /**
+         * Limit
+         */
+        limit?: number;
+    };
+    url: '/documents/with-versions';
+};
+
+export type ListDocumentsWithVersionsDocumentsWithVersionsGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ListDocumentsWithVersionsDocumentsWithVersionsGetError = ListDocumentsWithVersionsDocumentsWithVersionsGetErrors[keyof ListDocumentsWithVersionsDocumentsWithVersionsGetErrors];
+
+export type ListDocumentsWithVersionsDocumentsWithVersionsGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: DocumentDetailListResponse;
+};
+
+export type ListDocumentsWithVersionsDocumentsWithVersionsGetResponse = ListDocumentsWithVersionsDocumentsWithVersionsGetResponses[keyof ListDocumentsWithVersionsDocumentsWithVersionsGetResponses];
+
+export type GetDocumentDocumentsDocIdGetData = {
+    body?: never;
+    path: {
+        /**
+         * Doc Id
+         */
+        doc_id: number;
+    };
+    query?: never;
+    url: '/documents/{doc_id}';
+};
+
+export type GetDocumentDocumentsDocIdGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetDocumentDocumentsDocIdGetError = GetDocumentDocumentsDocIdGetErrors[keyof GetDocumentDocumentsDocIdGetErrors];
+
+export type GetDocumentDocumentsDocIdGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: DocumentOut;
+};
+
+export type GetDocumentDocumentsDocIdGetResponse = GetDocumentDocumentsDocIdGetResponses[keyof GetDocumentDocumentsDocIdGetResponses];
+
+export type GetDocumentWithVersionsDocumentsDocIdVersionsGetData = {
+    body?: never;
+    path: {
+        /**
+         * Doc Id
+         */
+        doc_id: number;
+    };
+    query?: never;
+    url: '/documents/{doc_id}/versions';
+};
+
+export type GetDocumentWithVersionsDocumentsDocIdVersionsGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetDocumentWithVersionsDocumentsDocIdVersionsGetError = GetDocumentWithVersionsDocumentsDocIdVersionsGetErrors[keyof GetDocumentWithVersionsDocumentsDocIdVersionsGetErrors];
+
+export type GetDocumentWithVersionsDocumentsDocIdVersionsGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: DocumentDetailOut;
+};
+
+export type GetDocumentWithVersionsDocumentsDocIdVersionsGetResponse = GetDocumentWithVersionsDocumentsDocIdVersionsGetResponses[keyof GetDocumentWithVersionsDocumentsDocIdVersionsGetResponses];
+
+export type GetDocumentByUrlDocumentsByUrlSourceUrlGetData = {
+    body?: never;
+    path: {
+        /**
+         * Source Url
+         */
+        source_url: string;
+    };
+    query?: never;
+    url: '/documents/by-url/{source_url}';
+};
+
+export type GetDocumentByUrlDocumentsByUrlSourceUrlGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetDocumentByUrlDocumentsByUrlSourceUrlGetError = GetDocumentByUrlDocumentsByUrlSourceUrlGetErrors[keyof GetDocumentByUrlDocumentsByUrlSourceUrlGetErrors];
+
+export type GetDocumentByUrlDocumentsByUrlSourceUrlGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: DocumentOut;
+};
+
+export type GetDocumentByUrlDocumentsByUrlSourceUrlGetResponse = GetDocumentByUrlDocumentsByUrlSourceUrlGetResponses[keyof GetDocumentByUrlDocumentsByUrlSourceUrlGetResponses];
+
+export type GetParsedDocumentDocumentsDocIdVersionsVersionIdParsedGetData = {
+    body?: never;
+    path: {
+        /**
+         * Doc Id
+         */
+        doc_id: number;
+        /**
+         * Version Id
+         */
+        version_id: number;
+    };
+    query?: never;
+    url: '/documents/{doc_id}/versions/{version_id}/parsed';
+};
+
+export type GetParsedDocumentDocumentsDocIdVersionsVersionIdParsedGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetParsedDocumentDocumentsDocIdVersionsVersionIdParsedGetError = GetParsedDocumentDocumentsDocIdVersionsVersionIdParsedGetErrors[keyof GetParsedDocumentDocumentsDocIdVersionsVersionIdParsedGetErrors];
+
+export type GetParsedDocumentDocumentsDocIdVersionsVersionIdParsedGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: ParsedDocumentOut;
+};
+
+export type GetParsedDocumentDocumentsDocIdVersionsVersionIdParsedGetResponse = GetParsedDocumentDocumentsDocIdVersionsVersionIdParsedGetResponses[keyof GetParsedDocumentDocumentsDocIdVersionsVersionIdParsedGetResponses];
+
+export type StreamObservabilityObservabilityStreamGetData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Token
+         *
+         * Authentication token
+         */
+        token: string;
+    };
+    url: '/observability/stream';
+};
+
+export type StreamObservabilityObservabilityStreamGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type StreamObservabilityObservabilityStreamGetError = StreamObservabilityObservabilityStreamGetErrors[keyof StreamObservabilityObservabilityStreamGetErrors];
+
+export type StreamObservabilityObservabilityStreamGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: unknown;
+};
 
 export type RootGetData = {
     body?: never;
