@@ -1,7 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { getAccessToken } from '@/api/axios-base'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 
 interface OutboxEntry {
   id: number
@@ -95,9 +103,8 @@ export default function ObservabilityPage() {
           <span className="text-sm text-muted-foreground">Status:</span>
           <Badge
             variant={connectionStatus === 'connected' ? 'default' : 'destructive'}
-            className={connectionStatus === 'connected' ? 'bg-green-600' : ''}
           >
-            {connectionStatus === 'connected' ? '● Live' : '● Disconnected'}
+            {connectionStatus === 'connected' ? 'Live' : 'Disconnected'}
           </Badge>
         </div>
       </div>
@@ -110,42 +117,40 @@ export default function ObservabilityPage() {
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b">
-                  <th className="text-left py-2 px-4 font-semibold">ID</th>
-                  <th className="text-left py-2 px-4 font-semibold">Event Type</th>
-                  <th className="text-left py-2 px-4 font-semibold">Status</th>
-                  <th className="text-left py-2 px-4 font-semibold">Created At</th>
-                  <th className="text-left py-2 px-4 font-semibold">Attempts</th>
-                </tr>
-              </thead>
-              <tbody>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>ID</TableHead>
+                  <TableHead>Event Type</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Created At</TableHead>
+                  <TableHead>Attempts</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
                 {data.outbox.length > 0 ? (
                   data.outbox.map((entry) => (
-                    <tr key={entry.id} className="border-b hover:bg-muted/50">
-                      <td className="py-2 px-4">{entry.id}</td>
-                      <td className="py-2 px-4 font-mono text-xs">{entry.event_type}</td>
-                      <td className="py-2 px-4">
+                    <TableRow key={entry.id}>
+                      <TableCell>{entry.id}</TableCell>
+                      <TableCell>{entry.event_type}</TableCell>
+                      <TableCell>
                         <Badge variant="outline" className={getStatusColor(entry.status)}>
                           {entry.status}
                         </Badge>
-                      </td>
-                      <td className="py-2 px-4 text-xs">
-                        {new Date(entry.created_at).toLocaleString()}
-                      </td>
-                      <td className="py-2 px-4">{entry.attempts}</td>
-                    </tr>
+                      </TableCell>
+                      <TableCell>{new Date(entry.created_at).toLocaleString()}</TableCell>
+                      <TableCell>{entry.attempts}</TableCell>
+                    </TableRow>
                   ))
                 ) : (
-                  <tr>
-                    <td colSpan={5} className="py-4 px-4 text-center text-muted-foreground">
+                  <TableRow>
+                    <TableCell className="text-center text-muted-foreground">
                       No outbox entries
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 )}
-              </tbody>
-            </table>
+              </TableBody>
+            </Table>
           </div>
         </CardContent>
       </Card>
@@ -158,55 +163,46 @@ export default function ObservabilityPage() {
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b">
-                  <th className="text-left py-2 px-4 font-semibold">ID</th>
-                  <th className="text-left py-2 px-4 font-semibold">Run Kind</th>
-                  <th className="text-left py-2 px-4 font-semibold">Status</th>
-                  <th className="text-left py-2 px-4 font-semibold">Subscription ID</th>
-                  <th className="text-left py-2 px-4 font-semibold">Started At</th>
-                  <th className="text-left py-2 px-4 font-semibold">Ended At</th>
-                </tr>
-              </thead>
-              <tbody>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>ID</TableHead>
+                  <TableHead>Run Kind</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Subscription ID</TableHead>
+                  <TableHead>Started At</TableHead>
+                  <TableHead>Ended At</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
                 {data.runs.length > 0 ? (
                   data.runs.map((entry) => (
-                    <tr key={entry.id} className="border-b hover:bg-muted/50">
-                      <td className="py-2 px-4">{entry.id}</td>
-                      <td className="py-2 px-4 font-mono text-xs">{entry.run_kind}</td>
-                      <td className="py-2 px-4">
+                    <TableRow key={entry.id}>
+                      <TableCell>{entry.id}</TableCell>
+                      <TableCell>{entry.run_kind}</TableCell>
+                      <TableCell>
                         <Badge variant="outline" className={getStatusColor(entry.status)}>
                           {entry.status}
                         </Badge>
-                      </td>
-                      <td className="py-2 px-4">
-                        {entry.subscription_id ? (
-                          <span className="font-mono text-xs">{entry.subscription_id}</span>
-                        ) : (
-                          <span className="text-muted-foreground">-</span>
-                        )}
-                      </td>
-                      <td className="py-2 px-4 text-xs">
-                        {new Date(entry.started_at).toLocaleString()}
-                      </td>
-                      <td className="py-2 px-4 text-xs">
-                        {entry.ended_at ? new Date(entry.ended_at).toLocaleString() : '-'}
-                      </td>
-                    </tr>
+                      </TableCell>
+                      <TableCell>{entry.subscription_id}</TableCell>
+                      <TableCell>{new Date(entry.started_at).toLocaleString()}</TableCell>
+                      <TableCell>{entry.ended_at ? new Date(entry.ended_at).toLocaleString() : '-'}</TableCell>
+                    </TableRow>
                   ))
                 ) : (
-                  <tr>
-                    <td colSpan={6} className="py-4 px-4 text-center text-muted-foreground">
+                  <TableRow>
+                    <TableCell className="text-center text-muted-foreground">
                       No runs
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 )}
-              </tbody>
-            </table>
+              </TableBody>
+            </Table>
           </div>
         </CardContent>
       </Card>
+
     </div>
   )
 }

@@ -40,3 +40,11 @@ events.dlq - for poison messages.
   }
 }
 ```
+
+### Minio Bucket Structure
+```
+raw/{source}/{yyyy}/{mm}/{dd}/{sha256}.bin
+raw_meta/{sha256}.json - metadata for the raw artifact.
+parsed/{doc_id}/{version_id}.json - parsed document.
+diffs/{doc_id}/{version_id}.json - diffs between versions.
+```
