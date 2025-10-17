@@ -17,4 +17,3 @@ class Artifact(Base):
 
     # Relationships
     run = relationship("Run", back_populates="artifacts")
-    document_versions = relationship("DocumentVersion", back_populates="artifact")

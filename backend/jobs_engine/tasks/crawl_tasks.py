@@ -20,7 +20,6 @@ from models.run import Run
 from events.kafka_emitter import emit_event
 from events.run_status_emitter import (
     emit_run_started,
-    emit_run_completed,
     emit_run_failed,
 )
 from database.sync import SessionLocalSync
@@ -218,6 +217,7 @@ def crawl_url(
                 "run_id": run_id,
                 "trace_id": trace_id,
                 "source_url": url,
+                "source_id": source_id,
             }
             
             emit_event("crawl.result", result_payload, topic="crawl.result")
@@ -247,36 +247,146 @@ def parse_crawled_content(
     blob_uri: str,
     run_id: int,
     trace_id: str,
+    source_url: str = None,
+    source_id: int = None,
     **kwargs: Any
 ) -> Dict[str, Any]:
-    """Parse crawled content. Placeholder for future implementation.
+    """Parse crawled HTML content and extract structured sections.
     
-    This task will be triggered by parse.request events and will:
-    - Download artifact from MinIO
-    - Extract structured content and text
-    - Store parsed result
-    - Emit parse.result event
+    This is an intermediate stage of the pipeline. The run stays RUNNING
+    until the final delivery stage completes.
     
     Args:
         artifact_id: ID of the artifact to parse
-        blob_uri: MinIO URI of the artifact
+        blob_uri: MinIO URI of the artifact (s3://artifacts/raw/...)
         run_id: The run ID
         trace_id: Trace ID for provenance tracking
+        source_url: Source URL for the artifact
         **kwargs: Additional keyword arguments
         
-    Raises:
-        NotImplementedError: This phase is not yet implemented
+    Returns:
+        Dictionary with parse result including doc_id and version_id
     """
     logger.info(
-        f"parse_crawled_content called: artifact_id={artifact_id}, "
-        f"blob_uri={blob_uri}"
+        f"Parsing HTML artifact: artifact_id={artifact_id}, "
+        f"source_url={source_url}, blob_uri={blob_uri}"
     )
+    
+    # Emit run.started if not already marked as running
+    emit_run_started(run_id, trace_id)
+    
     try:
-        raise NotImplementedError(
-            "Parse phase not yet implemented. Listening to parse.request events."
+        from jobs_engine.utils.minio_artifact_handler import (
+            download_artifact,
+            upload_parsed_document,
+            upload_raw_metadata,
         )
+        from jobs_engine.utils.html_parser import (
+            detect_encoding,
+            parse_html_to_sections,
+        )
+        from models.document import Document
+        from models.document_version import DocumentVersion
+
+        # Download artifact from MinIO
+        logger.info(f"Downloading artifact from {blob_uri}")
+        content_bytes = download_artifact(blob_uri)
+
+        # Detect encoding
+        encoding, encoding_method, confidence = detect_encoding({}, content_bytes)
+        html_text = content_bytes.decode(encoding, errors="replace")
+
+        logger.info(
+            f"Decoded artifact with {encoding} (method: {encoding_method}, "
+            f"confidence: {confidence})"
+        )
+
+        # Parse HTML to sections
+        parsed_doc = parse_html_to_sections(html_text, source_url, content_bytes)
+
+        # Create or get Document
+        with SessionLocalSync() as db:
+            # Get or create document
+            doc = db.query(Document).filter_by(source_url=source_url).first()
+            if not doc:
+                doc = Document(
+                    source_id=source_id,
+                    source_url=source_url,
+                    published_date=parsed_doc.published_date,
+                    language=parsed_doc.language,
+                )
+                db.add(doc)
+                db.flush()
+                logger.info(f"Created new Document: id={doc.id}, url={source_url}")
+            else:
+                logger.info(f"Using existing Document: id={doc.id}")
+
+            # Create DocumentVersion
+            import hashlib
+            import json
+
+            parsed_dict = parsed_doc.model_dump()
+            parsed_json = json.dumps(parsed_dict, sort_keys=True)
+            content_hash = hashlib.sha256(parsed_json.encode()).hexdigest()
+
+            version = DocumentVersion(
+                document_id=doc.id,
+                content_hash=content_hash,
+                parsed_uri="",  # Will be updated after upload
+                diff_uri=None,
+            )
+            db.add(version)
+            db.flush()
+            version_id = version.id
+
+            logger.info(f"Created DocumentVersion: id={version_id}")
+
+            db.commit()
+
+        # Upload parsed document to MinIO
+        parsed_uri = upload_parsed_document(doc.id, version_id, parsed_dict)
+
+        # Upload raw metadata
+        raw_metadata = {
+            "artifact_id": artifact_id,
+            "source_url": source_url,
+            "fetch_timestamp": parsed_doc.fetch_timestamp,
+            "encoding": encoding,
+            "encoding_method": encoding_method,
+            "encoding_confidence": confidence,
+            "content_length": len(content_bytes),
+        }
+        upload_raw_metadata(content_hash, raw_metadata)
+
+        # Update DocumentVersion with parsed_uri
+        with SessionLocalSync() as db:
+            version = db.get(DocumentVersion, version_id)
+            if version:
+                version.parsed_uri = parsed_uri
+                db.commit()
+
+        # Emit parse.result event
+        result_payload = {
+            "doc_id": doc.id,
+            "version_id": version_id,
+            "parsed_uri": parsed_uri,
+            "section_count": len(parsed_doc.sections),
+            "run_id": run_id,
+            "trace_id": trace_id,
+            "source_url": source_url,
+        }
+
+        emit_event("parse.result", result_payload, topic="parse.result")
+
+        logger.info(
+            f"Successfully parsed HTML: doc_id={doc.id}, "
+            f"sections={len(parsed_doc.sections)}"
+        )
+
+        return result_payload
+
     except Exception as e:
-        logger.exception(f"Error parsing crawled content: {e}")
+        logger.exception(f"Error parsing HTML artifact {artifact_id}: {e}")
         # Emit run.failed event - halts the pipeline
         emit_run_failed(run_id, trace_id, str(e), traceback.format_exc())
         raise
@@ -288,21 +398,28 @@ def parse_crawled_content(
     job_type="version.document"
 )
 def version_document(
-    parse_result_id: int,
+    doc_id: int,
+    version_id: int,
+    parsed_uri: str,
     run_id: int,
     trace_id: str,
     **kwargs: Any
 ) -> Dict[str, Any]:
     """Version a parsed document. Placeholder for future implementation.
     
-    This task will be triggered by versioning.request events and will:
+    This is an intermediate stage of the pipeline. Runs stay RUNNING until
+    the final delivery stage completes.
+    
+    This task will be triggered by parse.result events and will:
     - Compare with previous version
     - Compute diffs
     - Store new version metadata
     - Emit versioning.result event
     
     Args:
-        parse_result_id: ID of the parse result
+        doc_id: ID of the document
+        version_id: ID of the document version
+        parsed_uri: URI to the parsed content in MinIO
         run_id: The run ID
         trace_id: Trace ID for provenance tracking
         **kwargs: Additional keyword arguments
@@ -311,11 +428,22 @@ def version_document(
         NotImplementedError: This phase is not yet implemented
     """
     logger.info(
-        f"version_document called: parse_result_id={parse_result_id}"
+        f"version_document called: doc_id={doc_id}, version_id={version_id}"
     )
-    raise NotImplementedError(
-        "Versioning phase not yet implemented. Listening to versioning.request events."
-    )
+    
+    # Emit run.started if not already marked as running
+    emit_run_started(run_id, trace_id)
+    
+    try:
+        raise NotImplementedError(
+            "Versioning phase not yet implemented. Listening to parse.result events. "
+            "Should emit versioning.result event to trigger delivery phase."
+        )
+    except Exception as e:
+        logger.exception(f"Error versioning document {doc_id}: {e}")
+        # Emit run.failed event - halts the pipeline
+        emit_run_failed(run_id, trace_id, str(e), traceback.format_exc())
+        raise
 
 
 @simple_task(
@@ -324,6 +452,7 @@ def version_document(
     job_type="deliver.document"
 )
 def deliver_document(
+    doc_id: int,
     version_id: int,
     run_id: int,
     trace_id: str,
@@ -337,6 +466,7 @@ def deliver_document(
     - Emit run.completed event (mark run as COMPLETED since this is the final stage)
     
     Args:
+        doc_id: ID of the document
         version_id: ID of the version to deliver
         run_id: The run ID
         trace_id: Trace ID for provenance tracking
@@ -346,10 +476,20 @@ def deliver_document(
         NotImplementedError: This phase is not yet implemented
     """
     logger.info(
-        f"deliver_document called: version_id={version_id}"
+        f"deliver_document called: doc_id={doc_id}, version_id={version_id}"
     )
-    raise NotImplementedError(
-        "Delivery phase not yet implemented. Listening to delivery.request events. "
-        "When implemented, remember to emit run.completed(run_id, trace_id) "
-        "since this is the final pipeline stage."
-    )
+    
+    # Emit run.started if not already marked as running
+    emit_run_started(run_id, trace_id)
+    
+    try:
+        raise NotImplementedError(
+            "Delivery phase not yet implemented. Listening to delivery.request events. "
+            "When implemented, remember to emit run.completed(run_id, trace_id) "
+            "since this is the final pipeline stage."
+        )
+    except Exception as e:
+        logger.exception(f"Error delivering document {doc_id}: {e}")
+        # Emit run.failed event - halts the pipeline
+        emit_run_failed(run_id, trace_id, str(e), traceback.format_exc())
+        raise

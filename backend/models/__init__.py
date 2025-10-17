@@ -6,7 +6,6 @@ from .artifact import Artifact
 from .document import Document
 from .document_version import DocumentVersion
 from .provenance_edge import ProvenanceEdge
-from .delivery_event import DeliveryEvent
 from .audit_log import AuditLog
 from .outbox import Outbox
 
@@ -19,7 +18,6 @@ __all__ = [
     "Document",
     "DocumentVersion",
     "ProvenanceEdge",
-    "DeliveryEvent",
     "AuditLog",
     "Outbox"
 ]

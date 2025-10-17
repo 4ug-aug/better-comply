@@ -31,6 +31,9 @@ from jobs_engine.consumers.subscription_scheduled import (  # noqa: E402
 from jobs_engine.consumers.crawl_request import run_crawl_request_consumer  # noqa: E402
 from jobs_engine.consumers.crawl_result import run_crawl_result_consumer  # noqa: E402
 from jobs_engine.consumers.run_status import run_run_status_consumer  # noqa: E402
+from jobs_engine.consumers.parse_result import run_parse_result_consumer  # noqa: E402
+from jobs_engine.consumers.versioning_result import run_versioning_result_consumer  # noqa: E402
+from jobs_engine.consumers.delivery_result import run_delivery_result_consumer  # noqa: E402
 
 logger = logging.getLogger(__name__)
 
@@ -95,6 +98,33 @@ def main() -> int:
         )
         run_status_consumer_thread.start()
         logger.info("Started RunStatusConsumer thread")
+
+        # Start parse result consumer thread
+        parse_result_consumer_thread = threading.Thread(
+            target=run_parse_result_consumer,
+            name="ParseResultConsumer",
+            daemon=True,
+        )
+        parse_result_consumer_thread.start()
+        logger.info("Started ParseResultConsumer thread")
+
+        # Start versioning result consumer thread
+        versioning_result_consumer_thread = threading.Thread(
+            target=run_versioning_result_consumer,
+            name="VersioningResultConsumer",
+            daemon=True,
+        )
+        versioning_result_consumer_thread.start()
+        logger.info("Started VersioningResultConsumer thread")
+
+        # Start delivery result consumer thread (terminal stage)
+        delivery_result_consumer_thread = threading.Thread(
+            target=run_delivery_result_consumer,
+            name="DeliveryResultConsumer",
+            daemon=True,
+        )
+        delivery_result_consumer_thread.start()
+        logger.info("Started DeliveryResultConsumer thread")
 
         # Run Celery worker in main thread (blocks)
         run_celery_worker()

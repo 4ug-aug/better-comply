@@ -72,6 +72,8 @@ class CrawlResultConsumer(GenericEventConsumer):
             "blob_uri": data.get("blob_uri"),
             "run_id": data.get("run_id"),
             "trace_id": data.get("trace_id"),
+            "source_url": data.get("source_url"),
+            "source_id": data.get("source_id"),
         }
 
 

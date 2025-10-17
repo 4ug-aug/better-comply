@@ -16,3 +16,6 @@ pydantic[email]
 python-multipart
 pydantic-settings
 requests
+trafilatura
+beautifulsoup4
+chardet
