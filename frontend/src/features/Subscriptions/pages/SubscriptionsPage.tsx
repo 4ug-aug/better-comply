@@ -11,9 +11,16 @@ export default function SubscriptionsPage() {
   const listQuery = useQuery(listSubscriptionsSchedulingSubscriptionsGetOptions({ client, query: { limit: 100, offset: 0 } }))
   return (
     <div className="p-4 space-y-6">
-      <div className="flex items-center justify-between gap-2">
-        <h1 className="text-lg font-semibold">Subscriptions</h1>
-        <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
+            Subscriptions
+          </h1>
+          <p className="text-muted-foreground">
+            Manage subscriptions for content extraction
+          </p>
+        </div>
+        <div className="flex gap-2">
           <Button asChild>
             <Link to="/subscriptions/new">
               <PlusIcon className="w-4 h-4" />

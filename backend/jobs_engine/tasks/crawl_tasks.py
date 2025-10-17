@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 @simple_task(
     name="jobs_engine.tasks.crawl_tasks.handle_subscription_scheduled",
     queue="jobs",
-    job_type="subscription.scheduled"
+    job_type="subs.schedule"
 )
 def handle_subscription_scheduled(
     subscription_id: int,
