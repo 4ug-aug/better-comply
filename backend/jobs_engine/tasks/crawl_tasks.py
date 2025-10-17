@@ -5,7 +5,7 @@ from __future__ import annotations
 import hashlib
 import logging
 import traceback
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Dict
 from uuid import uuid4
 
@@ -175,7 +175,7 @@ def crawl_url(
             minio = MinIOClient()
             
             # Create path: raw/{source_id}/{yyyy}/{mm}/{dd}/{sha256}.bin
-            now = datetime.utcnow()
+            now = datetime.now(timezone.utc)
             object_key = (
                 f"raw/{source_id}/{now.year:04d}/{now.month:02d}/{now.day:02d}/"
                 f"{content_hash}.bin"
