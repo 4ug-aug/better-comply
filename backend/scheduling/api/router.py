@@ -13,7 +13,9 @@ from scheduling.api.schemas import (
     RunOut,
     OutboxOut,
     CreateSubscriptionRequest,
+    UpdateSubscriptionRequest,
     SubscriptionResponse,
+    DeleteResult,
 )
 from scheduling.services.scheduling_service import SchedulingService
 
@@ -87,6 +89,15 @@ def read_subscription(sub_id: int, svc: SchedulingService = Depends(get_service)
     return SubscriptionDetailOut(**obj)
 
 
+@router.put("/subscriptions/{sub_id}", response_model=SubscriptionDetailOut)
+def update_subscription(sub_id: int, data: UpdateSubscriptionRequest, svc: SchedulingService = Depends(get_service)) -> SubscriptionDetailOut:
+    obj = svc.update_subscription(sub_id, data)
+    if not obj:
+        return SubscriptionDetailOut()
+    # Fetch the full subscription detail after update
+    return SubscriptionDetailOut(**svc.get_subscription(sub_id))
+
+
 @router.post("/subscriptions/{sub_id}/enable", response_model=SubscriptionResponse)
 def enable_subscription(sub_id: int, svc: SchedulingService = Depends(get_service)) -> SubscriptionResponse:
     obj = svc.set_subscription_status(sub_id, "ACTIVE")
@@ -103,4 +114,10 @@ def disable_subscription(sub_id: int, svc: SchedulingService = Depends(get_servi
 def run_subscription_now(sub_id: int, svc: SchedulingService = Depends(get_service)) -> SubscriptionResponse:
     obj = svc.run_subscription_now(sub_id)
     return SubscriptionResponse(**obj)
+
+
+@router.delete("/subscriptions/{sub_id}", response_model=DeleteResult)
+def delete_subscription(sub_id: int, svc: SchedulingService = Depends(get_service)) -> DeleteResult:
+    deleted = svc.delete_subscription(sub_id)
+    return DeleteResult(deleted=deleted, id=sub_id)
 

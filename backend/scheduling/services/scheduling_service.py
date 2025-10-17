@@ -13,7 +13,7 @@ from scheduling.repositories.adapters.queries import QueriesAdapter
 from models.subscription import Subscription, SubscriptionStatus
 from models.run import Run, RunKind, RunStatus
 from models.outbox import Outbox, OutboxStatus
-from scheduling.api.schemas import CreateSubscriptionRequest
+from scheduling.api.schemas import CreateSubscriptionRequest, UpdateSubscriptionRequest
 
 
 @dataclass
@@ -119,6 +119,43 @@ class SchedulingService:
                 "next_run_at": sub.next_run_at.isoformat() if sub.next_run_at else None,
                 "status": sub.status.name,
             }
+
+    def update_subscription(self, sub_id: int, req: UpdateSubscriptionRequest) -> Dict[str, Any]:
+        from croniter import croniter
+
+        now = datetime.now(timezone.utc)
+        with SessionLocalSync() as db:
+            sub = db.get(Subscription, sub_id)
+            if not sub:
+                return {}
+            
+            sub.jurisdiction = req.jurisdiction
+            sub.selectors = req.selectors
+            sub.schedule = req.schedule
+            sub.status = SubscriptionStatus[req.status]
+            
+            # Recalculate next run time if schedule changed
+            base = sub.last_run_at or sub.created_at or now
+            nxt = croniter(sub.schedule, base).get_next(datetime)
+            sub.next_run_at = nxt
+            
+            db.commit()
+            return {
+                "id": sub.id,
+                "schedule": sub.schedule,
+                "last_run_at": sub.last_run_at.isoformat() if sub.last_run_at else None,
+                "next_run_at": sub.next_run_at.isoformat() if sub.next_run_at else None,
+                "status": sub.status.name,
+            }
+
+    def delete_subscription(self, sub_id: int) -> bool:
+        with SessionLocalSync() as db:
+            sub = db.get(Subscription, sub_id)
+            if not sub:
+                return False
+            db.delete(sub)
+            db.commit()
+            return True
 
     def set_subscription_status(self, sub_id: int, status: str) -> Dict[str, Any]:
         with SessionLocalSync() as db:

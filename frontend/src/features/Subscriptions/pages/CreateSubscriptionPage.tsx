@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import { client } from '@/queries/client.gen'
 import { createSubscriptionSchedulingSubscriptionsPostMutation } from '@/queries/@tanstack/react-query.gen'
-import CreateSubscriptionForm from '../components/CreateSubscriptionForm'
+import SubscriptionForm from '../components/CreateSubscriptionForm'
 import { Link, useNavigate } from 'react-router-dom'
 
 export default function CreateSubscriptionPage() {
@@ -18,13 +18,15 @@ export default function CreateSubscriptionPage() {
       </div>
 
       <div className="border rounded-lg p-4">
-        <CreateSubscriptionForm
-          onCreate={(payload) =>
+        <SubscriptionForm
+          onSubmit={(payload) =>
             createSub.mutate(
               { body: payload, client },
               { onSuccess: (r) => navigate(`/subscriptions/${(r as any).id ?? ''}`) }
             )
           }
+          submitting={createSub.isPending}
+          buttonText="Create Subscription"
         />
       </div>
     </div>

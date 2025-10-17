@@ -4,8 +4,8 @@ import { type InfiniteData, infiniteQueryOptions, queryOptions, type UseMutation
 import type { AxiosError } from 'axios';
 
 import { client } from '../client.gen';
-import { adminEndpointAdminGet, computeNextSchedulingComputeNextPost, createSourceSourcesPost, createSubscriptionSchedulingSubscriptionsPost, deleteSourceSourcesSourceIdDelete, disableSubscriptionSchedulingSubscriptionsSubIdDisablePost, dispatchOutboxSchedulingOutboxDispatchPost, enableSubscriptionSchedulingSubscriptionsSubIdEnablePost, getSourceSourcesSourceIdGet, listOutboxSchedulingOutboxGet, listRunsSchedulingRunsGet, listSourcesSourcesGet, listSubscriptionsSchedulingSubscriptionsGet, loginForAccessTokenAuthTokenPost, type Options, protectedEndpointProtectedGet, readSubscriptionSchedulingSubscriptionsSubIdGet, readUsersMeAuthMeGet, refreshAccessTokenAuthRefreshPost, registerUserAuthRegisterPost, rootGet, runSubscriptionNowSchedulingSubscriptionsSubIdRunPost, tickSchedulingTickPost, updateSourceSourcesSourceIdPut, verifyEmailAuthVerifyEmailGet } from '../sdk.gen';
-import type { AdminEndpointAdminGetData, ComputeNextSchedulingComputeNextPostData, ComputeNextSchedulingComputeNextPostError, ComputeNextSchedulingComputeNextPostResponse, CreateSourceSourcesPostData, CreateSourceSourcesPostError, CreateSourceSourcesPostResponse, CreateSubscriptionSchedulingSubscriptionsPostData, CreateSubscriptionSchedulingSubscriptionsPostError, CreateSubscriptionSchedulingSubscriptionsPostResponse, DeleteSourceSourcesSourceIdDeleteData, DeleteSourceSourcesSourceIdDeleteError, DeleteSourceSourcesSourceIdDeleteResponse, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostData, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostError, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostResponse, DispatchOutboxSchedulingOutboxDispatchPostData, DispatchOutboxSchedulingOutboxDispatchPostError, DispatchOutboxSchedulingOutboxDispatchPostResponse, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostData, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostError, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostResponse, GetSourceSourcesSourceIdGetData, ListOutboxSchedulingOutboxGetData, ListOutboxSchedulingOutboxGetError, ListOutboxSchedulingOutboxGetResponse, ListRunsSchedulingRunsGetData, ListRunsSchedulingRunsGetError, ListRunsSchedulingRunsGetResponse, ListSourcesSourcesGetData, ListSourcesSourcesGetError, ListSourcesSourcesGetResponse, ListSubscriptionsSchedulingSubscriptionsGetData, ListSubscriptionsSchedulingSubscriptionsGetError, ListSubscriptionsSchedulingSubscriptionsGetResponse, LoginForAccessTokenAuthTokenPostData, LoginForAccessTokenAuthTokenPostError, LoginForAccessTokenAuthTokenPostResponse, ProtectedEndpointProtectedGetData, ReadSubscriptionSchedulingSubscriptionsSubIdGetData, ReadUsersMeAuthMeGetData, RefreshAccessTokenAuthRefreshPostData, RefreshAccessTokenAuthRefreshPostError, RefreshAccessTokenAuthRefreshPostResponse, RegisterUserAuthRegisterPostData, RegisterUserAuthRegisterPostError, RootGetData, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostData, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostError, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostResponse, TickSchedulingTickPostData, TickSchedulingTickPostError, TickSchedulingTickPostResponse, UpdateSourceSourcesSourceIdPutData, UpdateSourceSourcesSourceIdPutError, UpdateSourceSourcesSourceIdPutResponse, VerifyEmailAuthVerifyEmailGetData } from '../types.gen';
+import { adminEndpointAdminGet, computeNextSchedulingComputeNextPost, createSourceSourcesPost, createSubscriptionSchedulingSubscriptionsPost, deleteSourceSourcesSourceIdDelete, deleteSubscriptionSchedulingSubscriptionsSubIdDelete, disableSubscriptionSchedulingSubscriptionsSubIdDisablePost, dispatchOutboxSchedulingOutboxDispatchPost, enableSubscriptionSchedulingSubscriptionsSubIdEnablePost, getSourceSourcesSourceIdGet, listOutboxSchedulingOutboxGet, listRunsSchedulingRunsGet, listSourcesSourcesGet, listSubscriptionsSchedulingSubscriptionsGet, loginForAccessTokenAuthTokenPost, type Options, protectedEndpointProtectedGet, readSubscriptionSchedulingSubscriptionsSubIdGet, readUsersMeAuthMeGet, refreshAccessTokenAuthRefreshPost, registerUserAuthRegisterPost, rootGet, runSubscriptionNowSchedulingSubscriptionsSubIdRunPost, tickSchedulingTickPost, updateSourceSourcesSourceIdPut, updateSubscriptionSchedulingSubscriptionsSubIdPut, verifyEmailAuthVerifyEmailGet } from '../sdk.gen';
+import type { AdminEndpointAdminGetData, ComputeNextSchedulingComputeNextPostData, ComputeNextSchedulingComputeNextPostError, ComputeNextSchedulingComputeNextPostResponse, CreateSourceSourcesPostData, CreateSourceSourcesPostError, CreateSourceSourcesPostResponse, CreateSubscriptionSchedulingSubscriptionsPostData, CreateSubscriptionSchedulingSubscriptionsPostError, CreateSubscriptionSchedulingSubscriptionsPostResponse, DeleteSourceSourcesSourceIdDeleteData, DeleteSourceSourcesSourceIdDeleteError, DeleteSourceSourcesSourceIdDeleteResponse, DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteData, DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteError, DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteResponse, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostData, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostError, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostResponse, DispatchOutboxSchedulingOutboxDispatchPostData, DispatchOutboxSchedulingOutboxDispatchPostError, DispatchOutboxSchedulingOutboxDispatchPostResponse, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostData, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostError, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostResponse, GetSourceSourcesSourceIdGetData, ListOutboxSchedulingOutboxGetData, ListOutboxSchedulingOutboxGetError, ListOutboxSchedulingOutboxGetResponse, ListRunsSchedulingRunsGetData, ListRunsSchedulingRunsGetError, ListRunsSchedulingRunsGetResponse, ListSourcesSourcesGetData, ListSourcesSourcesGetError, ListSourcesSourcesGetResponse, ListSubscriptionsSchedulingSubscriptionsGetData, ListSubscriptionsSchedulingSubscriptionsGetError, ListSubscriptionsSchedulingSubscriptionsGetResponse, LoginForAccessTokenAuthTokenPostData, LoginForAccessTokenAuthTokenPostError, LoginForAccessTokenAuthTokenPostResponse, ProtectedEndpointProtectedGetData, ReadSubscriptionSchedulingSubscriptionsSubIdGetData, ReadUsersMeAuthMeGetData, RefreshAccessTokenAuthRefreshPostData, RefreshAccessTokenAuthRefreshPostError, RefreshAccessTokenAuthRefreshPostResponse, RegisterUserAuthRegisterPostData, RegisterUserAuthRegisterPostError, RootGetData, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostData, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostError, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostResponse, TickSchedulingTickPostData, TickSchedulingTickPostError, TickSchedulingTickPostResponse, UpdateSourceSourcesSourceIdPutData, UpdateSourceSourcesSourceIdPutError, UpdateSourceSourcesSourceIdPutResponse, UpdateSubscriptionSchedulingSubscriptionsSubIdPutData, UpdateSubscriptionSchedulingSubscriptionsSubIdPutError, UpdateSubscriptionSchedulingSubscriptionsSubIdPutResponse, VerifyEmailAuthVerifyEmailGetData } from '../types.gen';
 
 /**
  * Register User
@@ -379,6 +379,23 @@ export const listOutboxSchedulingOutboxGetInfiniteOptions = (options?: Options<L
     });
 };
 
+/**
+ * Delete Subscription
+ */
+export const deleteSubscriptionSchedulingSubscriptionsSubIdDeleteMutation = (options?: Partial<Options<DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteData>>): UseMutationOptions<DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteResponse, AxiosError<DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteError>, Options<DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteData>> => {
+    const mutationOptions: UseMutationOptions<DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteResponse, AxiosError<DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteError>, Options<DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await deleteSubscriptionSchedulingSubscriptionsSubIdDelete({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
 export const readSubscriptionSchedulingSubscriptionsSubIdGetQueryKey = (options: Options<ReadSubscriptionSchedulingSubscriptionsSubIdGetData>) => createQueryKey('readSubscriptionSchedulingSubscriptionsSubIdGet', options);
 
 /**
@@ -397,6 +414,23 @@ export const readSubscriptionSchedulingSubscriptionsSubIdGetOptions = (options: 
         },
         queryKey: readSubscriptionSchedulingSubscriptionsSubIdGetQueryKey(options)
     });
+};
+
+/**
+ * Update Subscription
+ */
+export const updateSubscriptionSchedulingSubscriptionsSubIdPutMutation = (options?: Partial<Options<UpdateSubscriptionSchedulingSubscriptionsSubIdPutData>>): UseMutationOptions<UpdateSubscriptionSchedulingSubscriptionsSubIdPutResponse, AxiosError<UpdateSubscriptionSchedulingSubscriptionsSubIdPutError>, Options<UpdateSubscriptionSchedulingSubscriptionsSubIdPutData>> => {
+    const mutationOptions: UseMutationOptions<UpdateSubscriptionSchedulingSubscriptionsSubIdPutResponse, AxiosError<UpdateSubscriptionSchedulingSubscriptionsSubIdPutError>, Options<UpdateSubscriptionSchedulingSubscriptionsSubIdPutData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await updateSubscriptionSchedulingSubscriptionsSubIdPut({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
 };
 
 /**

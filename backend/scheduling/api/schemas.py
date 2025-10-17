@@ -55,9 +55,20 @@ class CreateSubscriptionRequest(BaseModel):
     status: Literal['ACTIVE', 'DISABLED'] = 'ACTIVE'
 
 
+class UpdateSubscriptionRequest(BaseModel):
+    jurisdiction: str
+    selectors: Dict[str, Any]
+    schedule: str
+    status: Literal['ACTIVE', 'DISABLED']
+
+
 class SubscriptionResponse(SubscriptionOut):
     pass
 
+
+class DeleteResult(BaseModel):
+    deleted: bool
+    id: int
 
 
 class SubscriptionDetailOut(BaseModel):

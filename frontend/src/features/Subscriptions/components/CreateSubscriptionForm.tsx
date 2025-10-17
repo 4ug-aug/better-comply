@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form'
+import { useForm, type UseFormProps } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
@@ -10,30 +10,47 @@ import { client } from '@/queries/client.gen'
 import { listSourcesSourcesGetOptions } from '@/queries/@tanstack/react-query.gen'
 
 const schema = z.object({
-  source_id: z.coerce.number().int().min(1, 'Please select a source'),
+  source_id: z.number().int().min(1, 'Please select a source'),
   jurisdiction: z.string().min(1, 'Jurisdiction is required'),
   schedule: z.string().min(1, 'Schedule is required'),
-  status: z.enum(['ACTIVE', 'DISABLED']).default('ACTIVE'),
+  status: z.enum(['ACTIVE', 'DISABLED']),
   selectors: z.string().optional(),
 })
 
-export type CreateSubscriptionValues = z.infer<typeof schema>
+export type SubscriptionFormValues = z.infer<typeof schema>
 
-export function CreateSubscriptionForm({ onCreate }: { onCreate: (body: any) => void }) {
+interface SubscriptionFormProps {
+  onSubmit: (body: any) => void
+  submitting?: boolean
+  defaultValues?: Partial<SubscriptionFormValues>
+  buttonText?: string
+  isEditing?: boolean
+}
+
+export function SubscriptionForm({ 
+  onSubmit, 
+  submitting = false,
+  defaultValues,
+  buttonText = 'Save',
+  isEditing = false
+}: SubscriptionFormProps) {
   const { data: sources, isLoading: sourcesLoading } = useQuery(listSourcesSourcesGetOptions({ client, query: { limit: 100, offset: 0 } }))
   
-  const form = useForm<CreateSubscriptionValues>({
+  const formConfig: UseFormProps<SubscriptionFormValues> = {
     resolver: zodResolver(schema),
     defaultValues: {
-      source_id: 0,
-      jurisdiction: '',
-      schedule: '',
-      status: 'ACTIVE',
-      selectors: '',
-    },
-  })
+      source_id: (defaultValues?.source_id ?? 0) as number,
+      jurisdiction: defaultValues?.jurisdiction ?? '',
+      schedule: defaultValues?.schedule ?? '',
+      status: (defaultValues?.status as 'ACTIVE' | 'DISABLED') ?? 'ACTIVE',
+      selectors: typeof defaultValues?.selectors === 'string' ? defaultValues.selectors : 
+                  (defaultValues?.selectors ? JSON.stringify(defaultValues.selectors) : ''),
+    } as SubscriptionFormValues,
+  }
+  
+  const form = useForm<SubscriptionFormValues>(formConfig)
 
-  const onSubmit = (values: CreateSubscriptionValues) => {
+  const handleSubmit = (values: SubscriptionFormValues) => {
     let parsedSelectors: Record<string, unknown> = {}
     if (values.selectors?.trim()) {
       try {
@@ -42,26 +59,33 @@ export function CreateSubscriptionForm({ onCreate }: { onCreate: (body: any) => 
         // fallback to empty object
       }
     }
-    onCreate({
+    onSubmit({
       source_id: values.source_id,
       jurisdiction: values.jurisdiction,
       schedule: values.schedule,
       status: values.status,
       selectors: parsedSelectors,
     })
-    form.reset()
+    if (!isEditing) {
+      form.reset()
+    }
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <FormField
           control={form.control}
           name="source_id"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Source</FormLabel>
-              <Select onValueChange={(value) => field.onChange(Number(value))} value={field.value?.toString()} defaultValue={field.value?.toString()}>
+              <Select 
+                onValueChange={(value) => field.onChange(Number(value))} 
+                value={field.value?.toString()} 
+                defaultValue={field.value?.toString()}
+                disabled={isEditing}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder={sourcesLoading ? "Loading sources..." : "Select a source"} />
@@ -75,6 +99,9 @@ export function CreateSubscriptionForm({ onCreate }: { onCreate: (body: any) => 
                   ))}
                 </SelectContent>
               </Select>
+              {isEditing && (
+                <p className="text-xs text-muted-foreground mt-1">Source cannot be changed after creation</p>
+              )}
               <FormMessage />
             </FormItem>
           )}
@@ -145,13 +172,13 @@ export function CreateSubscriptionForm({ onCreate }: { onCreate: (body: any) => 
         />
 
         <div className="md:col-span-2 flex justify-end gap-2">
-          <Button type="submit">Create Subscription</Button>
+          <Button type="submit" disabled={submitting}>{buttonText}</Button>
         </div>
       </form>
     </Form>
   )
 }
 
-export default CreateSubscriptionForm
+export default SubscriptionForm
 
 

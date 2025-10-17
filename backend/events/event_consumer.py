@@ -37,6 +37,7 @@ class GenericEventConsumer:
         topic: str,
         job_type_extractor: Callable[[Dict[str, Any]], str],
         consumer_name: str = "EventConsumer",
+        event_payload_extractor: Callable[[Dict[str, Any]], Dict[str, Any]] = None,
     ):
         """Initialize the generic event consumer.
 
@@ -44,9 +45,12 @@ class GenericEventConsumer:
             topic: Kafka topic to subscribe to
             job_type_extractor: Function that extracts job_type from event dict
             consumer_name: Name for logging purposes
+            event_payload_extractor: Optional function to extract task kwargs from event.
+                If not provided, entire event is passed as kwargs.
         """
         self.topic = topic
         self.job_type_extractor = job_type_extractor
+        self.event_payload_extractor = event_payload_extractor or (lambda e: e)
         self.consumer_name = consumer_name
         self.logger = logging.getLogger(f"{__name__}.{consumer_name}")
 
@@ -96,7 +100,9 @@ class GenericEventConsumer:
 
                     # Dispatch to Celery with event data as kwargs
                     try:
-                        app.send_task(task_name, kwargs=event_dict, queue="jobs")
+                        # Extract task payload from event
+                        task_kwargs = self.event_payload_extractor(event_dict)
+                        app.send_task(task_name, kwargs=task_kwargs, queue="jobs")
                         self.logger.info(f"Successfully dispatched task: {task_name}")
                     except Exception as e:
                         self.logger.exception(

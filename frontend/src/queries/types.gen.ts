@@ -135,6 +135,20 @@ export type CreateUserRequest = {
 };
 
 /**
+ * DeleteResult
+ */
+export type DeleteResult = {
+    /**
+     * Deleted
+     */
+    deleted: boolean;
+    /**
+     * Id
+     */
+    id: number;
+};
+
+/**
  * DispatchResult
  */
 export type DispatchResult = {
@@ -531,6 +545,30 @@ export type UpdateSourceRequest = {
 };
 
 /**
+ * UpdateSubscriptionRequest
+ */
+export type UpdateSubscriptionRequest = {
+    /**
+     * Jurisdiction
+     */
+    jurisdiction: string;
+    /**
+     * Selectors
+     */
+    selectors: {
+        [key: string]: unknown;
+    };
+    /**
+     * Schedule
+     */
+    schedule: string;
+    /**
+     * Status
+     */
+    status: 'ACTIVE' | 'DISABLED';
+};
+
+/**
  * ValidationError
  */
 export type ValidationError = {
@@ -881,6 +919,36 @@ export type ListOutboxSchedulingOutboxGetResponses = {
 
 export type ListOutboxSchedulingOutboxGetResponse = ListOutboxSchedulingOutboxGetResponses[keyof ListOutboxSchedulingOutboxGetResponses];
 
+export type DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteData = {
+    body?: never;
+    path: {
+        /**
+         * Sub Id
+         */
+        sub_id: number;
+    };
+    query?: never;
+    url: '/scheduling/subscriptions/{sub_id}';
+};
+
+export type DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteError = DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteErrors[keyof DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteErrors];
+
+export type DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteResponses = {
+    /**
+     * Successful Response
+     */
+    200: DeleteResult;
+};
+
+export type DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteResponse = DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteResponses[keyof DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteResponses];
+
 export type ReadSubscriptionSchedulingSubscriptionsSubIdGetData = {
     body?: never;
     path: {
@@ -910,6 +978,36 @@ export type ReadSubscriptionSchedulingSubscriptionsSubIdGetResponses = {
 };
 
 export type ReadSubscriptionSchedulingSubscriptionsSubIdGetResponse = ReadSubscriptionSchedulingSubscriptionsSubIdGetResponses[keyof ReadSubscriptionSchedulingSubscriptionsSubIdGetResponses];
+
+export type UpdateSubscriptionSchedulingSubscriptionsSubIdPutData = {
+    body: UpdateSubscriptionRequest;
+    path: {
+        /**
+         * Sub Id
+         */
+        sub_id: number;
+    };
+    query?: never;
+    url: '/scheduling/subscriptions/{sub_id}';
+};
+
+export type UpdateSubscriptionSchedulingSubscriptionsSubIdPutErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type UpdateSubscriptionSchedulingSubscriptionsSubIdPutError = UpdateSubscriptionSchedulingSubscriptionsSubIdPutErrors[keyof UpdateSubscriptionSchedulingSubscriptionsSubIdPutErrors];
+
+export type UpdateSubscriptionSchedulingSubscriptionsSubIdPutResponses = {
+    /**
+     * Successful Response
+     */
+    200: SubscriptionDetailOut;
+};
+
+export type UpdateSubscriptionSchedulingSubscriptionsSubIdPutResponse = UpdateSubscriptionSchedulingSubscriptionsSubIdPutResponses[keyof UpdateSubscriptionSchedulingSubscriptionsSubIdPutResponses];
 
 export type EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostData = {
     body?: never;

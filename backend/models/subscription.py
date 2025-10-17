@@ -28,4 +28,4 @@ class Subscription(Base):
 
     # Relationships
     source = relationship("Source", back_populates="subscriptions")
-    runs = relationship("Run", back_populates="subscription")
+    runs = relationship("Run", back_populates="subscription", cascade="", foreign_keys="Run.subscription_id")

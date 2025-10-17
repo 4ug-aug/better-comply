@@ -30,7 +30,7 @@ def dispatch_outbox(self, batch_size: int = 200) -> int:
         for item in picked:
             event_type = item.event_type
             payload = item.payload
-            ok = emit_event(event_type, payload)
+            ok = emit_event(event_type, payload, topic=event_type)
             if ok:
                 outbox_repo.mark_published([item.id], now)
                 published_count += 1

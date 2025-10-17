@@ -2,7 +2,7 @@
 
 import { type Client, type Options as Options2, type TDataShape, urlSearchParamsBodySerializer } from './client';
 import { client } from './client.gen';
-import type { AdminEndpointAdminGetData, AdminEndpointAdminGetResponses, ComputeNextSchedulingComputeNextPostData, ComputeNextSchedulingComputeNextPostErrors, ComputeNextSchedulingComputeNextPostResponses, CreateSourceSourcesPostData, CreateSourceSourcesPostErrors, CreateSourceSourcesPostResponses, CreateSubscriptionSchedulingSubscriptionsPostData, CreateSubscriptionSchedulingSubscriptionsPostErrors, CreateSubscriptionSchedulingSubscriptionsPostResponses, DeleteSourceSourcesSourceIdDeleteData, DeleteSourceSourcesSourceIdDeleteErrors, DeleteSourceSourcesSourceIdDeleteResponses, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostData, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostErrors, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostResponses, DispatchOutboxSchedulingOutboxDispatchPostData, DispatchOutboxSchedulingOutboxDispatchPostErrors, DispatchOutboxSchedulingOutboxDispatchPostResponses, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostData, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostErrors, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostResponses, GetSourceSourcesSourceIdGetData, GetSourceSourcesSourceIdGetErrors, GetSourceSourcesSourceIdGetResponses, ListOutboxSchedulingOutboxGetData, ListOutboxSchedulingOutboxGetErrors, ListOutboxSchedulingOutboxGetResponses, ListRunsSchedulingRunsGetData, ListRunsSchedulingRunsGetErrors, ListRunsSchedulingRunsGetResponses, ListSourcesSourcesGetData, ListSourcesSourcesGetErrors, ListSourcesSourcesGetResponses, ListSubscriptionsSchedulingSubscriptionsGetData, ListSubscriptionsSchedulingSubscriptionsGetErrors, ListSubscriptionsSchedulingSubscriptionsGetResponses, LoginForAccessTokenAuthTokenPostData, LoginForAccessTokenAuthTokenPostErrors, LoginForAccessTokenAuthTokenPostResponses, ProtectedEndpointProtectedGetData, ProtectedEndpointProtectedGetResponses, ReadSubscriptionSchedulingSubscriptionsSubIdGetData, ReadSubscriptionSchedulingSubscriptionsSubIdGetErrors, ReadSubscriptionSchedulingSubscriptionsSubIdGetResponses, ReadUsersMeAuthMeGetData, ReadUsersMeAuthMeGetResponses, RefreshAccessTokenAuthRefreshPostData, RefreshAccessTokenAuthRefreshPostErrors, RefreshAccessTokenAuthRefreshPostResponses, RegisterUserAuthRegisterPostData, RegisterUserAuthRegisterPostErrors, RegisterUserAuthRegisterPostResponses, RootGetData, RootGetResponses, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostData, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostErrors, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostResponses, TickSchedulingTickPostData, TickSchedulingTickPostErrors, TickSchedulingTickPostResponses, UpdateSourceSourcesSourceIdPutData, UpdateSourceSourcesSourceIdPutErrors, UpdateSourceSourcesSourceIdPutResponses, VerifyEmailAuthVerifyEmailGetData, VerifyEmailAuthVerifyEmailGetErrors, VerifyEmailAuthVerifyEmailGetResponses } from './types.gen';
+import type { AdminEndpointAdminGetData, AdminEndpointAdminGetResponses, ComputeNextSchedulingComputeNextPostData, ComputeNextSchedulingComputeNextPostErrors, ComputeNextSchedulingComputeNextPostResponses, CreateSourceSourcesPostData, CreateSourceSourcesPostErrors, CreateSourceSourcesPostResponses, CreateSubscriptionSchedulingSubscriptionsPostData, CreateSubscriptionSchedulingSubscriptionsPostErrors, CreateSubscriptionSchedulingSubscriptionsPostResponses, DeleteSourceSourcesSourceIdDeleteData, DeleteSourceSourcesSourceIdDeleteErrors, DeleteSourceSourcesSourceIdDeleteResponses, DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteData, DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteErrors, DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteResponses, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostData, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostErrors, DisableSubscriptionSchedulingSubscriptionsSubIdDisablePostResponses, DispatchOutboxSchedulingOutboxDispatchPostData, DispatchOutboxSchedulingOutboxDispatchPostErrors, DispatchOutboxSchedulingOutboxDispatchPostResponses, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostData, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostErrors, EnableSubscriptionSchedulingSubscriptionsSubIdEnablePostResponses, GetSourceSourcesSourceIdGetData, GetSourceSourcesSourceIdGetErrors, GetSourceSourcesSourceIdGetResponses, ListOutboxSchedulingOutboxGetData, ListOutboxSchedulingOutboxGetErrors, ListOutboxSchedulingOutboxGetResponses, ListRunsSchedulingRunsGetData, ListRunsSchedulingRunsGetErrors, ListRunsSchedulingRunsGetResponses, ListSourcesSourcesGetData, ListSourcesSourcesGetErrors, ListSourcesSourcesGetResponses, ListSubscriptionsSchedulingSubscriptionsGetData, ListSubscriptionsSchedulingSubscriptionsGetErrors, ListSubscriptionsSchedulingSubscriptionsGetResponses, LoginForAccessTokenAuthTokenPostData, LoginForAccessTokenAuthTokenPostErrors, LoginForAccessTokenAuthTokenPostResponses, ProtectedEndpointProtectedGetData, ProtectedEndpointProtectedGetResponses, ReadSubscriptionSchedulingSubscriptionsSubIdGetData, ReadSubscriptionSchedulingSubscriptionsSubIdGetErrors, ReadSubscriptionSchedulingSubscriptionsSubIdGetResponses, ReadUsersMeAuthMeGetData, ReadUsersMeAuthMeGetResponses, RefreshAccessTokenAuthRefreshPostData, RefreshAccessTokenAuthRefreshPostErrors, RefreshAccessTokenAuthRefreshPostResponses, RegisterUserAuthRegisterPostData, RegisterUserAuthRegisterPostErrors, RegisterUserAuthRegisterPostResponses, RootGetData, RootGetResponses, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostData, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostErrors, RunSubscriptionNowSchedulingSubscriptionsSubIdRunPostResponses, TickSchedulingTickPostData, TickSchedulingTickPostErrors, TickSchedulingTickPostResponses, UpdateSourceSourcesSourceIdPutData, UpdateSourceSourcesSourceIdPutErrors, UpdateSourceSourcesSourceIdPutResponses, UpdateSubscriptionSchedulingSubscriptionsSubIdPutData, UpdateSubscriptionSchedulingSubscriptionsSubIdPutErrors, UpdateSubscriptionSchedulingSubscriptionsSubIdPutResponses, VerifyEmailAuthVerifyEmailGetData, VerifyEmailAuthVerifyEmailGetErrors, VerifyEmailAuthVerifyEmailGetResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -180,6 +180,17 @@ export const listOutboxSchedulingOutboxGet = <ThrowOnError extends boolean = fal
 };
 
 /**
+ * Delete Subscription
+ */
+export const deleteSubscriptionSchedulingSubscriptionsSubIdDelete = <ThrowOnError extends boolean = false>(options: Options<DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteData, ThrowOnError>) => {
+    return (options.client ?? client).delete<DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteResponses, DeleteSubscriptionSchedulingSubscriptionsSubIdDeleteErrors, ThrowOnError>({
+        responseType: 'json',
+        url: '/scheduling/subscriptions/{sub_id}',
+        ...options
+    });
+};
+
+/**
  * Read Subscription
  */
 export const readSubscriptionSchedulingSubscriptionsSubIdGet = <ThrowOnError extends boolean = false>(options: Options<ReadSubscriptionSchedulingSubscriptionsSubIdGetData, ThrowOnError>) => {
@@ -187,6 +198,21 @@ export const readSubscriptionSchedulingSubscriptionsSubIdGet = <ThrowOnError ext
         responseType: 'json',
         url: '/scheduling/subscriptions/{sub_id}',
         ...options
+    });
+};
+
+/**
+ * Update Subscription
+ */
+export const updateSubscriptionSchedulingSubscriptionsSubIdPut = <ThrowOnError extends boolean = false>(options: Options<UpdateSubscriptionSchedulingSubscriptionsSubIdPutData, ThrowOnError>) => {
+    return (options.client ?? client).put<UpdateSubscriptionSchedulingSubscriptionsSubIdPutResponses, UpdateSubscriptionSchedulingSubscriptionsSubIdPutErrors, ThrowOnError>({
+        responseType: 'json',
+        url: '/scheduling/subscriptions/{sub_id}',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
     });
 };
 

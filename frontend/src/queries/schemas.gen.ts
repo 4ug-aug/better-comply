@@ -189,6 +189,22 @@ export const CreateUserRequestSchema = {
     title: 'CreateUserRequest'
 } as const;
 
+export const DeleteResultSchema = {
+    properties: {
+        deleted: {
+            type: 'boolean',
+            title: 'Deleted'
+        },
+        id: {
+            type: 'integer',
+            title: 'Id'
+        }
+    },
+    type: 'object',
+    required: ['deleted', 'id'],
+    title: 'DeleteResult'
+} as const;
+
 export const DispatchResultSchema = {
     properties: {
         published: {
@@ -829,6 +845,32 @@ export const UpdateSourceRequestSchema = {
     },
     type: 'object',
     title: 'UpdateSourceRequest'
+} as const;
+
+export const UpdateSubscriptionRequestSchema = {
+    properties: {
+        jurisdiction: {
+            type: 'string',
+            title: 'Jurisdiction'
+        },
+        selectors: {
+            additionalProperties: true,
+            type: 'object',
+            title: 'Selectors'
+        },
+        schedule: {
+            type: 'string',
+            title: 'Schedule'
+        },
+        status: {
+            type: 'string',
+            enum: ['ACTIVE', 'DISABLED'],
+            title: 'Status'
+        }
+    },
+    type: 'object',
+    required: ['jurisdiction', 'selectors', 'schedule', 'status'],
+    title: 'UpdateSubscriptionRequest'
 } as const;
 
 export const ValidationErrorSchema = {
