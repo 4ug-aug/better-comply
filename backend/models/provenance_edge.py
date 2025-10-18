@@ -18,5 +18,5 @@ class ProvenanceEdge(Base):
     from_id = Column(Integer, nullable=False, index=True)  # Generic reference to any entity
     to_id = Column(Integer, nullable=False, index=True)    # Generic reference to any entity
     kind = Column(Enum(ProvenanceKind), nullable=False)
-    at = Column(DateTime, server_default=func.now())
+    at = Column(DateTime(timezone=True), server_default=func.now())
     prov_metadata = Column(JSON, nullable=True)  # W3C PROV-like metadata

@@ -57,7 +57,7 @@ export function DocumentVersionsList({
             Click on a version to view the content.
         </span>
       </div>
-      <ScrollArea className="h-[400px] rounded-xl border">
+      <ScrollArea className="max-h-[400px] rounded-xl border">
         <ul className="divide-y">
           {versions.map((v) => {
             const selected = selectedVersionId === v.id;

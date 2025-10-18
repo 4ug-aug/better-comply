@@ -10,6 +10,7 @@ from documents.repositories.adapters.documents import DocumentsAdapter
 from documents.repositories.dto import (
     DocumentDTO,
     DocumentWithVersionsDTO,
+    AuditTrailEventDTO,
 )
 
 
@@ -141,3 +142,18 @@ class DocumentService:
         with SessionLocalSync() as db:
             repo = DocumentsAdapter(db)
             return repo.get_parsed_document(version_id)
+
+    def get_version_audit_trail(self, version_id: int) -> List[AuditTrailEventDTO]:
+        """Get audit trail for a specific document version.
+
+        Traces the processing chain for a version using the direct run_id FK.
+
+        Args:
+            version_id: Document version ID
+
+        Returns:
+            List of AuditTrailEventDTO objects sorted by timestamp
+        """
+        with SessionLocalSync() as db:
+            repo = DocumentsAdapter(db)
+            return repo.get_version_audit_trail(version_id)

@@ -27,8 +27,8 @@ class Run(Base):
     # subscription_id is nullable to allow orphaned runs when a subscription is deleted
     subscription_id = Column(Integer, ForeignKey("subscriptions.id"), nullable=True, index=True)
     run_kind = Column(Enum(RunKind), nullable=False)
-    started_at = Column(DateTime, server_default=func.now())
-    ended_at = Column(DateTime, nullable=True)
+    started_at = Column(DateTime(timezone=True), server_default=func.now())
+    ended_at = Column(DateTime(timezone=True), nullable=True)
     status = Column(Enum(RunStatus), default=RunStatus.PENDING)
     error = Column(Text, nullable=True)
 

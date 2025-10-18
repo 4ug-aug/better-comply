@@ -17,5 +17,5 @@ class AuditLog(Base):
     action = Column(String, nullable=False, index=True)
     subject_kind = Column(String, nullable=False, index=True)  # Type of entity being acted upon
     subject_id = Column(Integer, nullable=False, index=True)   # ID of the entity being acted upon
-    at = Column(DateTime, server_default=func.now(), index=True)
+    at = Column(DateTime(timezone=True), server_default=func.now(), index=True)
     meta = Column(JSON, nullable=True)  # Additional metadata about the action

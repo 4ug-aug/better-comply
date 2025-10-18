@@ -15,6 +15,7 @@ class DocumentVersion(Base):
     parsed_uri = Column(String, nullable=False)  # s3://artifacts/parsed/{doc_id}/{version_id}.json
     diff_uri = Column(String, nullable=True)  # s3://artifacts/diffs/{doc_id}/{version_id}.json
     content_hash = Column(String, nullable=False, index=True)  # SHA256 of parsed JSON
+    run_id = Column(Integer, ForeignKey("runs.id"), nullable=True, index=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     # Relationships

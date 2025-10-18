@@ -9,6 +9,7 @@ import { DocumentDetailLayout } from '../components/DocumentDetailLayout';
 import { ParsedContentViewer } from '../components/ParsedContentViewer';
 import { DocumentMetadata } from '../components/DocumentMetadata';
 import { DocumentVersionsList } from '../components/DocumentVersionsList';
+import { DocumentAuditTrail } from '../components/DocumentAuditTrail';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
 
@@ -56,6 +57,8 @@ export function DocumentDetailPage() {
     );
   }
 
+  const docId = parseInt(id || '0');
+
   return (
     <div className="max-h-screen">
       <div className="container mx-auto py-4">
@@ -85,6 +88,7 @@ export function DocumentDetailPage() {
               onVersionSelect={handleVersionSelect}
               isLoading={isLoadingDoc}
             />
+            <DocumentAuditTrail docId={docId} versionId={activeVersionId} isLoading={isLoadingDoc} />
           </div>
         }
       />

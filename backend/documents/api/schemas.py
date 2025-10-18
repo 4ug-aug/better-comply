@@ -86,3 +86,35 @@ class ParsedDocumentOut(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class AuditTrailEventOut(BaseModel):
+    """Audit trail event response model."""
+
+    event_type: str
+    event_id: int
+    timestamp: datetime
+    status: str
+    run_id: Optional[int]
+    run_kind: Optional[str]
+    artifact_ids: List[int]
+    artifact_uris: List[str]
+    version_id: Optional[int]
+    parsed_uri: Optional[str]
+    diff_uri: Optional[str]
+    content_hash: Optional[str]
+    error: Optional[str]
+
+    class Config:
+        from_attributes = True
+
+
+class DocumentAuditTrailResponse(BaseModel):
+    """Document audit trail response containing all processing events."""
+
+    document_id: int
+    source_url: str
+    events: List[AuditTrailEventOut]
+
+    class Config:
+        from_attributes = True

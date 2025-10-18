@@ -39,3 +39,22 @@ class DocumentWithVersionsDTO:
     document: DocumentDTO
     versions: List[DocumentVersionDTO]
     version_count: int
+
+
+@dataclass(frozen=True)
+class AuditTrailEventDTO:
+    """Audit trail event data transfer object."""
+
+    event_type: str
+    event_id: int
+    timestamp: datetime
+    status: str
+    run_id: Optional[int]
+    run_kind: Optional[str]
+    artifact_ids: List[int]
+    artifact_uris: List[str]
+    version_id: Optional[int]
+    parsed_uri: Optional[str]
+    diff_uri: Optional[str]
+    content_hash: Optional[str]
+    error: Optional[str]

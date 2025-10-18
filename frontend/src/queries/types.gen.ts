@@ -5,6 +5,66 @@ export type ClientOptions = {
 };
 
 /**
+ * AuditTrailEventOut
+ *
+ * Audit trail event response model.
+ */
+export type AuditTrailEventOut = {
+    /**
+     * Event Type
+     */
+    event_type: string;
+    /**
+     * Event Id
+     */
+    event_id: number;
+    /**
+     * Timestamp
+     */
+    timestamp: Date;
+    /**
+     * Status
+     */
+    status: string;
+    /**
+     * Run Id
+     */
+    run_id: number | null;
+    /**
+     * Run Kind
+     */
+    run_kind: string | null;
+    /**
+     * Artifact Ids
+     */
+    artifact_ids: Array<number>;
+    /**
+     * Artifact Uris
+     */
+    artifact_uris: Array<string>;
+    /**
+     * Version Id
+     */
+    version_id: number | null;
+    /**
+     * Parsed Uri
+     */
+    parsed_uri: string | null;
+    /**
+     * Diff Uri
+     */
+    diff_uri: string | null;
+    /**
+     * Content Hash
+     */
+    content_hash: string | null;
+    /**
+     * Error
+     */
+    error: string | null;
+};
+
+/**
  * BatchRequest
  */
 export type BatchRequest = {
@@ -156,6 +216,26 @@ export type DispatchResult = {
      * Published
      */
     published: number;
+};
+
+/**
+ * DocumentAuditTrailResponse
+ *
+ * Document audit trail response containing all processing events.
+ */
+export type DocumentAuditTrailResponse = {
+    /**
+     * Document Id
+     */
+    document_id: number;
+    /**
+     * Source Url
+     */
+    source_url: string;
+    /**
+     * Events
+     */
+    events: Array<AuditTrailEventOut>;
 };
 
 /**
@@ -1577,6 +1657,40 @@ export type GetDocumentWithVersionsDocumentsDocIdVersionsGetResponses = {
 };
 
 export type GetDocumentWithVersionsDocumentsDocIdVersionsGetResponse = GetDocumentWithVersionsDocumentsDocIdVersionsGetResponses[keyof GetDocumentWithVersionsDocumentsDocIdVersionsGetResponses];
+
+export type GetVersionAuditTrailDocumentsDocIdVersionsVersionIdAuditTrailGetData = {
+    body?: never;
+    path: {
+        /**
+         * Doc Id
+         */
+        doc_id: number;
+        /**
+         * Version Id
+         */
+        version_id: number;
+    };
+    query?: never;
+    url: '/documents/{doc_id}/versions/{version_id}/audit-trail';
+};
+
+export type GetVersionAuditTrailDocumentsDocIdVersionsVersionIdAuditTrailGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetVersionAuditTrailDocumentsDocIdVersionsVersionIdAuditTrailGetError = GetVersionAuditTrailDocumentsDocIdVersionsVersionIdAuditTrailGetErrors[keyof GetVersionAuditTrailDocumentsDocIdVersionsVersionIdAuditTrailGetErrors];
+
+export type GetVersionAuditTrailDocumentsDocIdVersionsVersionIdAuditTrailGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: DocumentAuditTrailResponse;
+};
+
+export type GetVersionAuditTrailDocumentsDocIdVersionsVersionIdAuditTrailGetResponse = GetVersionAuditTrailDocumentsDocIdVersionsVersionIdAuditTrailGetResponses[keyof GetVersionAuditTrailDocumentsDocIdVersionsVersionIdAuditTrailGetResponses];
 
 export type GetDocumentByUrlDocumentsByUrlSourceUrlGetData = {
     body?: never;

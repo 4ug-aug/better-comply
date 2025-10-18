@@ -313,6 +313,7 @@ def parse_crawled_content(
                 doc = Document(
                     source_id=source_id,
                     source_url=source_url,
+                    run_id=run_id,
                     published_date=parsed_doc.published_date,
                     language=parsed_doc.language,
                 )
@@ -333,6 +334,7 @@ def parse_crawled_content(
             version = DocumentVersion(
                 document_id=doc.id,
                 content_hash=content_hash,
+                run_id=run_id,
                 parsed_uri="",  # Will be updated after upload
                 diff_uri=None,
             )
@@ -593,7 +595,7 @@ def deliver_document(
             # Create DeliveryEvent record
             delivery_event = DeliveryEvent(
                 doc_version_id=version_id,
-                status=DeliveryStatus.PENDING,
+                status=DeliveryStatus.PENDING,  
                 artifact_type="parsed_document",
             )
             db.add(delivery_event)
@@ -637,6 +639,7 @@ def deliver_document(
             delivery_event = db.get(DeliveryEvent, delivery_event_id)
             if delivery_event:
                 delivery_event.status = DeliveryStatus.COMPLETED
+                delivery_event.delivery_uri = doc_version.parsed_uri
                 db.commit()
                 logger.info(f"Updated DeliveryEvent {delivery_event_id} to COMPLETED")
 

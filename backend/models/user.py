@@ -11,6 +11,6 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
     is_verified = Column(Boolean, default=False)
     is_admin = Column(Boolean, default=False)
-    created_at = Column(DateTime, server_default=func.now())
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
     reset_token = Column(String, nullable=True)
     google_sub = Column(String, nullable=True)  # For OAuth

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List, Optional
+from typing import Optional
 
 from fastapi import APIRouter, Depends, Query, HTTPException
 
@@ -12,6 +12,8 @@ from documents.api.schemas import (
     DocumentListResponse,
     DocumentDetailListResponse,
     ParsedDocumentOut,
+    AuditTrailEventOut,
+    DocumentAuditTrailResponse,
 )
 from documents.services.document_service import DocumentService
 
@@ -190,6 +192,120 @@ def get_document_with_versions(
             for v in result.versions
         ],
         version_count=result.version_count,
+    )
+
+
+@router.get("/{doc_id}/audit-trail", response_model=DocumentAuditTrailResponse)
+def get_document_audit_trail(
+    doc_id: int, service: DocumentService = Depends(get_service)
+) -> DocumentAuditTrailResponse:
+    """Get complete audit trail for a document.
+
+    Traces all processing events from Outbox through Runs and Artifacts
+    to DocumentVersions, showing the full processing chain with timestamps
+    and detailed information for each step.
+
+    Args:
+        doc_id: Document ID
+
+    Returns:
+        DocumentAuditTrailResponse with all processing events sorted by timestamp
+
+    Raises:
+        HTTPException: 404 if document not found
+    """
+    # Verify document exists
+    doc = service.get_document_by_id(doc_id)
+    if not doc:
+        raise HTTPException(status_code=404, detail="Document not found")
+
+    # Get audit trail
+    events = service.get_document_audit_trail(doc_id)
+
+    # Convert DTOs to response models
+    event_responses = [
+        AuditTrailEventOut(
+            event_type=event.event_type,
+            event_id=event.event_id,
+            timestamp=event.timestamp,
+            status=event.status,
+            run_id=event.run_id,
+            run_kind=event.run_kind,
+            artifact_ids=event.artifact_ids,
+            artifact_uris=event.artifact_uris,
+            version_id=event.version_id,
+            parsed_uri=event.parsed_uri,
+            diff_uri=event.diff_uri,
+            content_hash=event.content_hash,
+            error=event.error,
+        )
+        for event in events
+    ]
+
+    return DocumentAuditTrailResponse(
+        document_id=doc_id,
+        source_url=doc.source_url,
+        events=event_responses,
+    )
+
+
+@router.get("/{doc_id}/versions/{version_id}/audit-trail", response_model=DocumentAuditTrailResponse)
+def get_version_audit_trail(
+    doc_id: int, version_id: int, service: DocumentService = Depends(get_service)
+) -> DocumentAuditTrailResponse:
+    """Get audit trail for a specific document version.
+
+    Traces the processing chain for a version from creation through final delivery,
+    showing all related runs, artifacts, and outbox events.
+
+    Args:
+        doc_id: Document ID (for validation)
+        version_id: Document version ID
+
+    Returns:
+        DocumentAuditTrailResponse with version-specific audit trail events
+
+    Raises:
+        HTTPException: 404 if document or version not found
+    """
+    # Verify document exists
+    doc = service.get_document_by_id(doc_id)
+    if not doc:
+        raise HTTPException(status_code=404, detail="Document not found")
+
+    # Get version-specific audit trail
+    events = service.get_version_audit_trail(version_id)
+
+    if not events:
+        # Version might not exist or has no audit trail
+        doc_with_versions = service.get_document_with_versions(doc_id)
+        if not doc_with_versions or not any(v.id == version_id for v in doc_with_versions.versions):
+            raise HTTPException(status_code=404, detail="Version not found")
+
+    # Convert DTOs to response models
+    event_responses = [
+        AuditTrailEventOut(
+            event_type=event.event_type,
+            event_id=event.event_id,
+            timestamp=event.timestamp,
+            status=event.status,
+            run_id=event.run_id,
+            run_kind=event.run_kind,
+            artifact_ids=event.artifact_ids,
+            artifact_uris=event.artifact_uris,
+            version_id=event.version_id,
+            parsed_uri=event.parsed_uri,
+            diff_uri=event.diff_uri,
+            content_hash=event.content_hash,
+            error=event.error,
+        )
+        for event in events
+    ]
+
+    return DocumentAuditTrailResponse(
+        document_id=doc_id,
+        source_url=doc.source_url,
+        events=event_responses,
     )
 
 

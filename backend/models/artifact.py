@@ -12,7 +12,7 @@ class Artifact(Base):
     content_type = Column(String, nullable=False)
     blob_uri = Column(String, nullable=False)  # MinIO URI
     fetch_hash = Column(String, nullable=False, index=True)  # Content hash for deduplication
-    fetched_at = Column(DateTime, server_default=func.now())
+    fetched_at = Column(DateTime(timezone=True), server_default=func.now())
     run_id = Column(Integer, ForeignKey("runs.id"), nullable=False, index=True)
 
     # Relationships

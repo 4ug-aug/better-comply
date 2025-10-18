@@ -5,13 +5,18 @@ from __future__ import annotations
 import json
 from typing import List, Optional, Dict, Any
 from sqlalchemy.orm import Session, joinedload
+from datetime import datetime, timezone
 
 from models.document import Document
 from models.document_version import DocumentVersion
+from models.outbox import Outbox
+from models.run import Run
+from models.artifact import Artifact
 from documents.repositories.dto import (
     DocumentDTO,
     DocumentVersionDTO,
     DocumentWithVersionsDTO,
+    AuditTrailEventDTO,
 )
 from documents.repositories.ports.documents import DocumentsRepository
 
@@ -137,6 +142,156 @@ class DocumentsAdapter(DocumentsRepository):
         except Exception as e:
             raise ValueError(f"Failed to fetch parsed document: {e}")
 
+    def get_version_audit_trail(self, version_id: int) -> List[AuditTrailEventDTO]:
+        """Get audit trail for a specific document version.
+
+        Returns all steps in the processing pipeline for a version:
+        Outbox (scheduled) → Run (executed) → Artifact (fetched) → 
+        DocumentVersion (parsed) → DeliveryEvent (delivered)
+
+        Args:
+            version_id: Document version ID
+
+        Returns:
+            List of AuditTrailEventDTO objects, one per pipeline step, sorted by timestamp
+        """
+        from models.delivery_event import DeliveryEvent
+
+        events: List[AuditTrailEventDTO] = []
+
+        # Fetch the DocumentVersion
+        version = (
+            self.db.query(DocumentVersion)
+            .filter(DocumentVersion.id == version_id)
+            .first()
+        )
+
+        if not version or not version.run_id:
+            return events
+
+        # Fetch the Run using the FK
+        run = self.db.query(Run).filter(Run.id == version.run_id).first()
+        if not run:
+            return events
+
+        # Fetch the single Artifact for this Run
+        artifact = (
+            self.db.query(Artifact)
+            .filter(Artifact.run_id == version.run_id)
+            .first()
+        )
+
+        # Fetch the Outbox event for this Run using JSONB query
+        outbox_event = (
+            self.db.query(Outbox)
+            .filter(Outbox.payload.contains({'run_id': version.run_id}))
+            .first()
+        )
+
+        # Step 1: Outbox Event (scheduled the run)
+        if outbox_event:
+            event = AuditTrailEventDTO(
+                event_type="outbox",
+                event_id=outbox_event.id,
+                timestamp=outbox_event.created_at,
+                status=outbox_event.status.value if outbox_event.status else "UNKNOWN",
+                run_id=version.run_id,
+                run_kind=run.run_kind.value if run.run_kind else None,
+                artifact_ids=[],
+                artifact_uris=[],
+                version_id=None,
+                parsed_uri=None,
+                diff_uri=None,
+                content_hash=None,
+                error=None,
+            )
+            events.append(event)
+
+        # Step 2: Run Execution
+        event = AuditTrailEventDTO(
+            event_type="run",
+            event_id=run.id,
+            timestamp=run.started_at,
+            status=run.status.value if run.status else "UNKNOWN",
+            run_id=version.run_id,
+            run_kind=run.run_kind.value if run.run_kind else None,
+            artifact_ids=[],
+            artifact_uris=[],
+            version_id=None,
+            parsed_uri=None,
+            diff_uri=None,
+            content_hash=None,
+            error=run.error if run.status and run.status.value == "FAILED" else None,
+        )
+        events.append(event)
+
+        # Step 3: Artifact Created (raw content fetched)
+        if artifact:
+            event = AuditTrailEventDTO(
+                event_type="artifact",
+                event_id=artifact.id,
+                timestamp=artifact.fetched_at,
+                status="COMPLETED",
+                run_id=version.run_id,
+                run_kind=run.run_kind.value if run.run_kind else None,
+                artifact_ids=[artifact.id],
+                artifact_uris=[artifact.blob_uri],
+                version_id=None,
+                parsed_uri=None,
+                diff_uri=None,
+                content_hash=artifact.fetch_hash,
+                error=None,
+            )
+            events.append(event)
+
+        # Step 4: DocumentVersion Created (parsed content)
+        event = AuditTrailEventDTO(
+            event_type="document_version",
+            event_id=version.id,
+            timestamp=version.created_at,
+            status="COMPLETED",
+            run_id=version.run_id,
+            run_kind=run.run_kind.value if run.run_kind else None,
+            artifact_ids=[artifact.id] if artifact else [],
+            artifact_uris=[artifact.blob_uri] if artifact else [],
+            version_id=version.id,
+            parsed_uri=version.parsed_uri,
+            diff_uri=version.diff_uri,
+            content_hash=version.content_hash,
+            error=None,
+        )
+        events.append(event)
+
+        # Step 5: DeliveryEvent (downstream delivery)
+        delivery_events = (
+            self.db.query(DeliveryEvent)
+            .filter(DeliveryEvent.doc_version_id == version.id)
+            .all()
+        )
+
+        for delivery in delivery_events:
+            event = AuditTrailEventDTO(
+                event_type="delivery",
+                event_id=delivery.id,
+                timestamp=delivery.created_at,
+                status=delivery.status.value if delivery.status else "UNKNOWN",
+                run_id=version.run_id,
+                run_kind=run.run_kind.value if run.run_kind else None,
+                artifact_ids=[artifact.id] if artifact else [],
+                artifact_uris=[artifact.blob_uri] if artifact else [],
+                version_id=version.id,
+                parsed_uri=version.parsed_uri,
+                diff_uri=version.diff_uri,
+                content_hash=version.content_hash,
+                error=delivery.error_message if delivery.status and delivery.status.value == "FAILED" else None,
+            )
+            events.append(event)
+
+        # Sort events by timestamp
+        events.sort(key=lambda x: self._ensure_utc_datetime(x.timestamp), reverse=True)
+
+        return events
+
     # Helper methods
 
     @staticmethod
@@ -178,3 +333,23 @@ class DocumentsAdapter(DocumentsRepository):
             versions=versions,
             version_count=len(versions),
         )
+
+    @staticmethod
+    def _ensure_utc_datetime(dt: Optional[datetime]) -> Optional[datetime]:
+        """Ensure a datetime object is timezone-aware (UTC).
+        
+        Args:
+            dt: Optional datetime object
+            
+        Returns:
+            Timezone-aware datetime in UTC, or None if input is None
+        """
+        if dt is None:
+            return None
+        
+        if dt.tzinfo is None:
+            # Naive datetime - assume UTC
+            return dt.replace(tzinfo=timezone.utc)
+        
+        # Already aware, ensure it's UTC
+        return dt.astimezone(timezone.utc)
