@@ -313,7 +313,6 @@ def parse_crawled_content(
                 doc = Document(
                     source_id=source_id,
                     source_url=source_url,
-                    run_id=run_id,
                     published_date=parsed_doc.published_date,
                     language=parsed_doc.language,
                 )
